@@ -12,7 +12,7 @@ export const Sidebar = () => {
                     Dashboard
                 </button>
 
-                <button className="px-6 py-3">
+                <button className="px-6 py-3"> 
                     Produtos
                 </button>
 

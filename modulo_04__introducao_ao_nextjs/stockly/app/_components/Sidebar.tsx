@@ -1,3 +1,20 @@
+import { LayoutGridIcon, PackageIcon, ShoppingBasketIcon } from "lucide-react";
+import { SidebarButton } from "./SidebarButton";
+
+
+interface SidebarEndpointsInterface {
+    home: string;
+    products: string;
+    sales: string;
+
+};
+
+const sidebarEndpoints: SidebarEndpointsInterface = {
+    products: "/products",
+    sales: "/sales",
+    home: "/",
+};
+
 export const Sidebar = () => {
     return (
         <div className="w-64 bg-white">
@@ -8,17 +25,17 @@ export const Sidebar = () => {
             </div>
 
             <div className="flex flex-col gap-2 p-2">
-                <button className="px-6 py-3">
-                    Dashboard
-                </button>
+                <SidebarButton href={sidebarEndpoints.home} text={"Dashboard"}>
+                    <LayoutGridIcon size={20} />
+                </SidebarButton>
 
-                <button className="px-6 py-3"> 
-                    Produtos
-                </button>
+                <SidebarButton href={sidebarEndpoints.products} text={"Produtos"}>
+                    <PackageIcon size={20} />
+                </SidebarButton>
 
-                <button className="px-6 py-3">
-                    Vendas
-                </button>
+                <SidebarButton href={sidebarEndpoints.sales} text={"Vendas"}>
+                    <ShoppingBasketIcon size={20} />
+                </SidebarButton>
             </div>
         </div>
     );

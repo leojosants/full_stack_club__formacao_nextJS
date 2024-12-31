@@ -1,5 +1,5 @@
-import { getProducts } from "../_data-access/product/get-products";
 import { productsTableColumns } from "./_components/table-columns";
+import { getProducts } from "../_data-access/product/get-products";
 import { DataTable } from "../_components/ui/data-table";
 import { Button } from "../_components/ui/button";
 import { PlusIcon } from "lucide-react";

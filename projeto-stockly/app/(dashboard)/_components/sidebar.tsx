@@ -1,3 +1,20 @@
+"use client";
+import { LayoutGridIcon, PackageIcon, ShoppingBasketIcon } from "lucide-react";
+import SidebarButton from "@/app/_components/sidebarButton";
+
+
+interface SidebarEndpointsInterface {
+    products: string;
+    sales: string;
+    home: string;
+};
+
+const sidebarEndpoints: SidebarEndpointsInterface = {
+    products: "/products",
+    sales: "/sales",
+    home: "/",
+};
+
 export default function Sidebar() {
     return (
         <div className="w-64 bg-white">
@@ -8,17 +25,20 @@ export default function Sidebar() {
             </div>
 
             <div className="flex flex-col gap-2 p-2">
-                <button className="px-6 py-3">
+                <SidebarButton href={sidebarEndpoints.home}>
+                    <LayoutGridIcon size={20} />
                     Dashboard
-                </button>
+                </SidebarButton>
 
-                <button className="px-6 py-3">
+                <SidebarButton href={sidebarEndpoints.products}>
+                    <PackageIcon size={20} />
                     Produtos
-                </button>
+                </SidebarButton>
 
-                <button className="px-6 py-3">
+                <SidebarButton href={sidebarEndpoints.sales}>
+                    <ShoppingBasketIcon size={20} />
                     Vendas
-                </button>
+                </SidebarButton>
             </div>
         </div>
     );

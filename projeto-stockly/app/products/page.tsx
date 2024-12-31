@@ -3,7 +3,6 @@ import { productTableColumns } from "./_components/table-columns";
 import { DataTable } from "@/app/_components/ui/data-table";
 import { Button } from "@/app/_components/ui/button";
 import { PlusIcon } from "lucide-react";
-import { json } from "stream/consumers";
 
 
 export default async function ProductsPage() {

@@ -1,5 +1,5 @@
 import { LayoutGridIcon, PackageIcon, ShoppingBasketIcon } from "lucide-react";
-import { SidebarButton } from "./SidebarButton";
+import { SidebarButton } from "./sidebar-button";
 
 
 interface SidebarEndpointsInterface {

@@ -20,7 +20,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     return (
         <html lang="pt-br">
             <body className={`${inter.className} antialiased`}>
-                <div className="flex gap-8 h-full">
+                <div className="flex h-full">
                     <Sidebar />
                     {children}
                 </div>

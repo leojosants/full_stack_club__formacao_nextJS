@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import Sidebar from "./_components/sidebar";
 import { Inter } from 'next/font/google'
-import Sidebar from "./(dashboard)/_components/sidebar";
 import "./globals.css";
 
 
@@ -27,4 +27,4 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             </body>
         </html>
     );
-}
+};

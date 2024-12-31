@@ -34,7 +34,7 @@ export const productTableColumns: ColumnDef<Product>[] = [
             const label = getStatusLabel(product.status);
 
             return (
-                <Badge variant={label === "Em estoque" ? "default" : "outline"} className="gap-1.5">
+                <Badge variant={label === "Em estoque" ? "default" : "outline"} className={"gap-1.5"}>
                     <CircleIcon size={14} className={`${label === "Em estoque" ? "fill-primary-foreground" : "fill-destructive-foreground"}`} />
                     {label}
                 </Badge>

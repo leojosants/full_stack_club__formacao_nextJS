@@ -16,7 +16,7 @@ const inter = Inter(
     }
 );
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     return (
         <html lang="en">
             <body className={`${inter.className} antialiased`}>
@@ -28,3 +28,5 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </html>
     );
 };
+
+export default RootLayout;

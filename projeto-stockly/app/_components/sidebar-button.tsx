@@ -9,7 +9,7 @@ interface SidebarButtonInterface {
     href: string;
 };
 
-export default function SidebarButton(props: SidebarButtonInterface) {
+const SidebarButton = (props: SidebarButtonInterface) => {
     const { href, children } = props;
     const pathName = usePathname();
 
@@ -21,3 +21,5 @@ export default function SidebarButton(props: SidebarButtonInterface) {
         </Button>
     );
 };
+
+export default SidebarButton; 

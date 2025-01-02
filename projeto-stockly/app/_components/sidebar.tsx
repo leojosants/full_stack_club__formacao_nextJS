@@ -14,7 +14,7 @@ const sidebarEndpoints: SidebarEndpointsInterface = {
     home: "/",
 };
 
-export default function Sidebar() {
+const Sidebar = () => {
     return (
         <div className="w-64 bg-white">
             <div className="px-8 py-6">
@@ -42,3 +42,5 @@ export default function Sidebar() {
         </div>
     );
 };
+
+export default Sidebar;

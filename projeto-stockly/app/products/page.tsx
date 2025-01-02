@@ -4,10 +4,12 @@ import { Button } from "@/app/_components/ui/button";
 import { PlusIcon } from "lucide-react";
 
 
-export default async function ProductsPage() {
-    const apiUrl = "http://localhost:3000/api/products";
-    const response = await fetch(apiUrl);
-    const { products } = await response.json();
+const ProductsPage = async () => {
+    const response = await fetch(
+        "http://localhost:3000/api/products", { method: "GET", cache: "no-cache" }
+    );
+
+    const products = await response.json();
 
     return (
         <div className="m-8 w-full space-y-8 bg-white p-8 rounded-lg">
@@ -32,3 +34,5 @@ export default async function ProductsPage() {
         </div>
     );
 };
+
+export default ProductsPage;

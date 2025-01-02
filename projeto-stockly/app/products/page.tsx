@@ -1,8 +1,11 @@
 import { cachedGetProducts } from "../_data-access/product/get-products";
+import { productTableColumns } from "./_components/table-columns";
+import { DataTable } from "../_components/ui/data-table";
 import { Button } from "@/app/_components/ui/button";
-import ProductsList from "./_components/product-list";
 import { PlusIcon } from "lucide-react";
 
+
+export const revalidate = 10;
 
 const ProductsPage = async () => {
     const products = await cachedGetProducts();
@@ -26,7 +29,7 @@ const ProductsPage = async () => {
                 </Button>
             </div>
 
-            <ProductsList />
+            <DataTable columns={productTableColumns} data={products} />
         </div>
     );
 };

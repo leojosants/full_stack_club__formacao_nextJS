@@ -1,8 +1,7 @@
 import { cachedGetProducts } from "../_data-access/product/get-products";
 import { productTableColumns } from "./_components/table-columns";
+import AddProductsButton from "./_components/add-products-button";
 import { DataTable } from "../_components/ui/data-table";
-import { Button } from "@/app/_components/ui/button";
-import { PlusIcon } from "lucide-react";
 
 
 export const revalidate = 10;
@@ -23,10 +22,7 @@ const ProductsPage = async () => {
                     </h2>
                 </div>
 
-                <Button className="gap-2">
-                    <PlusIcon size={20} />
-                    Novo produto
-                </Button>
+                <AddProductsButton />
             </div>
 
             <DataTable columns={productTableColumns} data={products} />

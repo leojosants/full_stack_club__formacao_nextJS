@@ -1,12 +1,11 @@
-import { productTableColumns } from "./_components/table-columns";
-import { DataTable } from "@/app/_components/ui/data-table";
+import ProductsList from "./_components/product-list";
 import { Button } from "@/app/_components/ui/button";
 import { PlusIcon } from "lucide-react";
 
 
 const ProductsPage = async () => {
     const response = await fetch(
-        "http://localhost:3000/api/products", { method: "GET", cache: "no-cache" }
+        "http://localhost:3000/api/products", { method: "GET" }
     );
 
     const products = await response.json();
@@ -30,7 +29,9 @@ const ProductsPage = async () => {
                 </Button>
             </div>
 
-            <DataTable columns={productTableColumns} data={products} />
+            <ProductsList />
+
+            {/* <DataTable columns={productTableColumns} data={products} /> */}
         </div>
     );
 };

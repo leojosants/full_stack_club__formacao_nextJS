@@ -1,9 +1,8 @@
-const ProductsList = async () => {
-    const response = await fetch(
-        "http://localhost:3000/api/products", { method: "GET" }
-    );
+import { cachedGetProducts } from "@/app/_data-access/product/get-products";
 
-    const products = await response.json();
+
+const ProductsList = async () => {
+    const products = await cachedGetProducts();
 
     return (
         <ul>

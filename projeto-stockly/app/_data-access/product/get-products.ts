@@ -5,6 +5,7 @@ import { db } from "@/app/_lib/prisma";
 
 
 export const getProducts = async (): Promise<Product[]> => {
+    console.log("fetching products...");
     return db.product.findMany({});
 };
 

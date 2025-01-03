@@ -26,13 +26,6 @@ export const productTableColumns: ColumnDef<Product>[] = [
         cell: (row) => {
             const product = row.row.original;
             return formatCurrency(Number(product.price));
-
-            // return (
-            //     Intl.NumberFormat(
-            //         "pt-BR", { style: "currency", currency: "BRL" }
-            //     ).format(Number(product.price))
-            // );
-
         },
     },
     {

@@ -1,6 +1,48 @@
-const SalesPage = () => {
+import { getProducts } from "../_data-access/product/get-products";
+import { Sheet, SheetTrigger } from "../_components/ui/sheet";
+import { ComboboxOption } from "../_components/ui/combobox";
+import { Button } from "../_components/ui/button";
+import UpsertSheetContent from "./_components/upsert-sheet-content";
+
+
+const SalesPage = async () => {
+    const products = await getProducts();
+
+    const productOptions: ComboboxOption[] = products.map(
+        (product) => (
+            {
+                label: product.name,
+                value: product.id,
+            }
+        )
+    );
+
     return (
-        <h1>Sales Page</h1>
+        <div className="m-8 w-full space-y-8 bg-white p-8 rounded-lg">
+            <div className="flex w-full items-center justify-between">
+                <div className="space-y-1">
+                    <span className="text-xs font-semibold text-slate-500">
+                        {"Gestão de Vendas"}
+                    </span>
+
+                    <h2 className="text-xl font-semibold">
+                        {"Vendas"}
+                    </h2>
+                </div>
+
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <Button>
+                            {"Nova venda"}
+                        </Button>
+                    </SheetTrigger>
+
+                    <UpsertSheetContent productOptions={productOptions} />
+                </Sheet>
+            </div>
+
+            {/* <DataTable columns={productTableColumns} data={products} /> */}
+        </div>
     );
 };
 

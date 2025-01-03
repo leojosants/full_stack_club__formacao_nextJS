@@ -21,11 +21,11 @@ const ProductsPage = async () => {
             <div className="flex w-full items-center justify-between">
                 <div className="space-y-1">
                     <span className="text-xs font-semibold text-slate-500">
-                        Gestão de Produtos
+                        {"Gestão de Produtos"}
                     </span>
 
                     <h2 className="text-xl font-semibold">
-                        Produtos ({products.length})
+                        {"Produtos "} ({products.length})
                     </h2>
                 </div>
 

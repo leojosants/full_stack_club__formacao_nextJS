@@ -3,6 +3,7 @@ import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, Tabl
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/app/_components/ui/form";
 import { SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/app/_components/ui/sheet";
 import { Combobox, ComboboxOption } from "@/app/_components/ui/combobox";
+import { toastNotification } from "@/app/_helpers/toast-notification";
 import { formatCurrency } from "@/app/_helpers/currency";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/app/_components/ui/button";
@@ -12,6 +13,7 @@ import { useMemo, useState } from "react";
 import { Product } from "@prisma/client";
 import { PlusIcon } from "lucide-react";
 import { z } from "zod";
+import TableDropdownMenu from "./table-dropdown-menu";
 
 
 const formSchema = z.object(
@@ -61,13 +63,27 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
         if (!selectedProduct) return;
 
         setSelectedProducts(
-            (currencyProducts) => {
-                const existingProduct = currencyProducts.find(
+            (currentProducts) => {
+                const existingProduct = currentProducts.find(
                     (product) => product.id === selectedProduct.id
                 );
 
                 if (existingProduct) {
-                    return currencyProducts.map(
+                    const productIsOutOfStock = existingProduct.quantity + data.quantity > selectedProduct.stock;
+
+                    if (productIsOutOfStock) {
+                        form.setError(
+                            "quantity", { message: "Quantidade indisponível em estoque." }
+                        );
+
+                        return currentProducts;
+                    }
+
+                    toastNotification("success", "Venda adicionada com sucesso!");
+
+                    form.reset();
+
+                    return currentProducts.map(
                         (product) => {
                             if (product.id === selectedProduct.id) {
                                 return { ...product, quantity: product.quantity + data.quantity };
@@ -78,14 +94,26 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
                     );
                 }
 
+                const productIsOutOfStock = data.quantity > selectedProduct.stock;
+
+                if (productIsOutOfStock) {
+                    form.setError(
+                        "quantity", { message: "Quantidade indisponível em estoque." }
+                    );
+
+                    return currentProducts;
+                }
+
+                toastNotification("success", "Venda adicionada com sucesso!");
+
+                form.reset();
+
                 return [
-                    ...currencyProducts,
+                    ...currentProducts,
                     { ...selectedProduct, price: Number(selectedProduct.price), quantity: data.quantity }
                 ];
             }
         );
-
-        form.reset();
     };
 
     const productsTotal = useMemo(
@@ -97,6 +125,18 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
             );
         }, [selectedProducts]
     );
+
+    const onDelete = (productId: string) => {
+        setSelectedProducts(
+            (currentProducts) => {
+                return currentProducts.filter(
+                    (product) => product.id !== productId
+                );
+            }
+        );
+
+        toastNotification("success", "Venda deleta com sucesso!");
+    };
 
     return (
         <SheetContent className={"!max-w-[43.75rem]"}>
@@ -181,6 +221,10 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
                         <TableHead>
                             {"Total"}
                         </TableHead>
+
+                        <TableHead>
+                            {"Ações"}
+                        </TableHead>
                     </TableRow>
                 </TableHeader>
 
@@ -204,6 +248,10 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
                                     <TableCell>
                                         {formatCurrency(product.price * product.quantity)}
                                     </TableCell>
+
+                                    <TableCell>
+                                        <TableDropdownMenu product={product} onDelete={onDelete} />
+                                    </TableCell>
                                 </TableRow>
                             )
                         )
@@ -219,6 +267,8 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
                         <TableCell>
                             {formatCurrency(productsTotal)}
                         </TableCell>
+
+                        <TableCell></TableCell>
                     </TableRow>
                 </TableFooter>
             </Table>

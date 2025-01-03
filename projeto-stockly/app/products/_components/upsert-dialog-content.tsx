@@ -3,13 +3,13 @@ import { DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHead
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/app/_components/ui/form";
 import { upsertProductSchema, UpsertProductSchema } from "@/app/_actions/product/upsert-product/schema";
 import { upsertProduct } from "@/app/_actions/product/upsert-product";
+import { toastNotification } from "@/app/_helpers/toast-notification";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/app/_components/ui/button";
 import { NumericFormat } from "react-number-format";
 import { Input } from "@/app/_components/ui/input";
 import { Loader2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 
 interface UpsertProductDialogContentProps {
@@ -39,15 +39,15 @@ const UpsertProductDialogContent = (props: UpsertProductDialogContentProps) => {
             onSuccess?.();
 
             if (defaultValues?.id === data.id) {
-                toast.success("Produto criado com sucesso!");
+                toastNotification("success", "Produto criado com sucesso!");
             }
             else {
-                toast.success("Produto editado com sucesso!");
+                toastNotification("success", "Produto editado com sucesso!");
             }
         }
         catch (error) {
             console.error(error);
-            toast.error("Ocorreu um erro ao criar produto!")
+            toastNotification("error", "Ocorreu um erro ao criar produto!")
         }
     };
 

@@ -1,6 +1,6 @@
 import { AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/app/_components/ui/alert-dialog";
 import { deleteProduct } from "@/app/_actions/product/delete-product";
-import { toast } from "sonner";
+import { toastNotification } from "@/app/_helpers/toast-notification";
 
 
 interface DeleteProductDialogContentProps {
@@ -16,11 +16,11 @@ const DeleteProductDialogContent = (props: DeleteProductDialogContentProps) => {
                 { id: productId }
             );
 
-            toast.success("Produto excluído com sucesso!");
+            toastNotification("success", "Produto excluído com sucesso!");
         }
         catch (error) {
             console.error(error);
-            toast.error("Ocorreu um erro ao excluir o produto!");
+            toastNotification("error", "Ocorreu um erro ao excluir o produto!");
         }
     };
 

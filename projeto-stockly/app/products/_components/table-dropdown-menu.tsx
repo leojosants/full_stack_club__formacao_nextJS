@@ -1,11 +1,11 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/app/_components/ui/dropdown-menu";
 import { ClipboardCopyIcon, EditIcon, MoreHorizontalIcon, TrashIcon } from "lucide-react";
 import { AlertDialog, AlertDialogTrigger } from "@/app/_components/ui/alert-dialog";
+import { toastNotification } from "@/app/_helpers/toast-notification";
 import { Dialog, DialogTrigger } from "@/app/_components/ui/dialog";
 import { Button } from "@/app/_components/ui/button";
 import { Product } from "@prisma/client";
 import { useState } from "react";
-import { toast } from "sonner";
 import UpsertProductDialogContent from "./upsert-dialog-content";
 import DeleteProductDialogContent from "./delete-dialog-content";
 
@@ -20,7 +20,7 @@ const ProductTableDropdownMenu = (props: ProductTableDropdownMenuProps) => {
 
     const handleCopyId = () => {
         navigator.clipboard.writeText(product.id);
-        toast.success("ID copiado com sucesso!");
+        toastNotification("success", "ID copiado com sucesso!");
     };
 
     return (

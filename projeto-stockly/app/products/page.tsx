@@ -16,18 +16,6 @@ const ProductsPage = async () => {
 
     const products = await productsResponse.json();
 
-    const randomNumberResponse = await fetch(
-        "http://localhost:3000/api/number",
-        {
-            next: {
-                revalidate: 60,
-                tags: ["get-random-number"],
-            }
-        }
-    );
-
-    const randomNumber = await randomNumberResponse.json();
-
     return (
         <div className="m-8 w-full space-y-8 bg-white p-8 rounded-lg">
             <div className="flex w-full items-center justify-between">
@@ -42,8 +30,6 @@ const ProductsPage = async () => {
                 </div>
 
                 <AddProductButton />
-
-                {randomNumber}
             </div>
 
             <DataTable columns={productTableColumns} data={products} />

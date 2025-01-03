@@ -10,6 +10,7 @@ import { NumericFormat } from "react-number-format";
 import { Input } from "@/app/_components/ui/input";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { toast } from "sonner";
 
 
 const AddProductButton = () => {
@@ -31,9 +32,11 @@ const AddProductButton = () => {
         try {
             await createProduct(data);
             setDialogIsOpen(false);
+            toast.success("Produto criado com sucesso!");
         }
         catch (error) {
             console.error(error);
+            toast.error("Ocorreu um erro ao criar produto!")
         }
     };
 

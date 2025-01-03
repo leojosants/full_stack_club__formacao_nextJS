@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { Inter } from 'next/font/google';
 import Sidebar from "./_components/sidebar";
-import { Inter } from 'next/font/google'
 import "./globals.css";
+import { Toaster } from "./_components/ui/sonner";
 
 
 export const metadata: Metadata = {
@@ -24,6 +25,8 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
                     <Sidebar />
                     {children}
                 </div>
+
+                <Toaster />
             </body>
         </html>
     );

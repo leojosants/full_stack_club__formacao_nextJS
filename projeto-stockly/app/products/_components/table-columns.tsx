@@ -1,5 +1,6 @@
 "use client";
 import ProductTableDropdownMenu from "./table-dropdown-menu";
+import { formatCurrency } from "@/app/_helpers/currency";
 import { Badge } from "@/app/_components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
 import { CircleIcon } from "lucide-react";
@@ -24,12 +25,14 @@ export const productTableColumns: ColumnDef<Product>[] = [
         header: "Valor unitário",
         cell: (row) => {
             const product = row.row.original;
+            return formatCurrency(Number(product.price));
 
-            return (
-                Intl.NumberFormat(
-                    "pt-BR", { style: "currency", currency: "BRL" }
-                ).format(Number(product.price))
-            );
+            // return (
+            //     Intl.NumberFormat(
+            //         "pt-BR", { style: "currency", currency: "BRL" }
+            //     ).format(Number(product.price))
+            // );
+
         },
     },
     {

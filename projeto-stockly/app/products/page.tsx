@@ -1,6 +1,6 @@
 import { cachedGetProducts } from "../_data-access/product/get-products";
+import CreateProductButton from "./_components/create-product-button";
 import { productTableColumns } from "./_components/table-columns";
-import AddProductsButton from "./_components/add-products-button";
 import { DataTable } from "../_components/ui/data-table";
 
 
@@ -22,7 +22,7 @@ const ProductsPage = async () => {
                     </h2>
                 </div>
 
-                <AddProductsButton />
+                <CreateProductButton />
             </div>
 
             <DataTable columns={productTableColumns} data={products} />

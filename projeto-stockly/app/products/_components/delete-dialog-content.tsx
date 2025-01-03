@@ -20,7 +20,6 @@ const DeleteProductDialogContent = (props: DeleteProductDialogContentProps) => {
         }
         catch (error) {
             console.error(error);
-
             toast.error("Ocorreu um erro ao excluir o produto!");
         }
     };

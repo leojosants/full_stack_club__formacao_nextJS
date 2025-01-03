@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 
 
-const CreateProductButton = () => {
+const AddProductButton = () => {
     const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
     const form = useForm<CreateProductSchema>(
@@ -152,4 +152,4 @@ const CreateProductButton = () => {
     );
 };
 
-export default CreateProductButton;
+export default AddProductButton;

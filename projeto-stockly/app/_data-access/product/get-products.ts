@@ -10,5 +10,25 @@ export const getProducts = async (): Promise<Product[]> => {
 };
 
 export const cachedGetProducts = unstable_cache(
-    getProducts, ["get-products"], { revalidate: 5 }
+    getProducts,
+    ["getProducts"],
+    {
+        tags: ["get-products"],
+        revalidate: 60,
+    }
+);
+
+export const cachedGetRandomNuber = unstable_cache(
+    async () => {
+        await new Promise(
+            (resolve) => setTimeout(resolve, 1000)
+        );
+
+        return Math.random();
+    },
+    ["getRandomNumber"],
+    {
+        tags: ["get-random-number"],
+        revalidate: 60,
+    }
 );

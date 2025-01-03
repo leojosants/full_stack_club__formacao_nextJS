@@ -1,13 +1,32 @@
-import { cachedGetProducts } from "../_data-access/product/get-products";
-import CreateProductButton from "./_components/create-product-button";
+import AddProductButton from "./_components/create-product-button";
 import { productTableColumns } from "./_components/table-columns";
 import { DataTable } from "../_components/ui/data-table";
 
 
-export const revalidate = 10;
-
 const ProductsPage = async () => {
-    const products = await cachedGetProducts();
+    const productsResponse = await fetch(
+        "http://localhost:3000/api/products",
+        {
+            next: {
+                revalidate: 60,
+                tags: ["get-products"],
+            }
+        }
+    );
+
+    const products = await productsResponse.json();
+
+    const randomNumberResponse = await fetch(
+        "http://localhost:3000/api/number",
+        {
+            next: {
+                revalidate: 60,
+                tags: ["get-random-number"],
+            }
+        }
+    );
+
+    const randomNumber = await randomNumberResponse.json();
 
     return (
         <div className="m-8 w-full space-y-8 bg-white p-8 rounded-lg">
@@ -22,7 +41,9 @@ const ProductsPage = async () => {
                     </h2>
                 </div>
 
-                <CreateProductButton />
+                <AddProductButton />
+
+                {randomNumber}
             </div>
 
             <DataTable columns={productTableColumns} data={products} />

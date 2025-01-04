@@ -1,17 +1,18 @@
 "use client";
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/app/_components/ui/table";
+import { SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from "@/app/_components/ui/sheet";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/app/_components/ui/form";
-import { SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/app/_components/ui/sheet";
 import { Combobox, ComboboxOption } from "@/app/_components/ui/combobox";
 import { toastNotification } from "@/app/_helpers/toast-notification";
+import { Dispatch, SetStateAction, useMemo, useState } from "react";
+import { CheckIcon, PlusIcon, PointerOff } from "lucide-react";
+import { createSale } from "@/app/_actions/sale/create-sale";
 import { formatCurrency } from "@/app/_helpers/currency";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/app/_components/ui/button";
 import { Input } from "@/app/_components/ui/input";
 import { useForm } from "react-hook-form";
-import { useMemo, useState } from "react";
 import { Product } from "@prisma/client";
-import { PlusIcon } from "lucide-react";
 import { z } from "zod";
 import TableDropdownMenu from "./table-dropdown-menu";
 
@@ -31,6 +32,7 @@ type FormSchema = z.infer<typeof formSchema>;
 
 interface UpsertSheetContentProps {
     productOptions: ComboboxOption[];
+    setSheetIsOpen: Dispatch<SetStateAction<boolean>>;
     products: Product[];
 };
 
@@ -42,7 +44,7 @@ interface SelectedProductsInterface {
 };
 
 const UpsertSheetContent = (props: UpsertSheetContentProps) => {
-    const { products, productOptions } = props;
+    const { products, productOptions, setSheetIsOpen } = props;
     const [selectedProducts, setSelectedProducts] = useState<SelectedProductsInterface[]>([]);
 
     const form = useForm<FormSchema>(
@@ -79,8 +81,6 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
                         return currentProducts;
                     }
 
-                    toastNotification("success", "Venda adicionada com sucesso!");
-
                     form.reset();
 
                     return currentProducts.map(
@@ -103,8 +103,6 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
 
                     return currentProducts;
                 }
-
-                toastNotification("success", "Venda adicionada com sucesso!");
 
                 form.reset();
 
@@ -136,6 +134,34 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
         );
 
         toastNotification("success", "Venda deleta com sucesso!");
+    };
+
+    const onSubmitSale = async () => {
+        try {
+            await createSale(
+                {
+                    products: selectedProducts.map(
+                        (product) => (
+                            {
+                                id: product.id,
+                                quantity: product.quantity,
+                            }
+                        )
+                    )
+                }
+            );
+
+            toastNotification(
+                "success", "Venda realizada com sucesso!"
+            );
+
+            setSheetIsOpen(false);
+        }
+        catch (error) {
+            toastNotification(
+                "error", "Erro ao realizar a venda!"
+            );
+        }
     };
 
     return (
@@ -272,6 +298,23 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
                     </TableRow>
                 </TableFooter>
             </Table>
+
+            <SheetFooter className={"pt-6"}>
+                <Button className={"w-full gap-2"} disabled={selectedProducts.length === 0} onClick={onSubmitSale}>
+                    {
+                        selectedProducts.length === 0
+                            ? (
+                                <PointerOff size={20} />
+                            )
+                            : (
+                                <>
+                                    <CheckIcon size={20} />
+                                    {"Finalizar venda"}
+                                </>
+                            )
+                    }
+                </Button>
+            </SheetFooter>
         </SheetContent>
     );
 };

@@ -1,10 +1,10 @@
 "use client";
-import ProductTableDropdownMenu from "./table-dropdown-menu";
+import { ProductDTO } from "@/app/_data-access/product/get-products";
 import { formatCurrency } from "@/app/_helpers/currency";
 import { Badge } from "@/app/_components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
 import { CircleIcon } from "lucide-react";
-import { Product } from "@prisma/client";
+import ProductTableDropdownMenu from "./table-dropdown-menu";
 
 
 const getStatusLabel = (status: string) => {
@@ -15,11 +15,12 @@ const getStatusLabel = (status: string) => {
     return "Fora de estoque";
 };
 
-export const productTableColumns: ColumnDef<Product>[] = [
+export const productTableColumns: ColumnDef<ProductDTO>[] = [
     {
         accessorKey: "name",
         header: "Produto",
     },
+
     {
         accessorKey: "price",
         header: "Valor unitário",
@@ -28,17 +29,17 @@ export const productTableColumns: ColumnDef<Product>[] = [
             return formatCurrency(Number(product.price));
         },
     },
+
     {
         accessorKey: "stock",
         header: "Estoque",
     },
+
     {
         accessorKey: "status",
         header: "Status",
         cell: (row) => {
             const product = row.row.original;
-
-            // @ts-expect-error - status is a string
             const label = getStatusLabel(product.status);
 
             return (
@@ -49,6 +50,7 @@ export const productTableColumns: ColumnDef<Product>[] = [
             );
         },
     },
+
     {
         accessorKey: "actions",
         header: "Ações",

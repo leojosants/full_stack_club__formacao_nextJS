@@ -1,9 +1,13 @@
 import { getProducts } from "../_data-access/product/get-products";
+import { saleTableColumns } from "./_components/table-columns";
 import { ComboboxOption } from "../_components/ui/combobox";
+import { getSales } from "../_data-access/sale/get-sale";
+import { DataTable } from "../_components/ui/data-table";
 import CreateSaleButton from "./_components/create-sale-button";
 
 
 const SalesPage = async () => {
+    const sales = await getSales();
     const products = await getProducts();
 
     const productOptions: ComboboxOption[] = products.map(
@@ -24,14 +28,14 @@ const SalesPage = async () => {
                     </span>
 
                     <h2 className="text-xl font-semibold">
-                        {"Vendas"} ({products.length})
+                        {"Vendas"} ({sales.length})
                     </h2>
                 </div>
 
                 <CreateSaleButton products={products} productOptions={productOptions} />
             </div>
 
-            {/* <DataTable columns={productTableColumns} data={products} /> */}
+            <DataTable columns={saleTableColumns} data={sales} />
         </div>
     );
 };

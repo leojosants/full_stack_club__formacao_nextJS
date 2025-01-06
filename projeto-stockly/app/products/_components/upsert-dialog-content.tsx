@@ -48,7 +48,11 @@ const UpsertProductDialogContent = (props: UpsertProductDialogContentProps) => {
         }
     );
 
-    const onsubmit = async (data: UpsertProductSchema) => executeUpsertProduct(data);
+    const onsubmit = async (data: UpsertProductSchema) => {
+        executeUpsertProduct(
+            { ...data, id: defaultValues?.id }
+        );
+    };
 
     const isEditing = !!defaultValues;
 

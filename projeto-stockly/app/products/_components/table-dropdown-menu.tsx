@@ -18,7 +18,7 @@ const ProductTableDropdownMenu = (props: ProductTableDropdownMenuProps) => {
     const { product } = props;
     const [editDialogOpen, setEditDialogIsOpen] = useState(false);
 
-    const handleCopyId = () => {
+    const handleToClipboardClick = () => {
         navigator.clipboard.writeText(product.id);
         toastNotification("success", "ID copiado com sucesso!");
     };
@@ -40,7 +40,7 @@ const ProductTableDropdownMenu = (props: ProductTableDropdownMenuProps) => {
 
                         <DropdownMenuSeparator />
 
-                        <DropdownMenuItem className={"gap-1.5"} onClick={handleCopyId}>
+                        <DropdownMenuItem className={"gap-1.5"} onClick={handleToClipboardClick}>
                             <ClipboardCopyIcon size={16} />
                             {"Copiar ID"}
                         </DropdownMenuItem>

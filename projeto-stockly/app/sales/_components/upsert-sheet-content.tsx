@@ -16,7 +16,7 @@ import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { Product } from "@prisma/client";
 import { z } from "zod";
-import TableDropdownMenu from "./table-dropdown-menu";
+import UpsertSalesTableDropdownMenu from "./upsert-table-dropdown-menu";
 
 
 const formSchema = z.object(
@@ -286,7 +286,7 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
                                     </TableCell>
 
                                     <TableCell>
-                                        <TableDropdownMenu product={product} onDelete={onDelete} />
+                                        <UpsertSalesTableDropdownMenu product={product} onDelete={onDelete} />
                                     </TableCell>
                                 </TableRow>
                             )

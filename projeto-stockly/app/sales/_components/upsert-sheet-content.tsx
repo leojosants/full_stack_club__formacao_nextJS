@@ -71,15 +71,15 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
                 );
 
                 if (existingProduct) {
-                    const productIsOutOfStock = existingProduct.quantity + data.quantity > selectedProduct.stock;
+                    // const productIsOutOfStock = existingProduct.quantity + data.quantity > selectedProduct.stock;
 
-                    if (productIsOutOfStock) {
-                        form.setError(
-                            "quantity", { message: "Quantidade indisponível em estoque." }
-                        );
+                    // if (productIsOutOfStock) {
+                    //     form.setError(
+                    //         "quantity", { message: "Quantidade indisponível em estoque." }
+                    //     );
 
-                        return currentProducts;
-                    }
+                    //     return currentProducts;
+                    // }
 
                     form.reset();
 
@@ -94,15 +94,15 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
                     );
                 }
 
-                const productIsOutOfStock = data.quantity > selectedProduct.stock;
+                // const productIsOutOfStock = data.quantity > selectedProduct.stock;
 
-                if (productIsOutOfStock) {
-                    form.setError(
-                        "quantity", { message: "Quantidade indisponível em estoque." }
-                    );
+                // if (productIsOutOfStock) {
+                //     form.setError(
+                //         "quantity", { message: "Quantidade indisponível em estoque." }
+                //     );
 
-                    return currentProducts;
-                }
+                //     return currentProducts;
+                // }
 
                 form.reset();
 
@@ -137,31 +137,30 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
     };
 
     const onSubmitSale = async () => {
-        try {
-            await createSale(
-                {
-                    products: selectedProducts.map(
-                        (product) => (
-                            {
-                                id: product.id,
-                                quantity: product.quantity,
-                            }
-                        )
+        const response = await createSale(
+            {
+                products: selectedProducts.map(
+                    (product) => (
+                        {
+                            id: product.id,
+                            quantity: product.quantity,
+                        }
                     )
-                }
-            );
+                )
+            }
+        );
 
-            toastNotification(
-                "success", "Venda realizada com sucesso!"
-            );
-
-            setSheetIsOpen(false);
-        }
-        catch (error) {
-            toastNotification(
-                "error", "Erro ao realizar a venda!"
+        if (response.error) {
+            return toastNotification(
+                "error", response.error
             );
         }
+
+        toastNotification(
+            "success", "Venda realizada com sucesso!"
+        );
+
+        setSheetIsOpen(false);
     };
 
     return (

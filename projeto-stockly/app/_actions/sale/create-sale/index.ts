@@ -1,11 +1,24 @@
 "use server";
-import { createSaleSchema, CreateSaleSchema } from "./schema";
+import { createSaleSchema, CreateSaleSchema, ProductIsOutofStockError } from "./schema";
 import { revalidatePath } from "next/cache";
 import { db } from "@/app/_lib/prisma";
 
 
-export const createSale = async (data: CreateSaleSchema) => {
+interface CreateSaleResponseInterface {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    error?: any;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    data?: any;
+};
+
+export const createSale = async (data: CreateSaleSchema): Promise<CreateSaleResponseInterface> => {
     createSaleSchema.parse(data);
+
+    const response: CreateSaleResponseInterface = {
+        error: null,
+        data: null,
+    };
 
     await db.$transaction(
         async (trx) => {
@@ -21,22 +34,24 @@ export const createSale = async (data: CreateSaleSchema) => {
                 );
 
                 if (!productFromDB) {
-                    throw new Error("Product not found!");
+                    return response.error = "Product not found!";
                 }
 
                 const productIsOutOfStock = product.quantity > productFromDB.stock;
 
                 if (productIsOutOfStock) {
-                    throw new Error("Product out of stock");
+                    return (
+                        response.error = new ProductIsOutofStockError().message
+                    );
                 }
 
                 await trx.saleProduct.create(
                     {
                         data: {
-                            saleId: sale.id,
-                            productId: product.id,
-                            quantity: product.quantity,
                             unitPrice: productFromDB.price,
+                            quantity: product.quantity,
+                            productId: product.id,
+                            saleId: sale.id,
                         }
                     }
                 );
@@ -50,8 +65,12 @@ export const createSale = async (data: CreateSaleSchema) => {
                     }
                 );
             }
+
+            response.data = sale;
         }
     );
 
     revalidatePath("/products");
+
+    return response;
 };

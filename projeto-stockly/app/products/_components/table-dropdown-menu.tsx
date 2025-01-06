@@ -16,7 +16,7 @@ interface ProductTableDropdownMenuProps {
 
 const ProductTableDropdownMenu = (props: ProductTableDropdownMenuProps) => {
     const { product } = props;
-    const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [editDialogOpen, setEditDialogIsOpen] = useState(false);
 
     const handleCopyId = () => {
         navigator.clipboard.writeText(product.id);
@@ -25,7 +25,7 @@ const ProductTableDropdownMenu = (props: ProductTableDropdownMenuProps) => {
 
     return (
         <AlertDialog>
-            <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+            <Dialog open={editDialogOpen} onOpenChange={setEditDialogIsOpen}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant={"ghost"}>
@@ -70,7 +70,7 @@ const ProductTableDropdownMenu = (props: ProductTableDropdownMenuProps) => {
                             stock: product.stock,
                         }
                     }
-                    onSuccess={() => setEditDialogOpen(false)}
+                    setDialogIsOpen={setEditDialogIsOpen}
                 />
 
                 <DeleteProductDialogContent productId={product.id} />

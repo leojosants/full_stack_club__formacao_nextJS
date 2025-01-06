@@ -8,17 +8,33 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/app/_components/ui/button";
 import { NumericFormat } from "react-number-format";
 import { Input } from "@/app/_components/ui/input";
+import { useAction } from "next-safe-action/hooks";
+import { Dispatch, SetStateAction } from "react";
 import { Loader2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 
 interface UpsertProductDialogContentProps {
+    setDialogIsOpen: Dispatch<SetStateAction<boolean>>;
     defaultValues?: UpsertProductSchema;
-    onSuccess?: () => void;
 };
 
 const UpsertProductDialogContent = (props: UpsertProductDialogContentProps) => {
-    const { onSuccess, defaultValues } = props;
+    const { setDialogIsOpen, defaultValues } = props;
+
+    const { execute: executeUpsertProduct } = useAction(
+        upsertProduct,
+        {
+            onSuccess: () => {
+                toastNotification("success", "Produto salvo com sucesso!");
+                setDialogIsOpen(false);
+            },
+
+            onError: () => {
+                toastNotification("error", "Ocorreu um erro ao criar produto!")
+            },
+        }
+    );
 
     const form = useForm<UpsertProductSchema>(
         {
@@ -32,24 +48,7 @@ const UpsertProductDialogContent = (props: UpsertProductDialogContentProps) => {
         }
     );
 
-    const onsubmit = async (data: UpsertProductSchema) => {
-        try {
-            await upsertProduct({ ...data, id: defaultValues?.id });
-
-            onSuccess?.();
-
-            if (defaultValues?.id === data.id) {
-                toastNotification("success", "Produto criado com sucesso!");
-            }
-            else {
-                toastNotification("success", "Produto editado com sucesso!");
-            }
-        }
-        catch (error) {
-            console.error(error);
-            toastNotification("error", "Ocorreu um erro ao criar produto!")
-        }
-    };
+    const onsubmit = async (data: UpsertProductSchema) => executeUpsertProduct(data);
 
     const isEditing = !!defaultValues;
 

@@ -7,10 +7,12 @@ import { toastNotification } from "@/app/_helpers/toast-notification";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { CheckIcon, PlusIcon, PointerOff } from "lucide-react";
 import { createSale } from "@/app/_actions/sale/create-sale";
+import { flattenValidationErrors } from "next-safe-action";
 import { formatCurrency } from "@/app/_helpers/currency";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/app/_components/ui/button";
 import { Input } from "@/app/_components/ui/input";
+import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { Product } from "@prisma/client";
 import { z } from "zod";
@@ -47,6 +49,27 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
     const { products, productOptions, setSheetIsOpen } = props;
     const [selectedProducts, setSelectedProducts] = useState<SelectedProductsInterface[]>([]);
 
+    const { execute: executeCreateSale } = useAction(
+        createSale,
+        {
+            onError: ({ error: { validationErrors, serverError } }) => {
+                const flattenedErrors = flattenValidationErrors(validationErrors);
+
+                toastNotification(
+                    "error", serverError ?? flattenedErrors.formErrors[0]
+                );
+            },
+
+            onSuccess: () => {
+                toastNotification(
+                    "success", "Venda realizada com sucesso."
+                );
+
+                setSheetIsOpen(false);
+            },
+        }
+    );
+
     const form = useForm<FormSchema>(
         {
             resolver: zodResolver(formSchema),
@@ -71,15 +94,15 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
                 );
 
                 if (existingProduct) {
-                    // const productIsOutOfStock = existingProduct.quantity + data.quantity > selectedProduct.stock;
+                    const productIsOutOfStock = existingProduct.quantity + data.quantity > selectedProduct.stock;
 
-                    // if (productIsOutOfStock) {
-                    //     form.setError(
-                    //         "quantity", { message: "Quantidade indisponível em estoque." }
-                    //     );
+                    if (productIsOutOfStock) {
+                        form.setError(
+                            "quantity", { message: "Quantidade indisponível em estoque." }
+                        );
 
-                    //     return currentProducts;
-                    // }
+                        return currentProducts;
+                    }
 
                     form.reset();
 
@@ -94,15 +117,15 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
                     );
                 }
 
-                // const productIsOutOfStock = data.quantity > selectedProduct.stock;
+                const productIsOutOfStock = data.quantity > selectedProduct.stock;
 
-                // if (productIsOutOfStock) {
-                //     form.setError(
-                //         "quantity", { message: "Quantidade indisponível em estoque." }
-                //     );
+                if (productIsOutOfStock) {
+                    form.setError(
+                        "quantity", { message: "Quantidade indisponível em estoque." }
+                    );
 
-                //     return currentProducts;
-                // }
+                    return currentProducts;
+                }
 
                 form.reset();
 
@@ -137,7 +160,7 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
     };
 
     const onSubmitSale = async () => {
-        const response = await createSale(
+        executeCreateSale(
             {
                 products: selectedProducts.map(
                     (product) => (
@@ -149,19 +172,7 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
                 )
             }
         );
-
-        if (response.error) {
-            return toastNotification(
-                "error", response.error
-            );
-        }
-
-        toastNotification(
-            "success", "Venda realizada com sucesso!"
-        );
-
-        setSheetIsOpen(false);
-    };
+    }
 
     return (
         <SheetContent className={"!max-w-[43.75rem]"}>

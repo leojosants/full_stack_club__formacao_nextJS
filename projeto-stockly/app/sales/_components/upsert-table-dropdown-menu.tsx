@@ -10,7 +10,7 @@ interface UpsertSalesTableDropdownMenuProps {
     onDelete: (productId: string) => void;
 };
 
-const UpsertSalesTableDropdownMenu = (props: UpsertSalesTableDropdownMenuProps) => {
+export const UpsertSalesTableDropdownMenu = (props: UpsertSalesTableDropdownMenuProps) => {
     const { product, onDelete } = props;
 
     const handleToClipboardClick = () => {
@@ -46,5 +46,3 @@ const UpsertSalesTableDropdownMenu = (props: UpsertSalesTableDropdownMenuProps) 
         </DropdownMenu>
     );
 };
-
-export default UpsertSalesTableDropdownMenu;

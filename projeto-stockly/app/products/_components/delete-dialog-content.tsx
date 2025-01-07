@@ -8,7 +8,7 @@ interface DeleteProductDialogContentProps {
     productId: string;
 };
 
-const DeleteProductDialogContent = (props: DeleteProductDialogContentProps) => {
+export const DeleteProductDialogContent = (props: DeleteProductDialogContentProps) => {
     const { productId } = props;
 
     const { execute: executeDeleteProduct } = useAction(
@@ -52,5 +52,3 @@ const DeleteProductDialogContent = (props: DeleteProductDialogContentProps) => {
         </AlertDialogContent>
     );
 };
-
-export default DeleteProductDialogContent;

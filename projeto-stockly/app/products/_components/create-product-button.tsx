@@ -1,12 +1,12 @@
 "use client";
+import { UpsertProductDialogContent } from "./upsert-dialog-content";
 import { Dialog, DialogTrigger } from "@/app/_components/ui/dialog";
-import UpsertProductDialogContent from "./upsert-dialog-content";
 import { Button } from "@/app/_components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 
 
-const CreateProductButton = () => {
+export const CreateProductButton = () => {
     const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
     return (
@@ -22,5 +22,3 @@ const CreateProductButton = () => {
         </Dialog>
     );
 };
-
-export default CreateProductButton;

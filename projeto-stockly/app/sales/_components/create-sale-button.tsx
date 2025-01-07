@@ -1,11 +1,11 @@
 "use client";
 import { Sheet, SheetTrigger } from "@/app/_components/ui/sheet";
 import { ComboboxOption } from "@/app/_components/ui/combobox";
+import { UpsertSheetContent } from "./upsert-sheet-content";
 import { Button } from "@/app/_components/ui/button";
 import { Product } from "@prisma/client";
-import { useState } from "react";
-import UpsertSheetContent from "./upsert-sheet-content";
 import { PlusIcon } from "lucide-react";
+import { useState } from "react";
 
 
 interface UpsertSaleButtonProps {
@@ -13,7 +13,7 @@ interface UpsertSaleButtonProps {
     products: Product[];
 };
 
-const UpsertSaleButton = (props: UpsertSaleButtonProps) => {
+export const UpsertSaleButton = (props: UpsertSaleButtonProps) => {
     const { products, productOptions } = props;
 
     const [sheetIsOpen, setSheetIsOpen] = useState(false);
@@ -31,5 +31,3 @@ const UpsertSaleButton = (props: UpsertSaleButtonProps) => {
         </Sheet>
     );
 };
-
-export default UpsertSaleButton;

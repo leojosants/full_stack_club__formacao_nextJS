@@ -6,11 +6,11 @@ import { ProductDTO } from "@/app/_data-access/product/get-products";
 import { deleteSale } from '../../_actions/sale/delete-sale/index';
 import { Sheet, SheetTrigger } from "@/app/_components/ui/sheet";
 import { ComboboxOption } from "@/app/_components/ui/combobox";
+import { UpsertSheetContent } from "./upsert-sheet-content";
 import { SaleDTO } from "@/app/_data-access/sale/get-sale";
 import { Button } from "@/app/_components/ui/button";
 import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
-import UpsertSheetContent from "./upsert-sheet-content";
 
 
 interface SalesTableDropdownMenuProps {
@@ -19,7 +19,7 @@ interface SalesTableDropdownMenuProps {
     products: ProductDTO[];
 };
 
-const SalesTableDropdownMenu = (props: SalesTableDropdownMenuProps) => {
+export const SalesTableDropdownMenu = (props: SalesTableDropdownMenuProps) => {
     const { sale, products, productOptions } = props;
     const [upsertSheetIsOpen, setUpsertSheetIsOpen] = useState(false);
 
@@ -133,5 +133,3 @@ const SalesTableDropdownMenu = (props: SalesTableDropdownMenuProps) => {
         </Sheet>
     );
 };
-
-export default SalesTableDropdownMenu;

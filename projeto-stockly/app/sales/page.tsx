@@ -1,14 +1,14 @@
+import { Header, HeaderLeft, HeaderRight, HeaderTitle } from "../_components/header";
 import { getProducts } from "../_data-access/product/get-products";
+import { UpsertSaleButton } from "./_components/create-sale-button";
 import { saleTableColumns } from "./_components/table-columns";
 import { ComboboxOption } from "../_components/ui/combobox";
 import { getSales } from "../_data-access/sale/get-sale";
 import { DataTable } from "../_components/ui/data-table";
 import { HeaderSubtitle } from '../_components/header';
-import Header, { HeaderLeft, HeaderRight, HeaderTitle } from "../_components/header";
-import UpsertSaleButton from "./_components/create-sale-button";
 
 
-const SalesPage = async () => {
+export const SalesPage = async () => {
     const sales = await getSales();
     const products = await getProducts();
 

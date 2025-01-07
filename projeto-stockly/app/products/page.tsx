@@ -1,8 +1,8 @@
+import { Header, HeaderLeft, HeaderRight, HeaderTitle } from "../_components/header";
+import { CreateProductButton } from "./_components/create-product-button";
 import { productTableColumns } from "./_components/table-columns";
 import { DataTable } from "../_components/ui/data-table";
 import { HeaderSubtitle } from '../_components/header';
-import Header, { HeaderLeft, HeaderRight, HeaderTitle } from "../_components/header";
-import CreateProductButton from "./_components/create-product-button";
 
 
 const ProductsPage = async () => {

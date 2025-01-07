@@ -3,11 +3,11 @@ import { ClipboardCopyIcon, EditIcon, MoreHorizontalIcon, TrashIcon } from "luci
 import { AlertDialog, AlertDialogTrigger } from "@/app/_components/ui/alert-dialog";
 import { toastNotification } from "@/app/_helpers/toast-notification";
 import { Dialog, DialogTrigger } from "@/app/_components/ui/dialog";
+import { UpsertProductDialogContent } from "./upsert-dialog-content";
+import { DeleteProductDialogContent } from "./delete-dialog-content";
 import { Button } from "@/app/_components/ui/button";
 import { Product } from "@prisma/client";
 import { useState } from "react";
-import UpsertProductDialogContent from "./upsert-dialog-content";
-import DeleteProductDialogContent from "./delete-dialog-content";
 
 
 interface ProductTableDropdownMenuProps {

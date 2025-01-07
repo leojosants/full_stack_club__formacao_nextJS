@@ -63,7 +63,7 @@ export const HeaderRight = (props: HeaderRightProps) => {
     );
 };
 
-const Header = (props: HeaderProps) => {
+export const Header = (props: HeaderProps) => {
     const { children, className } = props;
 
     return (
@@ -72,5 +72,3 @@ const Header = (props: HeaderProps) => {
         </div>
     );
 };
-
-export default Header;

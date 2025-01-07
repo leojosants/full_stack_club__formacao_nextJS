@@ -2,6 +2,7 @@
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/app/_components/ui/table";
 import { SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from "@/app/_components/ui/sheet";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/app/_components/ui/form";
+import { UpsertSalesTableDropdownMenu } from "./upsert-table-dropdown-menu";
 import { Combobox, ComboboxOption } from "@/app/_components/ui/combobox";
 import { toastNotification } from "@/app/_helpers/toast-notification";
 import { ProductDTO } from "@/app/_data-access/product/get-products";
@@ -16,7 +17,6 @@ import { Input } from "@/app/_components/ui/input";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import UpsertSalesTableDropdownMenu from "./upsert-table-dropdown-menu";
 
 
 const formSchema = z.object(
@@ -47,7 +47,7 @@ interface UpsertSheetContentProps {
     saleId?: string;
 };
 
-const UpsertSheetContent = (props: UpsertSheetContentProps) => {
+export const UpsertSheetContent = (props: UpsertSheetContentProps) => {
     const { products, productOptions, setSheetIsOpen, defaultSelectedProducts, saleId } = props;
     const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(defaultSelectedProducts ?? []);
 
@@ -332,5 +332,3 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
         </SheetContent>
     );
 };
-
-export default UpsertSheetContent;

@@ -19,7 +19,7 @@ interface UpsertProductDialogContentProps {
     defaultValues?: UpsertProductSchema;
 };
 
-const UpsertProductDialogContent = (props: UpsertProductDialogContentProps) => {
+export const UpsertProductDialogContent = (props: UpsertProductDialogContentProps) => {
     const { setDialogIsOpen, defaultValues } = props;
 
     const { execute: executeUpsertProduct } = useAction(
@@ -161,5 +161,3 @@ const UpsertProductDialogContent = (props: UpsertProductDialogContentProps) => {
         </DialogContent>
     );
 };
-
-export default UpsertProductDialogContent;

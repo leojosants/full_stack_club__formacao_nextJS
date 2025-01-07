@@ -116,6 +116,7 @@ const SalesTableDropdownMenu = (props: SalesTableDropdownMenuProps) => {
                 setSheetIsOpen={setUpsertSheetIsOpen}
                 productOptions={productOptions}
                 products={products}
+                saleId={sale.id}
                 defaultSelectedProducts={
                     sale.saleProducts.map(
                         (saleProduct) => (

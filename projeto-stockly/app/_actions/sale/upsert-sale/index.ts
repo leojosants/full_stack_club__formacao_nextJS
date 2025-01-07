@@ -9,16 +9,44 @@ import { db } from "@/app/_lib/prisma";
 export const upsertSale = actionClient
     .schema(upsertSaleSchema)
     .action(
-        async ({ parsedInput: { products } }) => {
+        async ({ parsedInput: { products, id } }) => {
+            const isUpdate = Boolean(id);
+
             await db.$transaction(
                 async (trx) => {
+                    if (isUpdate) {
+                        const existingSale = await trx.sale.findUnique(
+                            {
+                                where: { id },
+                                include: { saleProducts: true },
+                            }
+                        );
+
+                        if (!existingSale) return;
+
+                        await trx.sale.delete(
+                            { where: { id } }
+                        );
+
+                        for (const product of existingSale?.saleProducts) {
+                            await trx.product.update(
+                                {
+                                    where: { id: product.productId },
+                                    data: {
+                                        stock: { increment: product.quantity },
+                                    },
+                                }
+                            );
+                        }
+                    }
+
                     const sale = await trx.sale.create(
                         { data: { date: new Date() } }
                     );
 
                     for (const product of products) {
                         const productFromDB = (
-                            await db.product.findUnique(
+                            await trx.product.findUnique(
                                 { where: { id: product.id } }
                             )
                         );
@@ -61,5 +89,6 @@ export const upsertSale = actionClient
             );
 
             revalidatePath("/products");
+            revalidatePath("/sales");
         }
     );

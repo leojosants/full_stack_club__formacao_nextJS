@@ -1,13 +1,13 @@
 "use server";
 import { returnValidationErrors } from "next-safe-action";
 import { actionClient } from "@/app/_lib/safe-action";
-import { createSaleSchema } from "./schema";
+import { upsertSaleSchema } from "./schema";
 import { revalidatePath } from "next/cache";
 import { db } from "@/app/_lib/prisma";
 
 
-export const createSale = actionClient
-    .schema(createSaleSchema)
+export const upsertSale = actionClient
+    .schema(upsertSaleSchema)
     .action(
         async ({ parsedInput: { products } }) => {
             await db.$transaction(
@@ -25,7 +25,7 @@ export const createSale = actionClient
 
                         if (!productFromDB) {
                             returnValidationErrors(
-                                createSaleSchema, { _errors: ["Product not found!"] }
+                                upsertSaleSchema, { _errors: ["Product not found!"] }
                             );
                         }
 
@@ -33,7 +33,7 @@ export const createSale = actionClient
 
                         if (productIsOutOfStock) {
                             returnValidationErrors(
-                                createSaleSchema, { _errors: ["Product out of stock"] }
+                                upsertSaleSchema, { _errors: ["Product out of stock"] }
                             );
                         }
 

@@ -4,9 +4,10 @@ import { SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/app/_components/ui/form";
 import { Combobox, ComboboxOption } from "@/app/_components/ui/combobox";
 import { toastNotification } from "@/app/_helpers/toast-notification";
+import { ProductDTO } from "@/app/_data-access/product/get-products";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { CheckIcon, PlusIcon, PointerOff } from "lucide-react";
-import { createSale } from "@/app/_actions/sale/create-sale";
+import { upsertSale } from "@/app/_actions/sale/upsert-sale";
 import { flattenValidationErrors } from "next-safe-action";
 import { formatCurrency } from "@/app/_helpers/currency";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,7 +15,6 @@ import { Button } from "@/app/_components/ui/button";
 import { Input } from "@/app/_components/ui/input";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
-import { Product } from "@prisma/client";
 import { z } from "zod";
 import UpsertSalesTableDropdownMenu from "./upsert-table-dropdown-menu";
 
@@ -32,25 +32,27 @@ const formSchema = z.object(
 
 type FormSchema = z.infer<typeof formSchema>;
 
-interface UpsertSheetContentProps {
-    productOptions: ComboboxOption[];
-    setSheetIsOpen: Dispatch<SetStateAction<boolean>>;
-    products: Product[];
-};
-
-interface SelectedProductsInterface {
+interface SelectedProduct {
     quantity: number;
     price: number;
     name: string;
     id: string;
 };
 
-const UpsertSheetContent = (props: UpsertSheetContentProps) => {
-    const { products, productOptions, setSheetIsOpen } = props;
-    const [selectedProducts, setSelectedProducts] = useState<SelectedProductsInterface[]>([]);
+interface UpsertSheetContentProps {
+    setSheetIsOpen: Dispatch<SetStateAction<boolean>>;
+    defaultSelectedProducts?: SelectedProduct[];
+    productOptions: ComboboxOption[];
+    products: ProductDTO[];
+    saleId?: string;
+};
 
-    const { execute: executeCreateSale } = useAction(
-        createSale,
+const UpsertSheetContent = (props: UpsertSheetContentProps) => {
+    const { products, productOptions, setSheetIsOpen, defaultSelectedProducts, saleId } = props;
+    const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(defaultSelectedProducts ?? []);
+
+    const { execute: executeUpsertSale } = useAction(
+        upsertSale,
         {
             onError: ({ error: { validationErrors, serverError } }) => {
                 const flattenedErrors = flattenValidationErrors(validationErrors);
@@ -160,8 +162,10 @@ const UpsertSheetContent = (props: UpsertSheetContentProps) => {
     };
 
     const onSubmitSale = async () => {
-        executeCreateSale(
+        executeUpsertSale(
             {
+                id: saleId,
+
                 products: selectedProducts.map(
                     (product) => (
                         {

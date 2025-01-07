@@ -1,6 +1,8 @@
-import CreateProductButton from "./_components/create-product-button";
 import { productTableColumns } from "./_components/table-columns";
 import { DataTable } from "../_components/ui/data-table";
+import { HeaderSubtitle } from '../_components/header';
+import Header, { HeaderLeft, HeaderRight, HeaderTitle } from "../_components/header";
+import CreateProductButton from "./_components/create-product-button";
 
 
 const ProductsPage = async () => {
@@ -18,19 +20,21 @@ const ProductsPage = async () => {
 
     return (
         <div className="m-8 w-full space-y-8 bg-white p-8 rounded-lg">
-            <div className="flex w-full items-center justify-between">
-                <div className="space-y-1">
-                    <span className="text-xs font-semibold text-slate-500">
+            <Header>
+                <HeaderLeft>
+                    <HeaderSubtitle>
                         {"Gestão de Produtos"}
-                    </span>
+                    </HeaderSubtitle>
 
-                    <h2 className="text-xl font-semibold">
+                    <HeaderTitle>
                         {"Produtos "} ({products.length})
-                    </h2>
-                </div>
+                    </HeaderTitle>
+                </HeaderLeft>
 
-                <CreateProductButton />
-            </div>
+                <HeaderRight>
+                    <CreateProductButton />
+                </HeaderRight>
+            </Header>
 
             <DataTable columns={productTableColumns} data={products} />
         </div>

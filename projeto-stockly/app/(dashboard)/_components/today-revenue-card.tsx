@@ -1,15 +1,15 @@
 import { SummaryCard, SummaryCardIcon, SummaryCardTitle, SummaryCardValue } from "./summary-card";
-import { getTotalRevenue } from "@/app/_data-access/dashboard/get-total-revenue";
+import { getTodayRevenue } from "@/app/_data-access/dashboard/get-today-revenue";
 import { formatCurrency } from "@/app/_helpers/currency";
 import { DollarSign } from "lucide-react";
 
 
-export const TotalRevenueCard = async () => {
+export const TodayRevenueCard = async () => {
     await new Promise(
         (resolve) => setTimeout(resolve, 2000)
     );
 
-    const totalRevenue = await getTotalRevenue();
+    const todayRevenue = await getTodayRevenue();
 
     return (
         <SummaryCard>
@@ -18,11 +18,11 @@ export const TotalRevenueCard = async () => {
             </SummaryCardIcon>
 
             <SummaryCardTitle>
-                {"Receita Total"}
+                {"Receita Hoje"}
             </SummaryCardTitle>
 
             <SummaryCardValue>
-                {formatCurrency(totalRevenue)}
+                {formatCurrency(todayRevenue)}
             </SummaryCardValue>
         </SummaryCard>
     );

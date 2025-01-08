@@ -1,18 +1,19 @@
-import { SummaryCard, SummaryCardIcon, SummaryCardTitle, SummaryCardValue } from "./_components/summary-card";
-import { CircleDollarSign, DollarSign, PackageIcon, ShoppingBasketIcon } from "lucide-react";
 import { Header, HeaderLeft, HeaderSubtitle, HeaderTitle } from "../_components/header";
 import { MostSoldProductItem } from "./_components/most-sold-product-item";
 import { getDashboard } from "../_data-access/dashboard/get-dashboard";
+import { TotalProductsCard } from "./_components/total-products-card";
+import { SummaryCardSkeleton, } from "./_components/summary-card";
+import { TotalInStockCard } from "./_components/total-in-stock-card";
 import { TotalRevenueCard } from "./_components/total-revenue-card";
+import { TodayRevenueCard } from "./_components/today-revenue-card";
+import { TotalSalesCard } from "./_components/total-sales-card";
 import { RevenueChart } from "./_components/revenue-chart";
-import { formatCurrency } from "../_helpers/currency";
-import { Skeleton } from "../_components/ui/skeleton";
 import { Suspense } from "react";
 
 
 const Home = async () => {
     const {
-        totalRevenue, todayRevenue, totalSales, totalStock, totalProducts, totalLast14DaysRevenue, mostSoldProducts
+        totalLast14DaysRevenue, mostSoldProducts
     } = await getDashboard();
 
     return (
@@ -30,67 +31,27 @@ const Home = async () => {
             </Header>
 
             <div className="grid grid-cols-2 gap-6">
-                <Suspense fallback={<Skeleton className="bg-white bg-opacity-80 rounded-xl" />}>
+                <Suspense fallback={<SummaryCardSkeleton />}>
                     <TotalRevenueCard />
                 </Suspense>
 
-                <SummaryCard>
-                    <SummaryCardIcon>
-                        <DollarSign />
-                    </SummaryCardIcon>
-
-                    <SummaryCardTitle>
-                        {"Receita Hoje"}
-                    </SummaryCardTitle>
-
-                    <SummaryCardValue>
-                        {formatCurrency(todayRevenue)}
-                    </SummaryCardValue>
-                </SummaryCard>
+                <Suspense fallback={<SummaryCardSkeleton />}>
+                    <TodayRevenueCard />
+                </Suspense>
             </div>
 
             <div className="grid grid-cols-3 gap-6">
-                <SummaryCard>
-                    <SummaryCardIcon>
-                        <CircleDollarSign />
-                    </SummaryCardIcon>
+                <Suspense fallback={<SummaryCardSkeleton />}>
+                    <TotalSalesCard />
+                </Suspense>
 
-                    <SummaryCardTitle>
-                        {"Vendas Totais"}
-                    </SummaryCardTitle>
+                <Suspense fallback={<SummaryCardSkeleton />}>
+                    <TotalInStockCard />
+                </Suspense>
 
-                    <SummaryCardValue>
-                        {totalSales}
-                    </SummaryCardValue>
-                </SummaryCard>
-
-                <SummaryCard>
-                    <SummaryCardIcon>
-                        <PackageIcon />
-                    </SummaryCardIcon>
-
-                    <SummaryCardTitle>
-                        {"Total em Estoque"}
-                    </SummaryCardTitle>
-
-                    <SummaryCardValue>
-                        {totalStock}
-                    </SummaryCardValue>
-                </SummaryCard>
-
-                <SummaryCard>
-                    <SummaryCardIcon>
-                        <ShoppingBasketIcon />
-                    </SummaryCardIcon>
-
-                    <SummaryCardTitle>
-                        {"Produtos"}
-                    </SummaryCardTitle>
-
-                    <SummaryCardValue>
-                        {totalProducts}
-                    </SummaryCardValue>
-                </SummaryCard>
+                <Suspense fallback={<SummaryCardSkeleton />}>
+                    <TotalProductsCard />
+                </Suspense>
             </div>
 
             <div className="grid min-h-0 grid-cols-[minmax(0,2.5fr),minmax(0,1fr)] gap-6">

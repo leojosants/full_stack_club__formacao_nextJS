@@ -1,28 +1,27 @@
 import { SummaryCard, SummaryCardIcon, SummaryCardTitle, SummaryCardValue } from "./summary-card";
-import { getTotalRevenue } from "@/app/_data-access/dashboard/get-total-revenue";
-import { formatCurrency } from "@/app/_helpers/currency";
-import { DollarSign } from "lucide-react";
+import { getTotalInStock } from "@/app/_data-access/dashboard/get-total-in-stock";
+import { PackageIcon } from "lucide-react";
 
 
-export const TotalRevenueCard = async () => {
+export const TotalInStockCard = async () => {
     await new Promise(
         (resolve) => setTimeout(resolve, 2000)
     );
 
-    const totalRevenue = await getTotalRevenue();
+    const totalInStock = await getTotalInStock();
 
     return (
         <SummaryCard>
             <SummaryCardIcon>
-                <DollarSign />
+                <PackageIcon />
             </SummaryCardIcon>
 
             <SummaryCardTitle>
-                {"Receita Total"}
+                {"Total em Estoque"}
             </SummaryCardTitle>
 
             <SummaryCardValue>
-                {formatCurrency(totalRevenue)}
+                {totalInStock}
             </SummaryCardValue>
         </SummaryCard>
     );

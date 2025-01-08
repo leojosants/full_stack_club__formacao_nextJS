@@ -3,10 +3,10 @@ import { Product } from "@prisma/client";
 import { db } from "@/app/_lib/prisma";
 
 
-type Statustype = "IN_STOCK" | "OUT_OF_STOCK";
+export type ProductStatusDTO = "IN_STOCK" | "OUT_OF_STOCK";
 
 export interface ProductDTO extends Product {
-    status: Statustype;
+    status: ProductStatusDTO;
 };
 
 export const getProducts = async (): Promise<ProductDTO[]> => {
@@ -14,9 +14,7 @@ export const getProducts = async (): Promise<ProductDTO[]> => {
 
     return products.map(
         (product) => (
-            {
-                ...product, status: product.stock > 0 ? "IN_STOCK" : "OUT_OF_STOCK"
-            }
+            { ...product, status: product.stock > 0 ? "IN_STOCK" : "OUT_OF_STOCK" }
         )
     );
 };

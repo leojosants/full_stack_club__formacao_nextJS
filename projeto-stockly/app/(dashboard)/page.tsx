@@ -1,13 +1,16 @@
 import { SummaryCard, SummaryCardIcon, SummaryCardTitle, SummaryCardValue } from "./_components/summary-card";
 import { CircleDollarSign, DollarSign, PackageIcon, ShoppingBasketIcon } from "lucide-react";
 import { Header, HeaderLeft, HeaderSubtitle, HeaderTitle } from "../_components/header";
+import { MostSoldProductItem } from "./_components/most-sold-product-item";
 import { getDashboard } from "../_data-access/dashboard/get-dashboard";
-import { formatCurrency } from "../_helpers/currency";
 import { RevenueChart } from "./_components/revenue-chart";
+import { formatCurrency } from "../_helpers/currency";
 
 
 const Home = async () => {
-    const { totalRevenue, todayRevenue, totalSales, totalStock, totalProducts, totalLast14DaysRevenue } = await getDashboard();
+    const {
+        totalRevenue, todayRevenue, totalSales, totalStock, totalProducts, totalLast14DaysRevenue, mostSoldProducts
+    } = await getDashboard();
 
     return (
         <div className="m-8 flex w-full flex-col space-y-8 rounded-lg">
@@ -97,16 +100,34 @@ const Home = async () => {
                 </SummaryCard>
             </div>
 
-            <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white p-6">
-                <p className="font-semibold text-lg text-slate-900">
-                    Receita
-                </p>
+            <div className="grid min-h-0 grid-cols-[minmax(0,2.5fr),minmax(0,1fr)] gap-6">
+                <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white p-6">
+                    <p className="font-semibold text-lg text-slate-900">
+                        Receita
+                    </p>
 
-                <p className="text-sm text-slate-400">
-                    Últimos 14 dias
-                </p>
+                    <p className="text-sm text-slate-400">
+                        Últimos 14 dias
+                    </p>
 
-                <RevenueChart data={totalLast14DaysRevenue} />
+                    <RevenueChart data={totalLast14DaysRevenue} />
+                </div>
+
+                <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white">
+                    <p className="font-semibold text-lg text-slate-900 p-6">
+                        Produtos mais vendidos
+                    </p>
+
+                    <div className="overflow-y-auto space-y-7 px-6 pb-6">
+                        {
+                            mostSoldProducts.map(
+                                (product) => (
+                                    <MostSoldProductItem key={product.productId} product={product} />
+                                )
+                            )
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -3,8 +3,11 @@ import { CircleDollarSign, DollarSign, PackageIcon, ShoppingBasketIcon } from "l
 import { Header, HeaderLeft, HeaderSubtitle, HeaderTitle } from "../_components/header";
 import { MostSoldProductItem } from "./_components/most-sold-product-item";
 import { getDashboard } from "../_data-access/dashboard/get-dashboard";
+import { TotalRevenueCard } from "./_components/total-revenue-card";
 import { RevenueChart } from "./_components/revenue-chart";
 import { formatCurrency } from "../_helpers/currency";
+import { Skeleton } from "../_components/ui/skeleton";
+import { Suspense } from "react";
 
 
 const Home = async () => {
@@ -27,19 +30,9 @@ const Home = async () => {
             </Header>
 
             <div className="grid grid-cols-2 gap-6">
-                <SummaryCard>
-                    <SummaryCardIcon>
-                        <DollarSign />
-                    </SummaryCardIcon>
-
-                    <SummaryCardTitle>
-                        {"Receita Total"}
-                    </SummaryCardTitle>
-
-                    <SummaryCardValue>
-                        {formatCurrency(totalRevenue)}
-                    </SummaryCardValue>
-                </SummaryCard>
+                <Suspense fallback={<Skeleton className="bg-white bg-opacity-80 rounded-xl" />}>
+                    <TotalRevenueCard />
+                </Suspense>
 
                 <SummaryCard>
                     <SummaryCardIcon>

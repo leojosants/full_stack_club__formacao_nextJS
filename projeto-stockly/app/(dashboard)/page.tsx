@@ -3,13 +3,14 @@ import { CircleDollarSign, DollarSign, PackageIcon, ShoppingBasketIcon } from "l
 import { Header, HeaderLeft, HeaderSubtitle, HeaderTitle } from "../_components/header";
 import { getDashboard } from "../_data-access/dashboard/get-dashboard";
 import { formatCurrency } from "../_helpers/currency";
+import { RevenueChart } from "./_components/revenue-chart";
 
 
 const Home = async () => {
-    const { totalRevenue, todayRevenue, totalSales, totalStock, totalProducts } = await getDashboard();
+    const { totalRevenue, todayRevenue, totalSales, totalStock, totalProducts, totalLast14DaysRevenue } = await getDashboard();
 
     return (
-        <div className="m-8 w-full space-y-8 rounded-lg">
+        <div className="m-8 flex w-full flex-col space-y-8 rounded-lg">
             <Header>
                 <HeaderLeft>
                     <HeaderSubtitle>
@@ -94,6 +95,18 @@ const Home = async () => {
                         {totalProducts}
                     </SummaryCardValue>
                 </SummaryCard>
+            </div>
+
+            <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white p-6">
+                <p className="font-semibold text-lg text-slate-900">
+                    Receita
+                </p>
+
+                <p className="text-sm text-slate-400">
+                    Últimos 14 dias
+                </p>
+
+                <RevenueChart data={totalLast14DaysRevenue} />
             </div>
         </div>
     );

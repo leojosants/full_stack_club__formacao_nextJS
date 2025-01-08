@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import { Toaster } from "./_components/ui/sonner";
 import { Inter } from 'next/font/google';
 import Sidebar from "./_components/sidebar";
 import "./globals.css";
-import { Toaster } from "./_components/ui/sonner";
 
 
 export const metadata: Metadata = {

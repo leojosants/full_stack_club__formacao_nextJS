@@ -6,6 +6,14 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/app/_lib/prisma";
 
 
+interface EndpointsInterface {
+    home: string;
+};
+
+const endpoints: EndpointsInterface = {
+    home: "/",
+};
+
 export const upsertSale = actionClient
     .schema(upsertSaleSchema)
     .action(
@@ -88,8 +96,6 @@ export const upsertSale = actionClient
                 }
             );
 
-            revalidatePath("/products");
-            revalidatePath("/sales");
-            revalidatePath("/");
+            revalidatePath(endpoints.home, "layout");
         }
     );

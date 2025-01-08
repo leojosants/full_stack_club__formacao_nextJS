@@ -5,6 +5,14 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/app/_lib/prisma";
 
 
+interface EndpointsInterface {
+    home: string;
+};
+
+const endpoints: EndpointsInterface = {
+    home: "/",
+};
+
 export const deleteProduct = actionClient
     .schema(deleteProductSchema)
     .action(
@@ -13,6 +21,6 @@ export const deleteProduct = actionClient
                 { where: { id } }
             );
 
-            revalidatePath("/products");
+            revalidatePath(endpoints.home, "layout");
         }
     );

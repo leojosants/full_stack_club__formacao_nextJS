@@ -36,34 +36,31 @@ export const getSales = async (): Promise<SaleDTO[]> => {
 
                 date: sale.date,
 
-                productNames: sale.saleProducts.map(
-                    (saleProduct) => {
-                        return saleProduct.product.name
-                    }
-                ).join(" • "),
+                productNames: sale
+                    .saleProducts
+                    .map((saleProduct) => saleProduct.product.name)
+                    .join(" • "),
 
-                totalAmount: sale.saleProducts.reduce(
-                    (acc, saleProduct) => {
-                        return acc = saleProduct.quantity * Number(saleProduct.unitPrice)
-                    }, 0
-                ),
+                totalAmount: sale
+                    .saleProducts
+                    .reduce((acc, saleProduct) => acc = saleProduct.quantity * Number(saleProduct.unitPrice), 0),
 
-                totalProducts: sale.saleProducts.reduce(
-                    (acc, saleProduct) => {
-                        return acc + saleProduct.quantity
-                    }, 0
-                ),
+                totalProducts: sale
+                    .saleProducts
+                    .reduce((acc, saleProduct) => acc + saleProduct.quantity, 0),
 
-                saleProducts: sale.saleProducts.map(
-                    (saleProduct): SaleProductDTO => (
-                        {
-                            productId: saleProduct.productId,
-                            productName: saleProduct.product.name,
-                            quantity: saleProduct.quantity,
-                            unitPrice: Number(saleProduct.unitPrice),
-                        }
-                    )
-                ),
+                saleProducts: sale
+                    .saleProducts
+                    .map(
+                        (saleProduct): SaleProductDTO => (
+                            {
+                                productId: saleProduct.productId,
+                                productName: saleProduct.product.name,
+                                quantity: saleProduct.quantity,
+                                unitPrice: Number(saleProduct.unitPrice),
+                            }
+                        )
+                    ),
             }
         )
     );

@@ -1,7 +1,7 @@
 import { Header, HeaderLeft, HeaderRight, HeaderTitle } from "../_components/header";
 import { CreateProductButton } from "./_components/create-product-button";
 import { getProducts } from "../_data-access/product/get-products";
-import { productTableColumns } from "./_components/table-columns";
+import { productsTableColumns } from "./_components/table-columns";
 import { DataTable } from "../_components/ui/data-table";
 import { HeaderSubtitle } from '../_components/header';
 
@@ -27,7 +27,7 @@ const ProductsPage = async () => {
                 </HeaderRight>
             </Header>
 
-            <DataTable columns={productTableColumns} data={products} />
+            <DataTable columns={productsTableColumns} data={products} />
         </div>
     );
 };

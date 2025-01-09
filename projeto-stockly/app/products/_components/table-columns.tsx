@@ -6,7 +6,7 @@ import { ProductStatusBadge } from "@/app/_components/product-status-badge";
 import ProductTableDropdownMenu from "./table-dropdown-menu";
 
 
-export const productTableColumns: ColumnDef<ProductDTO>[] = [
+export const productsTableColumns: ColumnDef<ProductDTO>[] = [
     {
         accessorKey: "name",
         header: "Produto",

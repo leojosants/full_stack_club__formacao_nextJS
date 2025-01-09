@@ -19,16 +19,20 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 
-const formSchema = z.object(
-    {
-        productId: z.string()
-            .uuid(
-                { message: "O produto é obrigatório." }
-            ),
+const formSchema = z
+    .object(
+        {
+            productId: z
+                .string()
+                .uuid({ message: "O produto é obrigatório." }),
 
-        quantity: z.coerce.number().int().positive(),
-    }
-);
+            quantity: z
+                .coerce
+                .number()
+                .int()
+                .positive(),
+        }
+    );
 
 type FormSchema = z.infer<typeof formSchema>;
 
@@ -127,7 +131,10 @@ export const UpsertSheetContent = (props: UpsertSheetContentProps) => {
                     return currentProducts.map(
                         (product) => {
                             if (product.id === selectedProduct.id) {
-                                return { ...product, quantity: product.quantity + data.quantity };
+                                return {
+                                    ...product,
+                                    quantity: product.quantity + data.quantity,
+                                };
                             }
 
                             return product;
@@ -149,7 +156,11 @@ export const UpsertSheetContent = (props: UpsertSheetContentProps) => {
 
                 return [
                     ...currentProducts,
-                    { ...selectedProduct, price: Number(selectedProduct.price), quantity: data.quantity }
+                    {
+                        ...selectedProduct,
+                        price: Number(selectedProduct.price),
+                        quantity: data.quantity,
+                    }
                 ];
             }
         );
@@ -159,7 +170,7 @@ export const UpsertSheetContent = (props: UpsertSheetContentProps) => {
         () => {
             return selectedProducts.reduce(
                 (acc, product) => {
-                    return acc + product.price * product.quantity
+                    return acc + product.price * product.quantity;
                 }, 0
             );
         }, [selectedProducts]
@@ -173,8 +184,6 @@ export const UpsertSheetContent = (props: UpsertSheetContentProps) => {
                 );
             }
         );
-
-        toastNotification("success", "Venda deleta com sucesso!");
     };
 
     const onSubmitSale = async () => {
@@ -195,7 +204,7 @@ export const UpsertSheetContent = (props: UpsertSheetContentProps) => {
     }
 
     return (
-        <SheetContent className={"!max-w-[43.75rem]"}>
+        <SheetContent className={"!max-w-[700px]"}>
             <SheetHeader>
                 <SheetTitle>
                     {"Nova venda"}

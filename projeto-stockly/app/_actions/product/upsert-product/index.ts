@@ -30,6 +30,6 @@ export const upsertProduct = actionClient
             );
 
             revalidatePath(endpoints.products, "page");
-            revalidatePath(endpoints.home, "page");
+            revalidatePath(endpoints.home);
         }
     );

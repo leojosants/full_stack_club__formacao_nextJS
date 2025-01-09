@@ -41,6 +41,7 @@ export const UpsertProductDialogContent = (props: UpsertProductDialogContentProp
             resolver: zodResolver(upsertProductSchema),
             shouldUnregister: true,
             defaultValues: defaultValues ?? {
+                id: "",
                 name: "",
                 price: 0,
                 stock: 1,
@@ -71,70 +72,76 @@ export const UpsertProductDialogContent = (props: UpsertProductDialogContentProp
                     </DialogHeader>
 
                     <FormField control={form.control} name={"name"}
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>
-                                    {"Nome"}
-                                </FormLabel>
+                        render={
+                            ({ field }) => (
+                                <FormItem>
+                                    <FormLabel>
+                                        {"Nome"}
+                                    </FormLabel>
 
-                                <FormControl>
-                                    <Input
-                                        placeholder={"Digite o nome do produto"} {...field}
-                                    />
-                                </FormControl>
+                                    <FormControl>
+                                        <Input
+                                            placeholder={"Digite o nome do produto"} {...field}
+                                        />
+                                    </FormControl>
 
-                                <FormMessage />
-                            </FormItem>
-                        )}
+                                    <FormMessage />
+                                </FormItem>
+                            )
+                        }
                     />
 
                     <FormField control={form.control} name={"price"}
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>
-                                    {"Preço"}
-                                </FormLabel>
+                        render={
+                            ({ field }) => (
+                                <FormItem>
+                                    <FormLabel>
+                                        {"Preço"}
+                                    </FormLabel>
 
-                                <FormControl>
-                                    <NumericFormat
-                                        thousandSeparator={"."}
-                                        decimalSeparator={","}
-                                        fixedDecimalScale decimalScale={2}
-                                        prefix={"R$ "}
-                                        allowNegative={false}
-                                        customInput={Input}
-                                        onValueChange={(values) => field.onChange(values.floatValue)}
-                                        {...field}
-                                        onChange={() => { }}
-                                    />
-                                </FormControl>
+                                    <FormControl>
+                                        <NumericFormat
+                                            thousandSeparator={"."}
+                                            decimalSeparator={","}
+                                            fixedDecimalScale decimalScale={2}
+                                            prefix={"R$ "}
+                                            allowNegative={false}
+                                            customInput={Input}
+                                            onValueChange={(values) => field.onChange(values.floatValue)}
+                                            {...field}
+                                            onChange={() => { }}
+                                        />
+                                    </FormControl>
 
-                                <FormMessage />
-                            </FormItem>
-                        )}
+                                    <FormMessage />
+                                </FormItem>
+                            )
+                        }
                     />
 
                     <FormField control={form.control} name={"stock"}
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>
-                                    {"Estoque"}
-                                </FormLabel>
+                        render={
+                            ({ field }) => (
+                                <FormItem>
+                                    <FormLabel>
+                                        {"Estoque"}
+                                    </FormLabel>
 
-                                <FormControl>
-                                    <Input
-                                        type={"number"} placeholder={"Digite o estoque do produto"} {...field}
-                                    />
-                                </FormControl>
+                                    <FormControl>
+                                        <Input
+                                            type={"number"} placeholder={"Digite o estoque do produto"} {...field}
+                                        />
+                                    </FormControl>
 
-                                <FormMessage />
-                            </FormItem>
-                        )}
+                                    <FormMessage />
+                                </FormItem>
+                            )
+                        }
                     />
 
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button variant={"secondary"} type={"submit"}>
+                            <Button variant={"secondary"} type={"reset"}>
                                 {"Cancelar"}
                             </Button>
                         </DialogClose>

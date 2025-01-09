@@ -17,7 +17,7 @@ export const getMostSoldProducts = async (): Promise<MostSoldProductDTO[]> => {
     );
 
     const mostSoldProductQuery = `
-        SELECT "Product"."name", SUM("SaleProduct"."quantity") as "totalSold", "Product"."price", "Product"."stock", "Product"."id"
+        SELECT "Product"."name", SUM("SaleProduct"."quantity") as "totalSold", "Product"."price", "Product"."stock", "Product"."id" as "productId"
         FROM "SaleProduct"
         JOIN "Product" ON "SaleProduct"."productId" = "Product"."id"
         GROUP BY "Product"."name", "Product"."price", "Product"."stock", "Product"."id"

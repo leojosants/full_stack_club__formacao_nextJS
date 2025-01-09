@@ -7,7 +7,9 @@ interface MostSoldProductItemProps {
     product: MostSoldProductDTO;
 };
 
-export const MostSoldProductItem = ({ product }: MostSoldProductItemProps) => {
+export const MostSoldProductItem = (props: MostSoldProductItemProps) => {
+    const { product } = props;
+
     return (
         <div className="flex items-center justify-between">
             <div className="space-y-[6px]">

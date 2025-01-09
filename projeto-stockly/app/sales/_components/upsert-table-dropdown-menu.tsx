@@ -1,6 +1,6 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/app/_components/ui/dropdown-menu";
+import { handleToClipboardClick } from "@/app/_helpers/handle-to-clipboard-click";
 import { ClipboardCopyIcon, MoreHorizontalIcon, TrashIcon } from "lucide-react";
-import { toastNotification } from "@/app/_helpers/toast-notification";
 import { Button } from "@/app/_components/ui/button";
 import { Product } from "@prisma/client";
 
@@ -12,11 +12,6 @@ interface UpsertSalesTableDropdownMenuProps {
 
 export const UpsertSalesTableDropdownMenu = (props: UpsertSalesTableDropdownMenuProps) => {
     const { product, onDelete } = props;
-
-    const handleToClipboardClick = () => {
-        navigator.clipboard.writeText(product.id);
-        toastNotification("success", "ID copiado para a área de transferência!");
-    };
 
     return (
         <DropdownMenu>
@@ -33,7 +28,7 @@ export const UpsertSalesTableDropdownMenu = (props: UpsertSalesTableDropdownMenu
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem className={"gap-1.5"} onClick={handleToClipboardClick}>
+                <DropdownMenuItem className={"gap-1.5"} onClick={() => handleToClipboardClick(product.id)}>
                     <ClipboardCopyIcon size={16} />
                     {"Copiar ID"}
                 </DropdownMenuItem>

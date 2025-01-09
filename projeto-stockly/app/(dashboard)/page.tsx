@@ -12,6 +12,8 @@ import { Skeleton } from "../_components/ui/skeleton";
 import { Suspense } from "react";
 
 
+export const dynamic = "force-dynamic";
+
 const Home = async () => {
     return (
         <div className="m-8 flex w-full flex-col space-y-8 rounded-lg">
@@ -52,15 +54,16 @@ const Home = async () => {
             </div>
 
             <div className="grid min-h-0 grid-cols-[minmax(0,2.5fr),minmax(0,1fr)] gap-6">
-                <Suspense fallback={
-                    <Skeleton className="bg-white p-6">
-                        <div className="space-y-2">
-                            <div className="h-9 w-9 rounded-md bg-gray-200" />
-                            <div className="h-5 w-[86.26px] rounded-md bg-gray-200" />
-                            <div className="h-8 w-48 rounded-md bg-gray-200" />
-                        </div>
-                    </Skeleton>
-                }>
+                <Suspense
+                    fallback={
+                        <Skeleton className="bg-white p-6">
+                            <div className="space-y-2">
+                                <div className="h-5 w-[86.26px] rounded-md bg-gray-200" />
+                                <div className="h-4 w-48 rounded-md bg-gray-200" />
+                            </div>
+                        </Skeleton>
+                    }
+                >
                     <Last14DaysRevenueCard />
                 </Suspense>
 

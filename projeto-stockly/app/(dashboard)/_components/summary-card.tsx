@@ -1,23 +1,11 @@
 import { ReactNode } from "react";
 
 
-interface SummaryCardProps {
+interface SummaryProps {
     children: ReactNode;
 };
 
-interface SummaryCardIconProps {
-    children: ReactNode;
-};
-
-interface SummaryCardTitleProps {
-    children: ReactNode;
-};
-
-interface SummaryCardValueProps {
-    children: ReactNode;
-};
-
-export const SummaryCardIcon = (props: SummaryCardIconProps) => {
+export const SummaryCardIcon = (props: SummaryProps) => {
     const { children } = props;
 
     return (
@@ -27,7 +15,7 @@ export const SummaryCardIcon = (props: SummaryCardIconProps) => {
     );
 };
 
-export const SummaryCardTitle = (props: SummaryCardTitleProps) => {
+export const SummaryCardTitle = (props: SummaryProps) => {
     const { children } = props;
 
     return (
@@ -37,7 +25,7 @@ export const SummaryCardTitle = (props: SummaryCardTitleProps) => {
     );
 };
 
-export const SummaryCardValue = (props: SummaryCardValueProps) => {
+export const SummaryCardValue = (props: SummaryProps) => {
     const { children } = props;
 
     return (
@@ -47,7 +35,7 @@ export const SummaryCardValue = (props: SummaryCardValueProps) => {
     );
 };
 
-export const SummaryCard = (props: SummaryCardProps) => {
+export const SummaryCard = (props: SummaryProps) => {
     const { children } = props;
 
     return (

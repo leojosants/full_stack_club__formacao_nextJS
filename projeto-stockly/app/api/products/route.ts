@@ -2,23 +2,15 @@
 APENAS PARA REFERENCIA
 */
 
+import { httpStatusCode } from "@/app/_helpers/http-status-code";
 import { db } from "@/app/_lib/prisma";
 
-
-interface HttpStatusCodeInterface {
-    created: number;
-    ok: number;
-};
-
-const httpStatusCode: HttpStatusCodeInterface = {
-    created: 201,
-    ok: 200,
-};
 
 export async function GET() {
     await new Promise(
         (resolve) => setTimeout(resolve, 3000)
     );
+
     const products = await db.product.findMany({});
 
     return Response.json(

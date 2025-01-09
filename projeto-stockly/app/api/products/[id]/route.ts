@@ -2,19 +2,10 @@
 APENAS PARA REFERENCIA
 */
 
+import { httpStatusCode } from "@/app/_helpers/http-status-code";
 import { NextRequest } from "next/server";
 import { db } from "@/app/_lib/prisma";
 
-
-interface HttpStatusCodeInterface {
-    notFound: number;
-    ok: number;
-};
-
-const httpStatusCode: HttpStatusCodeInterface = {
-    notFound: 404,
-    ok: 200,
-};
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
     const searchParams = request.nextUrl.searchParams;

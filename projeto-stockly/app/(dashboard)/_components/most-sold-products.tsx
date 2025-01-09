@@ -12,15 +12,23 @@ export const MostSoldProducts = async () => {
                 {"Produtos mais vendidos"}
             </p>
 
-            <div className="space-y-7 overflow-y-auto px-6 pb-6">
-                {
-                    mostSoldProducts.map(
-                        (product) => (
-                            <MostSoldProductItem key={product.productId} product={product} />
-                        )
-                    )
-                }
-            </div>
+            {
+                mostSoldProducts.length === 0 ? (
+                    <p className="text-2xl font-semibold text-slate-900 rounded-xl bg-white pt-0 pl-6">
+                        {(mostSoldProducts.length)}
+                    </p>
+                ) : (
+                    <div className="space-y-7 overflow-y-auto px-6 pb-6">
+                        {
+                            mostSoldProducts.map(
+                                (product) => (
+                                    <MostSoldProductItem key={product.productId} product={product} />
+                                )
+                            )
+                        }
+                    </div>
+                )
+            }
         </div>
     );
 };

@@ -1,11 +1,11 @@
 interface Params {
-    id: string
+    id: string;
 };
 
 const ProductDetailsPage = ({ params: { id } }: { params: Params }) => {
     return (
         <h1>
-            Product ID: {id}
+            {"Product ID: "} {id}
         </h1>
     );
 };

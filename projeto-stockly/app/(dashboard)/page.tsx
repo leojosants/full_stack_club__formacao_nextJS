@@ -1,11 +1,10 @@
+import { MostSoldProducts, MostSoldProductsSkeleton } from "./_components/most-sold-products";
 import { Header, HeaderLeft, HeaderSubtitle, HeaderTitle } from "../_components/header";
-import { MostSoldProductsSkeleton } from "./_components/most-sold-product-item";
 import { Last14DaysRevenueCard } from "./_components/last-14-days-revenue-card";
 import { TotalProductsCard } from "./_components/total-products-card";
 import { TotalInStockCard } from "./_components/total-in-stock-card";
 import { TotalRevenueCard } from "./_components/total-revenue-card";
 import { TodayRevenueCard } from "./_components/today-revenue-card";
-import { MostSoldProducts } from "./_components/most-sold-products";
 import { SummaryCardSkeleton, } from "./_components/summary-card";
 import { TotalSalesCard } from "./_components/total-sales-card";
 import { Skeleton } from "../_components/ui/skeleton";

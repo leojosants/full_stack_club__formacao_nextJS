@@ -12,7 +12,7 @@ export const CreateProductButton = () => {
     return (
         <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
             <DialogTrigger asChild>
-                <Button className="gap-2">
+                <Button className={"gap-2"}>
                     <PlusIcon size={20} />
                     {"Novo produto"}
                 </Button>

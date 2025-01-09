@@ -115,6 +115,7 @@ export const SalesTableDropdownMenu = (props: SalesTableDropdownMenuProps) => {
             <UpsertSheetContent
                 setSheetIsOpen={setUpsertSheetIsOpen}
                 productOptions={productOptions}
+                isOpen={upsertSheetIsOpen}
                 products={products}
                 saleId={sale.id}
                 defaultSelectedProducts={

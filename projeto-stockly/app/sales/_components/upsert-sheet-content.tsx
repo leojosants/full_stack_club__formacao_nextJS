@@ -2,11 +2,11 @@
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/app/_components/ui/table";
 import { SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from "@/app/_components/ui/sheet";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/app/_components/ui/form";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { UpsertSalesTableDropdownMenu } from "./upsert-table-dropdown-menu";
 import { Combobox, ComboboxOption } from "@/app/_components/ui/combobox";
 import { toastNotification } from "@/app/_helpers/toast-notification";
 import { ProductDTO } from "@/app/_data-access/product/get-products";
-import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { CheckIcon, PlusIcon, PointerOff } from "lucide-react";
 import { upsertSale } from "@/app/_actions/sale/upsert-sale";
 import { flattenValidationErrors } from "next-safe-action";
@@ -45,10 +45,11 @@ interface UpsertSheetContentProps {
     productOptions: ComboboxOption[];
     products: ProductDTO[];
     saleId?: string;
+    isOpen: boolean;
 };
 
 export const UpsertSheetContent = (props: UpsertSheetContentProps) => {
-    const { products, productOptions, setSheetIsOpen, defaultSelectedProducts, saleId } = props;
+    const { products, productOptions, setSheetIsOpen, defaultSelectedProducts, saleId, isOpen } = props;
     const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(defaultSelectedProducts ?? []);
 
     const { execute: executeUpsertSale } = useAction(
@@ -80,6 +81,21 @@ export const UpsertSheetContent = (props: UpsertSheetContentProps) => {
                 quantity: 1,
             },
         }
+    );
+
+    useEffect(
+        () => {
+            if (!isOpen) {
+                form.reset();
+                setSelectedProducts([]);
+            }
+        }, [form, isOpen]
+    );
+
+    useEffect(
+        () => {
+            setSelectedProducts(defaultSelectedProducts ?? [])
+        }, [defaultSelectedProducts]
     );
 
     const onSubmit = (data: FormSchema) => {

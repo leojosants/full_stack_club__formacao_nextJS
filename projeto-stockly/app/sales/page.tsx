@@ -28,7 +28,7 @@ export const SalesPage = async () => {
     );
 
     return (
-        <div className="m-8 w-full space-y-8 bg-white p-8 rounded-lg">
+        <div className="m-8 w-full space-y-8 bg-white p-8 rounded-lg overflow-auto">
             <Header>
                 <HeaderLeft>
                     <HeaderSubtitle>

@@ -21,7 +21,7 @@ export const SummaryCardIcon = (props: SummaryCardIconProps) => {
     const { children } = props;
 
     return (
-        <div className="h-9 w-9 flex items-center justify-center rounded-md bg-emerald-500 bg-opacity-10 text-emerald-500 mb-2">
+        <div className="h-9 w-9 flex items-center justify-center rounded-md bg-slate-500 bg-opacity-10 text-sbg-slate-500 mb-2">
             {children}
         </div>
     );

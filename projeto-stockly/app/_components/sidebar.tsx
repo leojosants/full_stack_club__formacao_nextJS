@@ -26,17 +26,17 @@ const Sidebar = () => {
             <div className="flex flex-col gap-2 p-2">
                 <SidebarButton href={sidebarEndpoints.home}>
                     <LayoutGridIcon size={20} />
-                    Dashboard
+                    {"Dashboard"}
                 </SidebarButton>
 
                 <SidebarButton href={sidebarEndpoints.products}>
                     <PackageIcon size={20} />
-                    Produtos
+                    {"Produtos"}
                 </SidebarButton>
 
                 <SidebarButton href={sidebarEndpoints.sales}>
                     <ShoppingBasketIcon size={20} />
-                    Vendas
+                    {"Vendas"}
                 </SidebarButton>
             </div>
         </div>

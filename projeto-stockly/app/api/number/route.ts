@@ -1,10 +1,5 @@
-interface HttpStatusCodeInterface {
-    ok: number;
-};
+import { httpStatusCode } from "@/app/_helpers/http-status-code";
 
-const httpStatusCode: HttpStatusCodeInterface = {
-    ok: 200,
-};
 
 export async function GET() {
     return Response.json(

@@ -9,22 +9,14 @@ export class ProductIsOutofStockError extends Error {
 
 export const upsertSaleSchema = z.object(
     {
-        id: z
-            .string()
-            .uuid()
-            .optional(),
+        id: z.string().uuid().optional(),
 
         products: z.array(
             z.object(
                 {
-                    id: z
-                        .string()
-                        .uuid(),
+                    id: z.string().uuid(),
 
-                    quantity: z
-                        .number()
-                        .int()
-                        .positive(),
+                    quantity: z.number().int().positive(),
                 }
             ),
         ),

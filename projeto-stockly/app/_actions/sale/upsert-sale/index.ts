@@ -36,7 +36,7 @@ export const upsertSale = actionClient
                             { where: { id } }
                         );
 
-                        for (const product of existingSale?.saleProducts) {
+                        for (const product of existingSale.saleProducts) {
                             await trx.product.update(
                                 {
                                     where: { id: product.productId },

@@ -12,11 +12,11 @@ export const Last14DaysRevenueCard = async () => {
     return (
         <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white p-6">
             <p className="text-lg font-semibold text-slate-900">
-                Receita
+                {"Receita"}
             </p>
 
             <p className="text-sm text-slate-400">
-                Últimos 14 dias
+                {"Últimos 14 dias"}
             </p>
 
             <RevenueChart data={totalLast14DaysRevenue} />

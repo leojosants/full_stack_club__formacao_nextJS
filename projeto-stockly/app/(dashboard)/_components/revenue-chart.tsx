@@ -12,7 +12,9 @@ interface RevenueChartProps {
     data: DayTotalRevenueDTO[];
 };
 
-export const RevenueChart = ({ data }: RevenueChartProps) => {
+export const RevenueChart = (props: RevenueChartProps) => {
+    const { data } = props;
+
     return (
         <ChartContainer config={chartConfig} className={"min-h-0 w-full"} >
             <BarChart data={data} accessibilityLayer>

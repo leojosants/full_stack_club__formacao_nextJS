@@ -1,7 +1,6 @@
 import { MostSoldProductDTO } from "@/app/_data-access/dashboard/get-most-sold-products";
 import { ProductStatusBadge } from "@/app/_components/product-status-badge";
 import { formatCurrency } from "@/app/_helpers/currency";
-import { Skeleton } from "@/app/_components/ui/skeleton";
 
 
 interface MostSoldProductItemProps {
@@ -45,19 +44,5 @@ export const MostSoldProductItemSkeleton = () => {
                 <div className="h-5 w-[86.26px] rounded-md bg-gray-200" />
             </div>
         </div>
-    );
-};
-
-export const MostSoldProductsSkeleton = () => {
-    return (
-        <Skeleton className="bg-white p-6">
-            <div className="space-y-2">
-                <div className="h-5 w-[86.26px] rounded-md bg-gray-200" />
-                <div className="h-4 w-48 rounded-md bg-gray-200" />
-                <MostSoldProductItemSkeleton />
-                <MostSoldProductItemSkeleton />
-                <MostSoldProductItemSkeleton />
-            </div>
-        </Skeleton>
     );
 };

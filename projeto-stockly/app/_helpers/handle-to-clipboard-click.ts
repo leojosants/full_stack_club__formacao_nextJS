@@ -1,7 +1,7 @@
 import { toastNotification } from "./toast-notification";
 
 
-export const handleToClipboardClick = (productId: string) => {
-    navigator.clipboard.writeText(productId);
-    toastNotification("success", "ID copiado com sucesso!");
+export const handleToClipboardClick = (id: string) => {
+    navigator.clipboard.writeText(id);
+    toastNotification("success", "ID copiado para a área de transferência!");
 };

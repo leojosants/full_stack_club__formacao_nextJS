@@ -1,6 +1,7 @@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/app/_components/ui/alert-dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/app/_components/ui/dropdown-menu";
 import { ClipboardCopyIcon, EditIcon, MoreHorizontalIcon, TrashIcon } from "lucide-react";
+import { handleToClipboardClick } from "@/app/_helpers/handle-to-clipboard-click";
 import { toastNotification } from "@/app/_helpers/toast-notification";
 import { ProductDTO } from "@/app/_data-access/product/get-products";
 import { deleteSale } from '../../_actions/sale/delete-sale/index';
@@ -22,11 +23,6 @@ interface SalesTableDropdownMenuProps {
 export const SalesTableDropdownMenu = (props: SalesTableDropdownMenuProps) => {
     const { sale, products, productOptions } = props;
     const [upsertSheetIsOpen, setUpsertSheetIsOpen] = useState(false);
-
-    const handleToClipboardClick = () => {
-        navigator.clipboard.writeText(sale.id);
-        toastNotification("success", "ID copiado para a área de transferência!");
-    };
 
     const { execute } = useAction(
         deleteSale,
@@ -68,7 +64,7 @@ export const SalesTableDropdownMenu = (props: SalesTableDropdownMenuProps) => {
 
                         <DropdownMenuSeparator />
 
-                        <DropdownMenuItem className={"gap-1.5"} onClick={handleToClipboardClick}>
+                        <DropdownMenuItem className={"gap-1.5"} onClick={() => handleToClipboardClick(sale.id)}>
                             <ClipboardCopyIcon size={16} />
                             {"Copiar ID"}
                         </DropdownMenuItem>

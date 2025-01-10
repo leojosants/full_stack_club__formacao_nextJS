@@ -1,4 +1,6 @@
-# Aula - Setup do Projeto
+# Sistema de Reserva de Barbearias
+
+## Aula - Setup do Projeto
 
 - [ x ] Setup do banco
 - [ x ] Seeding do banco (popular)
@@ -6,27 +8,22 @@
 - [ x ] Tailwind e Shadcn
 - [ x ] Git Hooks
 
+## Aula - Tela inicial
 
-# Aula - Tela inicial
+- []
 
-- [] 
+## Aula - Detalhes da barbearia
 
+- []
 
-# Aula - Detalhes da barbearia
+## Aula - Login como o Google
 
-- [] 
+- []
 
+## Aula - Reserva de um barbeiro
 
-# Aula - Login como o Google
+- []
 
-- [] 
+## Aula - Tela de Agendamentos
 
-
-# Aula - Reserva de um barbeiro
-
-- [] 
-
-
-# Aula - Tela de Agendamentos
-
-- [] 
+- []

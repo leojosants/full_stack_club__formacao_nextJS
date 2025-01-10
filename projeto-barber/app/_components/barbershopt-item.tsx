@@ -7,7 +7,16 @@ import { Barbershop } from "@prisma/client";
 import { StarIcon } from "lucide-react";
 
 import Image from "next/image";
+import Link from "next/link";
 
+
+interface Endpoints {
+    barbershopsId: string;
+};
+
+const endpoints: Endpoints = {
+    barbershopsId: "/barbershops",
+};
 
 interface BarbershoptItemProps {
     barbershop: Barbershop;
@@ -47,8 +56,10 @@ export const BarbershoptItem = (props: BarbershoptItemProps) => {
                         {barbershop.address}
                     </p>
 
-                    <Button variant={"secondary"} className={"mt-3 w-full"}>
-                        {"Reservar"}
+                    <Button variant={"secondary"} className={"mt-3 w-full"} asChild>
+                        <Link href={`${endpoints.barbershopsId}/${barbershop.id}`}>
+                            {"Reservar"}
+                        </Link>
                     </Button>
                 </div>
             </CardContent>

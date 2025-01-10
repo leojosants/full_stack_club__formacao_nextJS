@@ -61,7 +61,11 @@ const Home = async () => {
                                 (option) => (
                                     <Button className={"gap-2"} variant={"secondary"} key={option.title}>
                                         <Image
-                                            src={option.imageUrl} width={16} height={16} alt={option.title}
+
+                                            src={option.imageUrl}
+                                            alt={option.title}
+                                            height={16}
+                                            width={16}
                                         />
                                         {option.title}
                                     </Button>
@@ -93,7 +97,8 @@ const Home = async () => {
                             barbershops.map(
                                 (barbershop) => (
                                     <BarbershoptItem
-                                        barbershop={barbershop} key={barbershop.id}
+                                        barbershop={barbershop}
+                                        key={barbershop.id}
                                     />
                                 )
                             )
@@ -110,7 +115,8 @@ const Home = async () => {
                             popularBarbershops.map(
                                 (barbershop) => (
                                     <BarbershoptItem
-                                        barbershop={barbershop} key={barbershop.id}
+                                        barbershop={barbershop}
+                                        key={barbershop.id}
                                     />
                                 )
                             )

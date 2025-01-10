@@ -11,7 +11,10 @@ export const Header = () => {
         <Card>
             <CardContent className={"flex flex-row items-center justify-between p-5"}>
                 <Image
-                    src={"/logo.png"} alt={"Logo"} height={18} width={120}
+                    src={"/logo.png"}
+                    alt={"Logo"}
+                    height={18}
+                    width={120}
                 />
 
                 <Button size={"icon"} variant={"outline"}>

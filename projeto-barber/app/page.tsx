@@ -1,17 +1,18 @@
-import { Avatar, AvatarImage } from "./_components/ui/avatar";
-import { Card, CardContent } from "./_components/ui/card";
-import { Button } from "./_components/ui/button";
-import { Input } from "./_components/ui/input";
-import { Badge } from "./_components/ui/badge";
-
 import { BarbershoptItem } from "./_components/barbershopt-item";
+import { BookingItem } from "./_components/booking-item";
+import { Footer } from "./_components/footer";
 import { Header } from "./_components/header";
 
-import { EyeIcon, FootprintsIcon, SearchIcon } from "lucide-react";
+import { Button } from "./_components/ui/button";
+import { Input } from "./_components/ui/input";
 
-import Image from "next/image";
+import { quickSearchOptions } from "./_constants/search";
+
+import { SearchIcon } from "lucide-react";
 
 import { db } from "./_lib/prisma";
+
+import Image from "next/image";
 
 
 const Home = async () => {
@@ -25,182 +26,102 @@ const Home = async () => {
 
     return (
         <div>
-            {/* inicio header */}
-            <Header />
-            {/* fim - header */}
+            {/* header */}
+            <header>
+                <Header />
+            </header>
 
+            {/* principal */}
+            <main>
+                <div className="p-5">
+                    {/* - texto */}
+                    <h2 className="text-xl font-bold">
+                        {"Olá, Léo!"}
+                    </h2>
 
-            <div className="p-5">
-                {/* inicio - texto */}
-                <h2 className="text-xl font-bold">
-                    {"Olá, Léo!"}
-                </h2>
+                    <p>
+                        {"Quinta-feira, 09 de janeiro."}
+                    </p>
 
-                <p>
-                    {"Quinta-feira, 09 de janeiro."}
-                </p>
-                {/* fim - texto */}
-
-
-                {/* inicio - busca */}
-                <div className="mt-6 flex items-start gap-2">
-                    <Input
-                        placeholder={"Faça sua busca..."}
-                    />
-
-                    <Button>
-                        <SearchIcon />
-                    </Button>
-                </div>
-                {/* fim - busca */}
-
-
-                {/* inicio - busca rápida */}
-                <div className="flex gap-3 mt-6 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
-                    <Button className={"gap-2"} variant={"secondary"}>
-                        <Image
-                            src={"/cabelo.svg"} width={16} height={16} alt={"Cabelo"}
+                    {/* - busca */}
+                    <div className="mt-6 flex items-start gap-2">
+                        <Input
+                            placeholder={"Faça sua busca..."}
                         />
-                        {"Cabelo"}
-                    </Button>
 
-                    <Button className={"gap-2"} variant={"secondary"}>
+                        <Button>
+                            <SearchIcon />
+                        </Button>
+                    </div>
+
+                    {/* - busca rápida */}
+                    <div className="flex gap-3 mt-6 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
+                        {
+                            quickSearchOptions.map(
+                                (option) => (
+                                    <Button className={"gap-2"} variant={"secondary"} key={option.title}>
+                                        <Image
+                                            src={option.imageUrl} width={16} height={16} alt={option.title}
+                                        />
+                                        {option.title}
+                                    </Button>
+                                )
+                            )
+                        }
+                    </div>
+
+                    {/* - imagem */}
+                    <div className="relative mt-6 h-[150px] w-full">
                         <Image
-                            src={"/barba.svg"} width={16} height={16} alt={"Barba"}
+                            alt={"Agende nos melhores com FSW Barber"}
+                            className={"rounded-xl object-cover"}
+                            src={"/banner-01.png"}
+                            fill
                         />
-                        {"Barba"}
-                    </Button>
+                    </div>
 
-                    <Button className={"gap-2"} variant={"secondary"}>
-                        <Image
-                            src={"/acabamento.svg"} width={16} height={16} alt={"Acabamento"}
-                        />
-                        {"Acabamento"}
-                    </Button>
+                    {/* - agendamentos */}
+                    <BookingItem />
 
-                    <Button className={"gap-2"} variant={"secondary"}>
-                        <Image
-                            src={"/massagem.svg"} width={16} height={16} alt={"Massagem"}
-                        />
-                        {"Massagem"}
-                    </Button>
+                    {/* - recomendados */}
+                    <h2 className="m-3 mt-6 text-xs font-bold uppercase text-gray-400">
+                        {"Recomendados"}
+                    </h2>
 
-                    <Button className={"gap-2"} variant={"secondary"}>
-                        <Image
-                            src={"/sobrancelha.svg"} width={16} height={16} alt={"Sobrancelha"}
-                        />
-                        {"Sobrancelha"}
-                    </Button>
-
-                    <Button className={"gap-2"} variant={"secondary"}>
-                        <Image
-                            src={"/hidratacao.svg"} width={16} height={16} alt={"Hidratação"}
-                        />
-                        {"Hidratação"}
-                    </Button>
-                </div>
-                {/* fim - busca rápida */}
-
-
-                {/* inicio - imagem */}
-                <div className="relative mt-6 h-[150px] w-full">
-                    <Image
-                        alt={"Agende nos melhores com FSW Barber"}
-                        className={"rounded-xl object-cover"}
-                        src={"/banner-01.png"}
-                        fill
-                    />
-                </div>
-                {/* fim - imagem */}
-
-
-                {/* inicio - agendamentos */}
-                <h2 className="m-3 mt-6 text-xs font-bold uppercase text-gray-400">
-                    {"Agendamentos"}
-                </h2>
-
-                <Card>
-                    <CardContent className={"flex justify-between p-0"}>
-                        <div className="flex flex-col gap-2 py-5 pl-5">
-                            <Badge className={"w-fit"}>
-                                {"Confirmado"}
-                            </Badge>
-
-                            <h3 className="font-semibold">
-                                {"Corte de Cabelo"}
-                            </h3>
-
-                            <div className="flex items-center gap-2">
-                                <Avatar className={"h-6 w-6"}>
-                                    <AvatarImage
-                                        src={"https://utfs.io/f/c97a2dc9-cf62-468b-a851-bfd2bdde775f-16p.png"}
+                    <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+                        {
+                            barbershops.map(
+                                (barbershop) => (
+                                    <BarbershoptItem
+                                        barbershop={barbershop} key={barbershop.id}
                                     />
-                                </Avatar>
-
-                                <p className="text-sm">
-                                    {"Barbearis FSW"}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col items-center justify-center px-5 border-l-2 border-solid">
-                            <p className="text-sm">
-                                {"Agosto"}
-                            </p>
-
-                            <p className="text-2xl">
-                                {"05"}
-                            </p>
-
-                            <p className="text-sm">
-                                {"20:00"}
-                            </p>
-                        </div>
-                    </CardContent>
-                </Card>
-
-                <h2 className="m-3 mt-6 text-xs font-bold uppercase text-gray-400">
-                    {"Recomendados"}
-                </h2>
-
-                <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-                    {
-                        barbershops.map(
-                            (barbershop) => (
-                                <BarbershoptItem
-                                    barbershop={barbershop} key={barbershop.id}
-                                />
+                                )
                             )
-                        )
-                    }
-                </div>
+                        }
+                    </div>
 
-                <h2 className="m-3 mt-6 text-xs font-bold uppercase text-gray-400">
-                    {"Populares"}
-                </h2>
+                    {/* - populares */}
+                    <h2 className="m-3 mt-6 text-xs font-bold uppercase text-gray-400">
+                        {"Populares"}
+                    </h2>
 
-                <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-                    {
-                        popularBarbershops.map(
-                            (barbershop) => (
-                                <BarbershoptItem
-                                    barbershop={barbershop} key={barbershop.id}
-                                />
+                    <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+                        {
+                            popularBarbershops.map(
+                                (barbershop) => (
+                                    <BarbershoptItem
+                                        barbershop={barbershop} key={barbershop.id}
+                                    />
+                                )
                             )
-                        )
-                    }
+                        }
+                    </div>
                 </div>
-                {/* fim - agendamentos */}
-            </div>
+            </main>
 
+            {/* footer */}
             <footer>
-                <Card>
-                    <CardContent className={"px-6 py-5"}>
-                        <p className="text-sm text-gray-400">
-                            &copy; {"2025 Copyright"} <span className="font-bold">{"FSW Barber"}</span>
-                        </p>
-                    </CardContent>
-                </Card>
+                <Footer />
             </footer>
         </div>
     );

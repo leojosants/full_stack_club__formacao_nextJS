@@ -1,11 +1,8 @@
-// shadcn
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 
-// "lucide-react
 import { MenuIcon } from "lucide-react";
 
-// next
 import Image from "next/image";
 
 

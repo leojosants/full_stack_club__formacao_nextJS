@@ -1,21 +1,22 @@
-// shadcn
 import { Avatar, AvatarImage } from "./_components/ui/avatar";
 import { Card, CardContent } from "./_components/ui/card";
 import { Button } from "./_components/ui/button";
 import { Input } from "./_components/ui/input";
 import { Badge } from "./_components/ui/badge";
 
-// _components
+import { BarbershoptItem } from "./_components/barbershopt-item";
 import { Header } from "./_components/header";
 
-// lucide-react
 import { SearchIcon } from "lucide-react";
 
-// next
 import Image from "next/image";
 
+import { db } from "./_lib/prisma";
 
-const Home = () => {
+
+const Home = async () => {
+    const barbershops = await db.barbershop.findMany({});
+
     return (
         <div>
             <Header />
@@ -49,7 +50,11 @@ const Home = () => {
                     />
                 </div>
 
-                <Card className="mt-6">
+                <h2 className="m-3 mt-6 text-xs font-bold uppercase text-gray-400">
+                    {"Agendamentos"}
+                </h2>
+
+                <Card>
                     <CardContent className={"flex justify-between p-0"}>
                         <div className="flex flex-col gap-2 py-5 pl-5">
                             <Badge className={"w-fit"}>
@@ -88,6 +93,22 @@ const Home = () => {
                         </div>
                     </CardContent>
                 </Card>
+
+                <h2 className="m-3 mt-6 text-xs font-bold uppercase text-gray-400">
+                    {"Recomendados"}
+                </h2>
+
+                <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+                    {
+                        barbershops.map(
+                            (barbershop) => (
+                                <BarbershoptItem
+                                    barbershop={barbershop} key={barbershop.id}
+                                />
+                            )
+                        )
+                    }
+                </div>
             </div>
         </div>
     );

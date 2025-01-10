@@ -7,7 +7,7 @@ import { Badge } from "./_components/ui/badge";
 import { BarbershoptItem } from "./_components/barbershopt-item";
 import { Header } from "./_components/header";
 
-import { SearchIcon } from "lucide-react";
+import { EyeIcon, FootprintsIcon, SearchIcon } from "lucide-react";
 
 import Image from "next/image";
 
@@ -17,11 +17,21 @@ import { db } from "./_lib/prisma";
 const Home = async () => {
     const barbershops = await db.barbershop.findMany({});
 
+    const popularBarbershops = await db.barbershop.findMany(
+        {
+            orderBy: { name: "desc" },
+        }
+    );
+
     return (
         <div>
+            {/* inicio header */}
             <Header />
+            {/* fim - header */}
+
 
             <div className="p-5">
+                {/* inicio - texto */}
                 <h2 className="text-xl font-bold">
                     {"Olá, Léo!"}
                 </h2>
@@ -29,7 +39,10 @@ const Home = async () => {
                 <p>
                     {"Quinta-feira, 09 de janeiro."}
                 </p>
+                {/* fim - texto */}
 
+
+                {/* inicio - busca */}
                 <div className="mt-6 flex items-start gap-2">
                     <Input
                         placeholder={"Faça sua busca..."}
@@ -39,8 +52,46 @@ const Home = async () => {
                         <SearchIcon />
                     </Button>
                 </div>
+                {/* fim - busca */}
 
 
+                {/* inicio - busca rápida */}
+                <div className="flex gap-3 mt-6 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
+                    <Button className={"gap-2"} variant={"secondary"}>
+                        <Image
+                            src={"/cabelo.svg"} width={16} height={16} alt={"Cabelo"}
+                        />
+                        {"Cabelo"}
+                    </Button>
+
+                    <Button className={"gap-2"} variant={"secondary"}>
+                        <Image
+                            src={"/barba.svg"} width={16} height={16} alt={"Barba"}
+                        />
+                        {"Barba"}
+                    </Button>
+
+                    <Button className={"gap-2"} variant={"secondary"}>
+                        <Image
+                            src={"/acabamento.svg"} width={16} height={16} alt={"Acabamento"}
+                        />
+                        {"Acabamento"}
+                    </Button>
+
+                    <Button className={"gap-2"} variant={"secondary"}>
+                        <FootprintsIcon size={16} />
+                        {"Pezinho"}
+                    </Button>
+
+                    <Button className={"gap-2"} variant={"secondary"}>
+                        <EyeIcon size={16} />
+                        {"Sobrancelha"}
+                    </Button>
+                </div>
+                {/* fim - busca rápida */}
+
+
+                {/* inicio - imagem */}
                 <div className="relative mt-6 h-[150px] w-full">
                     <Image
                         alt={"Agende nos melhores com FSW Barber"}
@@ -49,7 +100,10 @@ const Home = async () => {
                         fill
                     />
                 </div>
+                {/* fim - imagem */}
 
+
+                {/* inicio - agendamentos */}
                 <h2 className="m-3 mt-6 text-xs font-bold uppercase text-gray-400">
                     {"Agendamentos"}
                 </h2>
@@ -109,7 +163,34 @@ const Home = async () => {
                         )
                     }
                 </div>
+
+                <h2 className="m-3 mt-6 text-xs font-bold uppercase text-gray-400">
+                    {"Populares"}
+                </h2>
+
+                <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+                    {
+                        popularBarbershops.map(
+                            (barbershop) => (
+                                <BarbershoptItem
+                                    barbershop={barbershop} key={barbershop.id}
+                                />
+                            )
+                        )
+                    }
+                </div>
+                {/* fim - agendamentos */}
             </div>
+
+            <footer>
+                <Card>
+                    <CardContent className={"px-6 py-5"}>
+                        <p className="text-sm text-gray-400">
+                            &copy; {"2025 Copyright"} <span className="font-bold">{"FSW Barber"}</span>
+                        </p>
+                    </CardContent>
+                </Card>
+            </footer>
         </div>
     );
 };

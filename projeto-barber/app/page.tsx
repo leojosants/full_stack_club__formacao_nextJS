@@ -79,13 +79,24 @@ const Home = async () => {
                     </Button>
 
                     <Button className={"gap-2"} variant={"secondary"}>
-                        <FootprintsIcon size={16} />
-                        {"Pezinho"}
+                        <Image
+                            src={"/massagem.svg"} width={16} height={16} alt={"Massagem"}
+                        />
+                        {"Massagem"}
                     </Button>
 
                     <Button className={"gap-2"} variant={"secondary"}>
-                        <EyeIcon size={16} />
+                        <Image
+                            src={"/sobrancelha.svg"} width={16} height={16} alt={"Sobrancelha"}
+                        />
                         {"Sobrancelha"}
+                    </Button>
+
+                    <Button className={"gap-2"} variant={"secondary"}>
+                        <Image
+                            src={"/hidratacao.svg"} width={16} height={16} alt={"Hidratação"}
+                        />
+                        {"Hidratação"}
                     </Button>
                 </div>
                 {/* fim - busca rápida */}

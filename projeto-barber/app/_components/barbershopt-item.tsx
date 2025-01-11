@@ -38,7 +38,8 @@ export const BarbershoptItem = (props: BarbershoptItemProps) => {
 
                     <Badge className={"absolute left-2 top-2 space-x-1"} variant={"secondary"}>
                         <StarIcon
-                            size={12} className={"fill-primary text-primary"}
+                            className={"fill-primary text-primary"}
+                            size={12}
                         />
 
                         <p className="text-xs font-semibold">

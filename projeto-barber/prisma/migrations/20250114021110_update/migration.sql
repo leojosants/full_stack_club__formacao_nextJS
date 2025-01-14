@@ -13,7 +13,6 @@ CREATE TABLE "User" (
 CREATE TABLE "Barbershop" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
     "address" TEXT NOT NULL,
     "phones" TEXT[],
     "description" TEXT NOT NULL,

@@ -1,6 +1,7 @@
-import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
+import { ChevronLeftIcon, MapPinIcon, MenuIcon,  StarIcon } from "lucide-react";
 
 import { ServiceItem } from "@/app/_components/service-item";
+import PhoneItem from "@/app/_components/phone-item";
 import { Button } from "@/app/_components/ui/button";
 
 import { notFound } from "next/navigation";
@@ -58,6 +59,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
                 </Button>
             </div>
 
+            {/* título */}
             <div className="p-5 border-b border-solid">
                 <h1 className="text-xl font-bold mb-3">
                     {barbershop.name}
@@ -97,23 +99,35 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
                 </p>
             </div>
 
-            <div className="p-5 space-y-3">
+            {/* serviços */}
+            <div className="p-5 space-y-3 border-b border-solid">
                 <h2 className="text-xs font-bold uppercase text-gray-400">
                     {"Serviços"}
                 </h2>
 
                 <div className="space-y-3">
-                {
-                    barbershop.services.map(
-                        (service) => (
-                            <ServiceItem
-                                service={service}
-                                key={service.id}
-                            />
+                    {
+                        barbershop.services.map(
+                            (service) => (
+                                <ServiceItem
+                                    service={service}
+                                    key={service.id}
+                                />
+                            )
                         )
-                    )
                     }
                 </div>
+            </div>
+
+            {/* contato */}
+            <div className="p-5 space-y-3">
+                {
+                    barbershop.phones.map(
+                        (phone) => (
+                            <PhoneItem phone={ phone} key={phone}/>
+                        )
+                    )
+                }
             </div>
         </div>
     );

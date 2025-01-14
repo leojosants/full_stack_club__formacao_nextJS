@@ -8,19 +8,21 @@ import Image from "next/image";
 
 export const Header = () => {
     return (
-        <Card>
-            <CardContent className={"flex flex-row items-center justify-between p-5"}>
-                <Image
-                    src={"/logo.png"}
-                    alt={"Logo"}
-                    height={18}
-                    width={120}
-                />
+        <header>
+            <Card>
+                <CardContent className={"flex flex-row items-center justify-between p-5"}>
+                    <Image
+                        src={"/logo.png"}
+                        alt={"Logo"}
+                        height={18}
+                        width={120}
+                    />
 
-                <Button size={"icon"} variant={"outline"}>
-                    <MenuIcon />
-                </Button>
-            </CardContent>
-        </Card>
+                    <Button size={"icon"} variant={"outline"}>
+                        <MenuIcon />
+                    </Button>
+                </CardContent>
+            </Card>
+        </header>
     );
 };

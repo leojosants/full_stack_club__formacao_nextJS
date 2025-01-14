@@ -42,13 +42,11 @@ export const ServiceItem = (props: ServiceItemProps) => {
                     <div className="flex items-center justify-between">
                         <p className="text-sm font-bold text-primary">
                             {formatCurrency(Number(service.price))}
-                        </p>
+                            </p>
 
-                        <div>
-                            <Button variant={"secondary"} size={"sm"}>
-                                {"Reservar"}
-                            </Button>
-                        </div>
+                        <Button variant={"secondary"} size={"sm"}>
+                            {"Reservar"}
+                        </Button>
                     </div>
                 </div>
             </CardContent>

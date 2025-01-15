@@ -9,14 +9,6 @@ import { MenuIcon } from "lucide-react";
 import Image from "next/image";
 
 
-interface Endpoints {
-    home: string;
-}
-
-const endpoints: Endpoints = {
-    home: "/",
-}
-
 export const Header = () => {
     return (
         <header>

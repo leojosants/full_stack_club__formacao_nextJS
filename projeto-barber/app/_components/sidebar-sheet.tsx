@@ -2,7 +2,7 @@ import { SheetClose, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
-import { CalendarIcon, HomeIcon, LogOutIcon, MenuIcon } from "lucide-react";
+import { CalendarIcon, HomeIcon, LogOutIcon } from "lucide-react";
 
 import { quickSearchOptions } from "../_constants/search";
 
@@ -57,7 +57,10 @@ export const SidebarSheet = () => {
                 </SheetClose>
 
                 <Button className={"gap-2 justify-start"} variant={"ghost"}>
-                    <CalendarIcon size={18} />
+                    <CalendarIcon
+                        size={18}
+                    />
+
                     {"Agendamentos"}
                 </Button>
             </div>

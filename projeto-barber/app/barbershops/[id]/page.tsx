@@ -1,7 +1,9 @@
-import { ChevronLeftIcon, MapPinIcon, MenuIcon,  StarIcon } from "lucide-react";
+import { ChevronLeftIcon, MapPinIcon, StarIcon } from "lucide-react";
 
+import { SidebarSheet } from "@/app/_components/sidebar-sheet";
 import { ServiceItem } from "@/app/_components/service-item";
-import PhoneItem from "@/app/_components/phone-item";
+import { PhoneItem } from "@/app/_components/phone-item";
+
 import { Button } from "@/app/_components/ui/button";
 
 import { notFound } from "next/navigation";
@@ -54,9 +56,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
                     </Link>
                 </Button>
 
-                <Button size={"icon"} variant={"secondary"} className={"absolute right-4 top-4"}>
-                    <MenuIcon />
-                </Button>
+                <SidebarSheet className={"absolute right-4 top-4"} />
             </div>
 
             {/* título */}
@@ -124,7 +124,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
                 {
                     barbershop.phones.map(
                         (phone) => (
-                            <PhoneItem phone={ phone} key={phone}/>
+                            <PhoneItem phone={phone} key={phone} />
                         )
                     )
                 }

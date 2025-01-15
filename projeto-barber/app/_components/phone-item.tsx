@@ -37,5 +37,3 @@ export const PhoneItem = (props: PhoneItemProps) => {
         </div>
     );
 };
-
-export default PhoneItem;

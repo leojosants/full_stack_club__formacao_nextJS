@@ -1,8 +1,8 @@
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { SheetClose, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
-import { Avatar, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
-import { CalendarIcon, HomeIcon, LogOutIcon } from "lucide-react";
+import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon } from "lucide-react";
 
 import { quickSearchOptions } from "../_constants/search";
 
@@ -27,8 +27,43 @@ export const SidebarSheet = () => {
                 </SheetTitle>
             </SheetHeader>
 
-            <div className="py-5 border-b border-solid flex items-center gap-3">
-                <Avatar>
+            <div className="py-5 border-b border-solid flex items-center gap-3 justify-between">
+                <h2 className="font-bold">
+                    {"Olá! Faça seu login!"}
+                </h2>
+
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button size={"icon"}>
+                            <LogInIcon />
+                        </Button>
+                    </DialogTrigger>
+
+                    <DialogContent className={"w-[90%]"}>
+                        <DialogHeader>
+                            <DialogTitle>
+                                {"Faça login na plataforma"}
+                            </DialogTitle>
+
+                            <DialogDescription>
+                                {"Conecte-se usando sua conta do Google"}
+                            </DialogDescription>
+                        </DialogHeader>
+
+                        <Button variant={"outline"} className={"gap-1 font-bold"}>
+                            <Image
+                                alt={"Fazer login com o Google"}
+                                src={"/google.svg"}
+                                height={18}
+                                width={18}
+                            />
+
+                            {"Google"}
+                        </Button>
+                    </DialogContent>
+                </Dialog>
+
+                {/* <Avatar>
                     <AvatarImage src={"https://avatar.iran.liara.run/public"} />
                 </Avatar>
 
@@ -40,7 +75,7 @@ export const SidebarSheet = () => {
                     <p className="text-xs">
                         {"email"}
                     </p>
-                </div>
+                </div> */}
             </div>
 
             <div className={"flex flex-col gap-2 border-b border-solid py-5"}>

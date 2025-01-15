@@ -1,10 +1,15 @@
+"use client";
+
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { SheetClose, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
+import { Avatar, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
 import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon } from "lucide-react";
 
 import { quickSearchOptions } from "../_constants/search";
+
+import { signIn, useSession } from "next-auth/react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -19,6 +24,12 @@ const endpoints: Endpoints = {
 }
 
 export const SidebarSheet = () => {
+    const { data } = useSession();
+
+    const handleLoginWithGoogleClick = async () => {
+        await signIn("google");
+    };
+
     return (
         <SheetContent>
             <SheetHeader>
@@ -28,54 +39,62 @@ export const SidebarSheet = () => {
             </SheetHeader>
 
             <div className="py-5 border-b border-solid flex items-center gap-3 justify-between">
-                <h2 className="font-bold">
-                    {"Olá! Faça seu login!"}
-                </h2>
+                {
+                    data?.user ? (
+                        <div className="flex items-center gap-2">
+                            <Avatar>
+                                <AvatarImage src={data?.user?.image ?? ""} />
+                            </Avatar>
 
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <Button size={"icon"}>
-                            <LogInIcon />
-                        </Button>
-                    </DialogTrigger>
+                            <div>
+                                <p className="font-bold">
+                                    {data.user.name}
+                                </p>
 
-                    <DialogContent className={"w-[90%]"}>
-                        <DialogHeader>
-                            <DialogTitle>
-                                {"Faça login na plataforma"}
-                            </DialogTitle>
+                                <p className="text-xs">
+                                    {data.user.email}
+                                </p>
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+                            <h2 className="font-bold">
+                                {"Olá! Faça seu login!"}
+                            </h2>
 
-                            <DialogDescription>
-                                {"Conecte-se usando sua conta do Google"}
-                            </DialogDescription>
-                        </DialogHeader>
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button size={"icon"}>
+                                        <LogInIcon />
+                                    </Button>
+                                </DialogTrigger>
 
-                        <Button variant={"outline"} className={"gap-1 font-bold"}>
-                            <Image
-                                alt={"Fazer login com o Google"}
-                                src={"/google.svg"}
-                                height={18}
-                                width={18}
-                            />
+                                <DialogContent className={"w-[90%]"}>
+                                    <DialogHeader>
+                                        <DialogTitle>
+                                            {"Faça login na plataforma"}
+                                        </DialogTitle>
 
-                            {"Google"}
-                        </Button>
-                    </DialogContent>
-                </Dialog>
+                                        <DialogDescription>
+                                            {"Conecte-se usando sua conta do Google"}
+                                        </DialogDescription>
+                                    </DialogHeader>
 
-                {/* <Avatar>
-                    <AvatarImage src={"https://avatar.iran.liara.run/public"} />
-                </Avatar>
+                                    <Button variant={"outline"} className={"gap-1 font-bold"} onClick={handleLoginWithGoogleClick}>
+                                        <Image
+                                            alt={"Fazer login com o Google"}
+                                            src={"/google.svg"}
+                                            height={18}
+                                            width={18}
+                                        />
 
-                <div>
-                    <p className="font-bold">
-                        {"Nome"}
-                    </p>
-
-                    <p className="text-xs">
-                        {"email"}
-                    </p>
-                </div> */}
+                                        {"Google"}
+                                    </Button>
+                                </DialogContent>
+                            </Dialog>
+                        </>
+                    )
+                }
             </div>
 
             <div className={"flex flex-col gap-2 border-b border-solid py-5"}>

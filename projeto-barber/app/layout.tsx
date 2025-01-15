@@ -1,11 +1,12 @@
-import type { Metadata } from "next";
-
-import { Inter } from "next/font/google";
-
-import "./globals.css";
-
 import { Toaster } from "./_components/ui/sonner";
 import { Footer } from "./_components/footer";
+
+import AuthProvider from "./_providers/auth";
+
+import { Inter } from "next/font/google";
+import type { Metadata } from "next";
+
+import "./globals.css";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,11 +20,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     return (
         <html lang="pt-br" className="dark">
             <body className={inter.className}>
-                {children}
-
-                <Toaster />
-
+                <AuthProvider>
+                    {children}
+                    <Toaster />
                     <Footer />
+                </AuthProvider>
             </body>
         </html>
     );

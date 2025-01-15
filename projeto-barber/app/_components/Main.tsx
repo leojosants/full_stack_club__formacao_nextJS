@@ -1,14 +1,19 @@
-import { SearchIcon } from "lucide-react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
 import { quickSearchOptions } from "../_constants/search";
-import Image from "next/image";
-import { BookingItem } from "./booking-item";
+
 import { BarbershoptItem } from "./barbershopt-item";
+import { BookingItem } from "./booking-item";
+
 import { Barbershop } from "@prisma/client";
 
+import { SearchIcon } from "lucide-react";
 
-interface MainProps { 
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+
+import Image from "next/image";
+
+
+interface MainProps {
     popularBarbershops: Barbershop[];
     barbershops: Barbershop[];
 };

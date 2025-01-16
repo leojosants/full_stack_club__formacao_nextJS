@@ -2,13 +2,11 @@ import { quickSearchOptions } from "../_constants/search";
 
 import { BarbershoptItem } from "./barbershopt-item";
 import { BookingItem } from "./booking-item";
+import { Search } from "./search";
 
 import { Barbershop } from "@prisma/client";
 
-import { SearchIcon } from "lucide-react";
-
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
 
 import Image from "next/image";
 
@@ -34,14 +32,8 @@ export const Main = (props: MainProps) => {
                 </p>
 
                 {/* busca */}
-                <div className="mt-6 flex items-start gap-2">
-                    <Input
-                        placeholder={"Faça sua busca..."}
-                    />
-
-                    <Button>
-                        <SearchIcon />
-                    </Button>
+                <div className="mt-6">
+                    <Search placeholder={"Faça sua busca..."} />
                 </div>
 
                 {/* busca rápida */}

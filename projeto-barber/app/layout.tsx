@@ -21,10 +21,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <html lang="pt-br" className="dark">
             <body className={inter.className}>
                 <AuthProvider>
-                    {children}
-                    <Toaster />
-                    <Footer />
+                    <div className="flex flex-col h-full">
+                        <div className="flex-1">
+                            {children}
+                        </div>
+
+                        <Footer />
+                    </div>
                 </AuthProvider>
+
+                <Toaster />
             </body>
         </html>
     );

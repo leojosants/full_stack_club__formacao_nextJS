@@ -1,3 +1,4 @@
+import { barberahopItemEndpoints } from "./barbershop-item-endpoints";
 import { BarbershopItemProps } from "./barbershop-item-props";
 
 import { Card, CardContent } from "../ui/card";
@@ -9,14 +10,6 @@ import { StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-
-interface Endpoints {
-    barbershopsId: string;
-};
-
-const endpoints: Endpoints = {
-    barbershopsId: "/barbershops",
-};
 
 export const BarbershopItem = (props: BarbershopItemProps) => {
     const { barbershop } = props;
@@ -54,7 +47,7 @@ export const BarbershopItem = (props: BarbershopItemProps) => {
                     </p>
 
                     <Button variant={"secondary"} className={"mt-3 w-full"} asChild>
-                        <Link href={`${endpoints.barbershopsId}/${barbershop.id}`}>
+                        <Link href={`${barberahopItemEndpoints.barbershopsId}/${barbershop.id}`}>
                             {"Reservar"}
                         </Link>
                     </Button>

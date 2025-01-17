@@ -1,5 +1,5 @@
 import { Toaster } from "./_components/ui/sonner";
-import { Footer } from "./_components/footer";
+import { Footer } from "./_components/footer/footer";
 
 import AuthProvider from "./_providers/auth";
 

@@ -1,5 +1,6 @@
 import { BarbershopItem } from "../barbershop-item/barbershop-item";
-import { BookingItem } from "../booking-item";
+import { BookingItem } from "../booking-item/booking-item";
+import { MainEndpoints } from "./main-endpoints";
 import { Search } from "../search/search";
 import { MainProps } from "./main-props";
 
@@ -8,6 +9,7 @@ import { quickSearchOptions } from "../../_constants/search";
 import { Button } from "../ui/button";
 
 import Image from "next/image";
+import Link from "next/link";
 
 
 export const Main = (props: MainProps) => {
@@ -35,15 +37,17 @@ export const Main = (props: MainProps) => {
                     {
                         quickSearchOptions.map(
                             (option) => (
-                                <Button className={"gap-2"} variant={"secondary"} key={option.title}>
-                                    <Image
+                                <Button className={"gap-2"} variant={"secondary"} key={option.title} asChild>
+                                    <Link href={`${MainEndpoints.barbershopsSearch}=${option.title}`}>
+                                        <Image
 
-                                        src={option.imageUrl}
-                                        alt={option.title}
-                                        height={16}
-                                        width={16}
-                                    />
-                                    {option.title}
+                                            src={option.imageUrl}
+                                            alt={option.title}
+                                            height={16}
+                                            width={16}
+                                        />
+                                        {option.title}
+                                    </Link>
                                 </Button>
                             )
                         )

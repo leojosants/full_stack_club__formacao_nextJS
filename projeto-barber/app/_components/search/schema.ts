@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const formSearch = z.object(
     {
-        search: z
+        title: z
             .string()
             .trim()
             .min(1, { message: "Digite algo para buscar." }),

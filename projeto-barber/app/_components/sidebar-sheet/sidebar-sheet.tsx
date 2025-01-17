@@ -1,33 +1,27 @@
 "use client";
 
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
-import { SheetClose, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
-import { Avatar, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { SheetClose, SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
+import { Avatar, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
 
 import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon } from "lucide-react";
 
+import { sidedarSheetEndpoints } from "./sidebar-sheet-endpoints";
+
 import { signIn, signOut, useSession } from "next-auth/react";
 
-import { quickSearchOptions } from "../_constants/search";
+import { quickSearchOptions } from "../../_constants/search";
 
 import Image from "next/image";
 import Link from "next/link";
 
 
-interface Endpoints {
-    home: string;
-}
-
-const endpoints: Endpoints = {
-    home: "/",
-}
-
 export const SidebarSheet = () => {
     const { data } = useSession();
 
     const handleLoginWithGoogleClick = async () => {
-        console.log(await signIn("google"));
+        await signIn("google");
     };
 
     const handleLogoutClick = async () => {
@@ -106,7 +100,7 @@ export const SidebarSheet = () => {
             <div className={"flex flex-col gap-2 border-b border-solid py-5"}>
                 <SheetClose asChild>
                     <Button className={"gap-2 justify-start"} variant={"ghost"} asChild>
-                        <Link href={endpoints.home}>
+                        <Link href={sidedarSheetEndpoints.home}>
                             <HomeIcon
                                 size={18}
                             />
@@ -129,20 +123,24 @@ export const SidebarSheet = () => {
                 {
                     quickSearchOptions.map(
                         (option) => (
-                            <Button
-                                className={"gap-2 justify-start"}
-                                key={option.title}
-                                variant={"ghost"}
-                            >
-                                <Image
-                                    src={option.imageUrl}
-                                    alt={option.title}
-                                    height={18}
-                                    width={18}
-                                />
+                            <SheetClose key={option.title} asChild>
+                                <Button
+                                    className={"gap-2 justify-start"}
+                                    variant={"ghost"}
+                                    asChild
+                                >
+                                    <Link href={`${sidedarSheetEndpoints.barbershopsSearch}=${option.title}`}>
+                                        <Image
+                                            src={option.imageUrl}
+                                            alt={option.title}
+                                            height={18}
+                                            width={18}
+                                        />
 
-                                {option.title}
-                            </Button>
+                                        {option.title}
+                                    </Link>
+                                </Button>
+                            </SheetClose>
                         )
                     )
                 }

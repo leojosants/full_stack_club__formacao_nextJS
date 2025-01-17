@@ -6,6 +6,7 @@ import { Input } from "../ui/input";
 
 import { zodResolver } from '@hookform/resolvers/zod';
 
+import { searchEndpoints } from './search-endpoints';
 import { formSearch, SearchSchema } from "./schema";
 import { SearchProps } from './search-props';
 
@@ -24,13 +25,13 @@ export const Search = (props: SearchProps) => {
         {
             resolver: zodResolver(formSearch),
             defaultValues: {
-                search: "",
+                title: "",
             },
         }
     );
 
     const handleSubmit = (data: SearchSchema) => {
-        router.push(`/barbershops?search=${data.search}`);
+        router.push(`${searchEndpoints.barbershopsSearch}=${data.title}`);
     };
 
     return (
@@ -38,7 +39,7 @@ export const Search = (props: SearchProps) => {
             <form onSubmit={form.handleSubmit(handleSubmit)} className="flex gap-2">
                 <FormField
                     control={form.control}
-                    name="search"
+                    name="title"
                     render={
                         ({ field }) => (
                             <FormItem className={"w-full"}>

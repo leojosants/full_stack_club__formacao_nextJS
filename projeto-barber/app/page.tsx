@@ -1,5 +1,5 @@
 import { Main } from "./_components/main/Main";
-import { Header } from "./_components/header";
+import { Header } from "./_components/header/header";
 
 import { db } from "./_lib/prisma";
 

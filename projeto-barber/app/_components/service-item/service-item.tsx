@@ -1,17 +1,13 @@
-import { formatCurrency } from "../helpers/currency";
+import { formatCurrency } from "../../helpers/currency";
 
-import { BarbershopService } from "@prisma/client";
+import { ServiceItemProps } from "./service-item-props";
 
-import { Card, CardContent } from "./ui/card";
+import { Card, CardContent } from "../ui/card";
 
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 import Image from "next/image";
 
-
-interface ServiceItemProps {
-    service: BarbershopService;
-};
 
 export const ServiceItem = (props: ServiceItemProps) => {
     const { service } = props;
@@ -42,7 +38,7 @@ export const ServiceItem = (props: ServiceItemProps) => {
                     <div className="flex items-center justify-between">
                         <p className="text-sm font-bold text-primary">
                             {formatCurrency(Number(service.price))}
-                            </p>
+                        </p>
 
                         <Button variant={"secondary"} size={"sm"}>
                             {"Reservar"}

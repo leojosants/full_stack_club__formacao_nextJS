@@ -1,15 +1,13 @@
 "use client";
 
+import { toastNotification } from "../../helpers/toast-notification";
+
+import { PhoneItemProps } from "./phone-item-props";
+
 import { SmartphoneIcon } from "lucide-react";
 
-import { toastNotification } from "../helpers/toast-notification";
+import { Button } from "../ui/button";
 
-import { Button } from "./ui/button";
-
-
-interface PhoneItemProps {
-    phone: string;
-};
 
 export const PhoneItem = (props: PhoneItemProps) => {
     const { phone } = props;

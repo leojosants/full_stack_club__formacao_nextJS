@@ -1,20 +1,14 @@
-import { quickSearchOptions } from "../_constants/search";
+import { BarbershopItem } from "../barbershop-item/barbershop-item";
+import { BookingItem } from "../booking-item";
+import { Search } from "../search/search";
+import { MainProps } from "./main-props";
 
-import { BarbershoptItem } from "./barbershopt-item";
-import { BookingItem } from "./booking-item";
-import { Search } from "./search";
+import { quickSearchOptions } from "../../_constants/search";
 
-import { Barbershop } from "@prisma/client";
-
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 import Image from "next/image";
 
-
-interface MainProps {
-    popularBarbershops: Barbershop[];
-    barbershops: Barbershop[];
-};
 
 export const Main = (props: MainProps) => {
     const { barbershops, popularBarbershops } = props;
@@ -78,7 +72,7 @@ export const Main = (props: MainProps) => {
                     {
                         barbershops.map(
                             (barbershop) => (
-                                <BarbershoptItem
+                                <BarbershopItem
                                     barbershop={barbershop}
                                     key={barbershop.id}
                                 />
@@ -96,7 +90,7 @@ export const Main = (props: MainProps) => {
                     {
                         popularBarbershops.map(
                             (barbershop) => (
-                                <BarbershoptItem
+                                <BarbershopItem
                                     barbershop={barbershop}
                                     key={barbershop.id}
                                 />

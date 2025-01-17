@@ -1,4 +1,4 @@
-import { BarbershoptItem } from "../_components/barbershopt-item";
+import { BarbershopItem } from "../_components/barbershop-item/barbershop-item";
 
 import { db } from "../_lib/prisma";
 
@@ -33,7 +33,7 @@ const BarbershopsPage = async (props: BarbershopsPageProps) => {
                 {
                     barbershops.map(
                         (barbershop) => (
-                            <BarbershoptItem
+                            <BarbershopItem
                                 barbershop={barbershop}
                                 key={barbershop.id}
                             />

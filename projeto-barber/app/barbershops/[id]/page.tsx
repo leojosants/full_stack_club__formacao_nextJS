@@ -3,9 +3,9 @@ import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
 import { Sheet, SheetTrigger } from "@/app/_components/ui/sheet";
 import { Button } from "@/app/_components/ui/button";
 
+import { ServiceItem } from "@/app/_components/service-item/service-item";
+import { PhoneItem } from "@/app/_components/phone-item/phone-item";
 import { SidebarSheet } from "@/app/_components/sidebar-sheet";
-import { ServiceItem } from "@/app/_components/service-item";
-import { PhoneItem } from "@/app/_components/phone-item";
 
 import { notFound } from "next/navigation";
 import Image from "next/image";

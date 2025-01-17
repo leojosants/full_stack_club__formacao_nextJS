@@ -1,8 +1,8 @@
-import { Card, CardContent } from "./ui/card";
-import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
+import { BarbershopItemProps } from "./barbershop-item-props";
 
-import { Barbershop } from "@prisma/client";
+import { Card, CardContent } from "../ui/card";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
 
 import { StarIcon } from "lucide-react";
 
@@ -18,11 +18,7 @@ const endpoints: Endpoints = {
     barbershopsId: "/barbershops",
 };
 
-interface BarbershoptItemProps {
-    barbershop: Barbershop;
-};
-
-export const BarbershoptItem = (props: BarbershoptItemProps) => {
+export const BarbershopItem = (props: BarbershopItemProps) => {
     const { barbershop } = props;
 
     return (

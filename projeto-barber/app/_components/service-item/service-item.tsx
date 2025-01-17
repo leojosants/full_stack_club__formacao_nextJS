@@ -1,16 +1,35 @@
+"use client";
+
+import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { Card, CardContent } from "../ui/card";
+import { Calendar } from "../ui/calendar";
+import { Button } from "../ui/button";
+
 import { formatCurrency } from "../../helpers/currency";
 
 import { ServiceItemProps } from "./service-item-props";
+import { TIME_LIST } from "./service-item-time-list";
 
-import { Card, CardContent } from "../ui/card";
+import { ptBR } from "date-fns/locale";
+import { format } from "date-fns";
 
-import { Button } from "../ui/button";
+import { useState } from "react";
 
 import Image from "next/image";
 
 
 export const ServiceItem = (props: ServiceItemProps) => {
-    const { service } = props;
+    const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined);
+    const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
+    const { service, barbershop } = props;
+
+    const handleDateSelect = (date: Date | undefined) => {
+        setSelectedDay(date);
+    };
+
+    const handleTimeSelect = (time: string) => {
+        setSelectedTime(time);
+    };
 
     return (
         <Card>
@@ -40,9 +59,144 @@ export const ServiceItem = (props: ServiceItemProps) => {
                             {formatCurrency(Number(service.price))}
                         </p>
 
-                        <Button variant={"secondary"} size={"sm"}>
-                            {"Reservar"}
-                        </Button>
+                        <Sheet>
+                            <SheetTrigger asChild>
+                                <Button variant={"secondary"} size={"sm"}>
+                                    {"Reservar"}
+                                </Button>
+                            </SheetTrigger>
+
+                            <SheetContent className={"px-0"}>
+                                <SheetHeader>
+                                    <SheetTitle>
+                                        {"Fazer reserva"}
+                                    </SheetTitle>
+                                </SheetHeader>
+
+                                <div className="py-5 border-b border-solid">
+                                    <Calendar
+                                        onSelect={handleDateSelect}
+                                        selected={selectedDay}
+                                        mode={"single"}
+                                        locale={ptBR}
+                                        styles={
+                                            {
+                                                head_cell: {
+                                                    width: "100%",
+                                                    textTransform: "capitalize",
+                                                },
+                                                cell: {
+                                                    width: "100%",
+                                                },
+                                                button: {
+                                                    width: "100%",
+                                                },
+                                                nav_button_previous: {
+                                                    width: "32px",
+                                                    height: "32px",
+                                                },
+                                                nav_button_next: {
+                                                    width: "32px",
+                                                    height: "32px",
+                                                },
+                                                caption: {
+                                                    textTransform: "capitalize",
+                                                },
+                                            }
+                                        }
+                                    />
+                                </div>
+
+                                {
+                                    selectedDay
+                                        ? (
+                                            <div className="flex gap-3 overflow-x-auto p-5 [&::-webkit-scrollbar]:hidden border-b border-solid">
+                                                {
+                                                    TIME_LIST.map(
+                                                        (time) => (
+                                                            <Button
+                                                                className={"rounded-full hover:border-purple-400 transition-all duration-300 ease-in-out"}
+                                                                variant={selectedTime === time ? "default" : "outline"}
+                                                                onClick={() => handleTimeSelect(time)}
+                                                                key={time}
+                                                            >
+                                                                {time}
+                                                            </Button>
+                                                        )
+                                                    )
+                                                }
+                                            </div>
+                                        )
+                                        : (
+                                            <p className="text-center p-5 text-sm text-purple-300 transition-all duration-300 ease-in-out">
+                                                {"Selecione uma data para ver os horários disponíveis"}
+                                            </p>
+                                        )
+                                }
+
+                                {
+                                    selectedTime && selectedDay && (
+                                        <div className="p-5">
+                                            <Card>
+                                                <CardContent className={"p-3 space-y-3"}>
+                                                    <div className="flex justify-between items-center">
+                                                        <h2 className="font-bold">
+                                                            {service.name}
+                                                        </h2>
+
+                                                        <p className="text-sm font-bold">
+                                                            {formatCurrency(Number(service.price))}
+                                                        </p>
+                                                    </div>
+
+                                                    <div className="flex justify-between items-center">
+                                                        <h2 className="text-sm text-gray-400">
+                                                            {"Data"}
+                                                        </h2>
+
+                                                        <p className="text-sm">
+                                                            {
+                                                                format(
+                                                                    selectedDay, "d 'de' MMMM", { locale: ptBR }
+                                                                )
+                                                            }
+                                                        </p>
+                                                    </div>
+
+                                                    <div className="flex justify-between items-center">
+                                                        <h2 className="text-sm text-gray-400">
+                                                            {"Horário"}
+                                                        </h2>
+
+                                                        <p className="text-sm">
+                                                            {selectedTime}
+                                                        </p>
+                                                    </div>
+
+                                                    <div className="flex justify-between items-center">
+                                                        <h2 className="text-sm text-gray-400">
+                                                            {"Barbearia"}
+                                                        </h2>
+
+                                                        <p className="text-sm">
+                                                            {barbershop.name}
+                                                        </p>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
+                                    )
+                                }
+
+                                <SheetFooter className={"px-5 mt-10"}>
+                                    <SheetClose asChild>
+                                        <Button type={"submit"}>
+                                            {"Confirmar"}
+                                        </Button>
+                                    </SheetClose>
+                                </SheetFooter>
+                            </SheetContent>
+                        </Sheet>
                     </div>
                 </div>
             </CardContent>

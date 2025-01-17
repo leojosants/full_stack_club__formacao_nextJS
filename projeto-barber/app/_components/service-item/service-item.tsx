@@ -5,16 +5,19 @@ import { Card, CardContent } from "../ui/card";
 import { Calendar } from "../ui/calendar";
 import { Button } from "../ui/button";
 
+import { createBooking } from "@/app/_actions/create-booking/create-booking";
+
 import { formatCurrency } from "../../helpers/currency";
 
 import { ServiceItemProps } from "./service-item-props";
 import { TIME_LIST } from "./service-item-time-list";
 
+import { format, set, setHours, setMinutes } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { format } from "date-fns";
 
 import { useState } from "react";
 
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 
 
@@ -22,6 +25,7 @@ export const ServiceItem = (props: ServiceItemProps) => {
     const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined);
     const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
     const { service, barbershop } = props;
+    const { data } = useSession();
 
     const handleDateSelect = (date: Date | undefined) => {
         setSelectedDay(date);
@@ -29,6 +33,25 @@ export const ServiceItem = (props: ServiceItemProps) => {
 
     const handleTimeSelect = (time: string) => {
         setSelectedTime(time);
+    };
+
+    const handleCreateBooking = async () => {
+        if (!selectedDay || !selectedTime) return;
+
+        const hour = Number(selectedTime.split(":")[0]);
+        const minute = Number(selectedTime.split(":")[1]);
+
+        const newDate = set(
+            selectedDay, { minutes: minute, hours: hour }
+        );
+
+        await createBooking(
+            {
+                serviceId: service.id,
+                userId: data?.user?.name,
+                date: newDate,
+            }
+        );
     };
 
     return (

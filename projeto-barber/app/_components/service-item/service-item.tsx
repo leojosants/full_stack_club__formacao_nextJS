@@ -7,18 +7,20 @@ import { Button } from "../ui/button";
 
 import { createBooking } from "@/app/_actions/create-booking/create-booking";
 
+import { toastNotification } from "@/app/helpers/toast-notification";
+
 import { formatCurrency } from "../../helpers/currency";
 
 import { ServiceItemProps } from "./service-item-props";
 import { TIME_LIST } from "./service-item-time-list";
 
-import { format, set, setHours, setMinutes } from "date-fns";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+
+import { format, set } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 import { useState } from "react";
-
-import { useSession } from "next-auth/react";
-import Image from "next/image";
 
 
 export const ServiceItem = (props: ServiceItemProps) => {
@@ -36,22 +38,30 @@ export const ServiceItem = (props: ServiceItemProps) => {
     };
 
     const handleCreateBooking = async () => {
-        if (!selectedDay || !selectedTime) return;
+        try {
+            if (!selectedDay || !selectedTime) return;
 
-        const hour = Number(selectedTime.split(":")[0]);
-        const minute = Number(selectedTime.split(":")[1]);
+            const hour = Number(selectedTime.split(":")[0]);
+            const minute = Number(selectedTime.split(":")[1]);
 
-        const newDate = set(
-            selectedDay, { minutes: minute, hours: hour }
-        );
+            const newDate = set(
+                selectedDay, { minutes: minute, hours: hour }
+            );
 
-        await createBooking(
-            {
-                serviceId: service.id,
-                userId: data?.user?.name,
-                date: newDate,
-            }
-        );
+            await createBooking(
+                {
+                    serviceId: service.id,
+                    userId: (data?.user as any).id,
+                    date: newDate,
+                }
+            );
+
+            toastNotification("success", "Reserva realizada com sucesso!");
+        }
+        catch (error) {
+            console.error(error);
+            toastNotification("error", "Erro ao realizar reserva!");
+        }
     };
 
     return (
@@ -60,10 +70,10 @@ export const ServiceItem = (props: ServiceItemProps) => {
                 {/* image */}
                 <div className="relative min-h-[110px] min-w-[110px] max-h-[110px] max-w-[110px]">
                     <Image
-                        alt={service.name}
-                        src={service.imageUrl}
-                        fill
                         className={"object-cover rounded-lg"}
+                        src={service.imageUrl}
+                        alt={service.name}
+                        fill
                     />
                 </div>
 
@@ -83,11 +93,15 @@ export const ServiceItem = (props: ServiceItemProps) => {
                         </p>
 
                         <Sheet>
-                            <SheetTrigger asChild>
-                                <Button variant={"secondary"} size={"sm"}>
-                                    {"Reservar"}
-                                </Button>
-                            </SheetTrigger>
+                            {
+                                data?.user && (
+                                    <SheetTrigger asChild>
+                                        <Button variant={"secondary"} size={"sm"}>
+                                            {"Reservar"}
+                                        </Button>
+                                    </SheetTrigger>
+                                )
+                            }
 
                             <SheetContent className={"px-0"}>
                                 <SheetHeader>
@@ -138,7 +152,7 @@ export const ServiceItem = (props: ServiceItemProps) => {
                                                     TIME_LIST.map(
                                                         (time) => (
                                                             <Button
-                                                                className={"rounded-full hover:border-purple-400 transition-all duration-300 ease-in-out"}
+                                                                className={"rounded-full hover:border-purple-300 transition-all duration-300 ease-in-out"}
                                                                 variant={selectedTime === time ? "default" : "outline"}
                                                                 onClick={() => handleTimeSelect(time)}
                                                                 key={time}
@@ -152,72 +166,75 @@ export const ServiceItem = (props: ServiceItemProps) => {
                                         )
                                         : (
                                             <p className="text-center p-5 text-sm text-purple-300 transition-all duration-300 ease-in-out">
-                                                {"Selecione uma data para ver os horários disponíveis"}
+                                                {"Selecione uma data e um horário para ver disponibilidades!"}
                                             </p>
                                         )
                                 }
 
                                 {
                                     selectedTime && selectedDay && (
-                                        <div className="p-5">
-                                            <Card>
-                                                <CardContent className={"p-3 space-y-3"}>
-                                                    <div className="flex justify-between items-center">
-                                                        <h2 className="font-bold">
-                                                            {service.name}
-                                                        </h2>
+                                        <>
+                                            <div className="p-5">
+                                                <Card>
+                                                    <CardContent className={"p-3 space-y-3"}>
+                                                        <div className="flex justify-between items-center">
+                                                            <h2 className="font-bold">
+                                                                {service.name}
+                                                            </h2>
 
-                                                        <p className="text-sm font-bold">
-                                                            {formatCurrency(Number(service.price))}
-                                                        </p>
-                                                    </div>
+                                                            <p className="text-sm font-bold">
+                                                                {formatCurrency(Number(service.price))}
+                                                            </p>
+                                                        </div>
 
-                                                    <div className="flex justify-between items-center">
-                                                        <h2 className="text-sm text-gray-400">
-                                                            {"Data"}
-                                                        </h2>
+                                                        <div className="flex justify-between items-center">
+                                                            <h2 className="text-sm text-gray-400">
+                                                                {"Data"}
+                                                            </h2>
 
-                                                        <p className="text-sm">
-                                                            {
-                                                                format(
-                                                                    selectedDay, "d 'de' MMMM", { locale: ptBR }
-                                                                )
-                                                            }
-                                                        </p>
-                                                    </div>
+                                                            <p className="text-sm">
+                                                                {
+                                                                    format(
+                                                                        selectedDay, "d 'de' MMMM", { locale: ptBR }
+                                                                    )
+                                                                }
+                                                            </p>
+                                                        </div>
 
-                                                    <div className="flex justify-between items-center">
-                                                        <h2 className="text-sm text-gray-400">
-                                                            {"Horário"}
-                                                        </h2>
+                                                        <div className="flex justify-between items-center">
+                                                            <h2 className="text-sm text-gray-400">
+                                                                {"Horário"}
+                                                            </h2>
 
-                                                        <p className="text-sm">
-                                                            {selectedTime}
-                                                        </p>
-                                                    </div>
+                                                            <p className="text-sm">
+                                                                {selectedTime}
+                                                            </p>
+                                                        </div>
 
-                                                    <div className="flex justify-between items-center">
-                                                        <h2 className="text-sm text-gray-400">
-                                                            {"Barbearia"}
-                                                        </h2>
+                                                        <div className="flex justify-between items-center">
+                                                            <h2 className="text-sm text-gray-400">
+                                                                {"Barbearia"}
+                                                            </h2>
 
-                                                        <p className="text-sm">
-                                                            {barbershop.name}
-                                                        </p>
-                                                    </div>
-                                                </CardContent>
-                                            </Card>
-                                        </div>
+                                                            <p className="text-sm">
+                                                                {barbershop.name}
+                                                            </p>
+                                                        </div>
+                                                    </CardContent>
+                                                </Card>
+                                            </div>
+
+                                            <SheetFooter className={"px-5 mt-10"}>
+                                                <SheetClose asChild>
+                                                    <Button onClick={handleCreateBooking}>
+                                                        {"Confirmar"}
+                                                    </Button>
+                                                </SheetClose>
+                                            </SheetFooter>
+                                        </>
                                     )
                                 }
 
-                                <SheetFooter className={"px-5 mt-10"}>
-                                    <SheetClose asChild>
-                                        <Button type={"submit"}>
-                                            {"Confirmar"}
-                                        </Button>
-                                    </SheetClose>
-                                </SheetFooter>
                             </SheetContent>
                         </Sheet>
                     </div>

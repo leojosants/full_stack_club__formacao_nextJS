@@ -5,7 +5,8 @@ import { Card, CardContent } from "../ui/card";
 import { Calendar } from "../ui/calendar";
 import { Button } from "../ui/button";
 
-import { createBooking } from "@/app/_actions/create-booking/create-booking";
+import { createBooking } from "@/app/_server-actions/create-booking/create-booking";
+import { getBookings } from "@/app/_server-actions/get-bookings/get-bookings";
 
 import { toastNotification } from "@/app/helpers/toast-notification";
 
@@ -17,17 +18,26 @@ import { TIME_LIST } from "./service-item-time-list";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 
+import { useEffect, useState } from "react";
+
 import { format, set } from "date-fns";
 import { ptBR } from "date-fns/locale";
-
-import { useState } from "react";
 
 
 export const ServiceItem = (props: ServiceItemProps) => {
     const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined);
     const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
+    const [dayBookings, setDayBookings] = useState();
     const { service, barbershop } = props;
     const { data } = useSession();
+
+    useEffect(
+        () => {
+            const fetch = async () => {
+                await getBookings(selectedDay);
+            };
+        }, [selectedDay]
+    );
 
     const handleDateSelect = (date: Date | undefined) => {
         setSelectedDay(date);

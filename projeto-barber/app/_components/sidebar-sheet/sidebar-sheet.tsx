@@ -1,7 +1,7 @@
 "use client";
 
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { SheetClose, SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 
@@ -9,9 +9,11 @@ import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon } from "lucide-react";
 
 import { sidedarSheetEndpoints } from "./sidebar-sheet-endpoints";
 
-import { signIn, signOut, useSession } from "next-auth/react";
+import { SignInDialog } from "../sign-in-dialog/sign-in-dialog";
 
 import { quickSearchOptions } from "../../_constants/search";
+
+import { signOut, useSession } from "next-auth/react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -19,10 +21,6 @@ import Link from "next/link";
 
 export const SidebarSheet = () => {
     const { data } = useSession();
-
-    const handleLoginWithGoogleClick = async () => {
-        await signIn("google");
-    };
 
     const handleLogoutClick = async () => {
         await signOut();
@@ -70,26 +68,7 @@ export const SidebarSheet = () => {
                                     </DialogTrigger>
 
                                     <DialogContent className={"w-[90%]"}>
-                                        <DialogHeader>
-                                            <DialogTitle>
-                                                {"Faça login na plataforma"}
-                                            </DialogTitle>
-
-                                            <DialogDescription>
-                                                {"Conecte-se usando sua conta do Google"}
-                                            </DialogDescription>
-                                        </DialogHeader>
-
-                                        <Button variant={"outline"} className={"gap-1 font-bold"} onClick={handleLoginWithGoogleClick}>
-                                            <Image
-                                                alt={"Fazer login com o Google"}
-                                                src={"/google.svg"}
-                                                height={18}
-                                                width={18}
-                                            />
-
-                                            {"Google"}
-                                        </Button>
+                                        <SignInDialog />
                                     </DialogContent>
                                 </Dialog>
                             </>

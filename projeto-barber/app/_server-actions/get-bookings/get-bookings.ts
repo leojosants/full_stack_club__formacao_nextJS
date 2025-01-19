@@ -1,5 +1,9 @@
+"use server";
+
 import { GetBookingsProps } from "./get-bookings-props";
+
 import { endOfDay, startOfDay } from "date-fns";
+
 import { db } from "@/app/_lib/prisma";
 
 

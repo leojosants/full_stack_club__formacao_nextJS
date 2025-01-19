@@ -10,44 +10,66 @@ import { getBookings } from "@/app/_server-actions/get-bookings/get-bookings";
 
 import { toastNotification } from "@/app/helpers/toast-notification";
 
+import { getTimeList } from "./service-item-get-time-list";
+import { ServiceItemProps } from "./service-item-props";
+
 import { formatCurrency } from "../../helpers/currency";
 
-import { ServiceItemProps } from "./service-item-props";
-import { TIME_LIST } from "./service-item-time-list";
+import { addDays, format, set } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 
 import { useEffect, useState } from "react";
 
-import { format, set } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { Booking } from "@prisma/client";
 
 
-export const ServiceItem = (props: ServiceItemProps) => {
+export const ServiceItem = (props: ServiceItemProps): JSX.Element => {
     const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined);
+    const [bookingSheetIsOpen, setBookingSheetIsOpen] = useState<boolean>(false);
     const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
-    const [dayBookings, setDayBookings] = useState();
+    const [dayBookings, setDayBookings] = useState<Booking[]>([]);
+
     const { service, barbershop } = props;
     const { data } = useSession();
+
+    const serviceId = service.id;
 
     useEffect(
         () => {
             const fetch = async () => {
-                await getBookings(selectedDay);
+                if (!selectedDay) {
+                    return;
+                }
+
+                const bookings = await getBookings(
+                    { date: selectedDay, serviceId }
+                );
+                setDayBookings(bookings);
             };
-        }, [selectedDay]
+
+            fetch();
+        }, [selectedDay, serviceId]
     );
 
-    const handleDateSelect = (date: Date | undefined) => {
+    const handleBookingSheetOpenChange = () => {
+        setBookingSheetIsOpen(false);
+        setSelectedTime(undefined);
+        setSelectedDay(undefined);
+        setDayBookings([]);
+    };
+
+    const handleDateSelect = (date: Date | undefined): void => {
         setSelectedDay(date);
     };
 
-    const handleTimeSelect = (time: string) => {
+    const handleTimeSelect = (time: string): void => {
         setSelectedTime(time);
     };
 
-    const handleCreateBooking = async () => {
+    const handleCreateBooking = async (): Promise<void> => {
         try {
             if (!selectedDay || !selectedTime) return;
 
@@ -65,6 +87,8 @@ export const ServiceItem = (props: ServiceItemProps) => {
                     date: newDate,
                 }
             );
+
+            handleBookingSheetOpenChange();
 
             toastNotification("success", "Reserva realizada com sucesso!");
         }
@@ -102,14 +126,12 @@ export const ServiceItem = (props: ServiceItemProps) => {
                             {formatCurrency(Number(service.price))}
                         </p>
 
-                        <Sheet>
+                        <Sheet open={bookingSheetIsOpen} onOpenChange={handleBookingSheetOpenChange}>
                             {
                                 data?.user && (
-                                    <SheetTrigger asChild>
-                                        <Button variant={"secondary"} size={"sm"}>
-                                            {"Reservar"}
-                                        </Button>
-                                    </SheetTrigger>
+                                    <Button variant={"secondary"} size={"sm"} onClick={() => setBookingSheetIsOpen(true)}>
+                                        {"Reservar"}
+                                    </Button>
                                 )
                             }
 
@@ -126,6 +148,7 @@ export const ServiceItem = (props: ServiceItemProps) => {
                                         selected={selectedDay}
                                         mode={"single"}
                                         locale={ptBR}
+                                        fromDate={addDays(new Date(), 1)}
                                         styles={
                                             {
                                                 head_cell: {
@@ -159,7 +182,7 @@ export const ServiceItem = (props: ServiceItemProps) => {
                                         ? (
                                             <div className="flex gap-3 overflow-x-auto p-5 [&::-webkit-scrollbar]:hidden border-b border-solid">
                                                 {
-                                                    TIME_LIST.map(
+                                                    getTimeList(dayBookings).map(
                                                         (time) => (
                                                             <Button
                                                                 className={"rounded-full hover:border-purple-300 transition-all duration-300 ease-in-out"}
@@ -235,11 +258,9 @@ export const ServiceItem = (props: ServiceItemProps) => {
                                             </div>
 
                                             <SheetFooter className={"px-5 mt-10"}>
-                                                <SheetClose asChild>
-                                                    <Button onClick={handleCreateBooking}>
-                                                        {"Confirmar"}
-                                                    </Button>
-                                                </SheetClose>
+                                                <Button onClick={handleCreateBooking}>
+                                                    {"Confirmar"}
+                                                </Button>
                                             </SheetFooter>
                                         </>
                                     )

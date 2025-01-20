@@ -89,12 +89,14 @@ export const SidebarSheet = () => {
                     </Button>
                 </SheetClose>
 
-                <Button className={"gap-2 justify-start"} variant={"ghost"}>
-                    <CalendarIcon
-                        size={18}
-                    />
+                <Button className={"gap-2 justify-start"} variant={"ghost"} asChild>
+                    <Link href={sidedarSheetEndpoints.bookings}>
+                        <CalendarIcon
+                            size={18}
+                        />
 
-                    {"Agendamentos"}
+                        {"Agendamentos"}
+                    </Link>
                 </Button>
             </div>
 

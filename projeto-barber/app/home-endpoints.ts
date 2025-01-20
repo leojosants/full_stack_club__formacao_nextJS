@@ -1,7 +1,7 @@
-interface MainEndpoints {
+interface HomeEndpoints {
     barbershopsSearch: string;
 };
 
-export const MainEndpoints = {
+export const homeEndpoints: HomeEndpoints = {
     barbershopsSearch: "/barbershops?service",
 };

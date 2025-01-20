@@ -4,17 +4,21 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Card, CardContent } from "../ui/card";
 import { Badge } from "../ui/badge";
 
+import { format, isFuture } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
-export const BookingItem = (props: BookingItemProps) => {
+
+export const BookingItem = (props: BookingItemProps): JSX.Element => {
     const { booking } = props;
+    const isConfirmed = isFuture(booking.date);
 
     return (
         <>
-            <Card className={"hover:text-gray-400 transition-all duration-300 ease-in-out"}>
+            <Card className={"min-w-[90%] hover:text-gray-400 transition-all duration-300 ease-in-out"}>
                 <CardContent className={"flex justify-between p-0"}>
                     <div className="flex flex-col gap-2 py-5 pl-5">
-                        <Badge className={"w-fit"}>
-                            {"Confirmado"}
+                        <Badge className={"w-fit"} variant={isConfirmed ? "default" : "secondary"}>
+                            {isConfirmed ? "Confirmado" : "Finalizado"}
                         </Badge>
 
                         <h3 className="font-semibold">
@@ -35,16 +39,28 @@ export const BookingItem = (props: BookingItemProps) => {
                     </div>
 
                     <div className="flex flex-col items-center justify-center px-5 border-l-2 border-solid">
-                        <p className="text-sm">
-                            {"Agosto"}
+                        <p className="text-sm capitalize">
+                            {
+                                format(
+                                    booking.date, "MMMM", { locale: ptBR }
+                                )
+                            }
                         </p>
 
                         <p className="text-2xl">
-                            {"05"}
+                            {
+                                format(
+                                    booking.date, "dd", { locale: ptBR }
+                                )
+                            }
                         </p>
 
                         <p className="text-sm">
-                            {"20:00"}
+                            {
+                                format(
+                                    booking.date, "HH:mm", { locale: ptBR }
+                                )
+                            }
                         </p>
                     </div>
                 </CardContent>

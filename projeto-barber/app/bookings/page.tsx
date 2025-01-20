@@ -16,13 +16,44 @@ const Bookings = async (): Promise<JSX.Element> => {
         return notFound();
     }
 
-    const bookings = await db.booking.findMany(
+    const confirmedBookings = await db.booking.findMany(
         {
-            where: { userId: (session.user as any).id },
+            where: {
+                userId: (session.user as any).id,
+                date: {
+                    gte: new Date(),
+                },
+            },
             include: {
                 service: {
-                    include: { barbershop: true },
+                    include: {
+                        barbershop: true,
+                    },
                 },
+            },
+            orderBy: {
+                date: "asc",
+            },
+        }
+    );
+
+    const concludedBookings = await db.booking.findMany(
+        {
+            where: {
+                userId: (session.user as any).id,
+                date: {
+                    lt: new Date(),
+                },
+            },
+            include: {
+                service: {
+                    include: {
+                        barbershop: true,
+                    },
+                },
+            },
+            orderBy: {
+                date: "asc",
             },
         }
     );
@@ -36,8 +67,26 @@ const Bookings = async (): Promise<JSX.Element> => {
                     {"Agendamentos"}
                 </h1>
 
+                <h2 className="m-3 mt-6 text-xs font-bold uppercase text-gray-400">
+                    {"Confirmados"}
+                </h2>
+
                 {
-                    bookings.map(
+                    confirmedBookings.map(
+                        (booking) => (
+                            <BookingItem
+                                key={booking.id} booking={booking}
+                            />
+                        )
+                    )
+                }
+
+                <h2 className="m-3 mt-6 text-xs font-bold uppercase text-gray-400">
+                    {"Finalizados"}
+                </h2>
+
+                {
+                    concludedBookings.map(
                         (booking) => (
                             <BookingItem
                                 key={booking.id} booking={booking}

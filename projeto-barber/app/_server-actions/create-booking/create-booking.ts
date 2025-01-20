@@ -18,7 +18,9 @@ export const createBooking = async (params: CreateBookingParams): Promise<void> 
     }
 
     await db.booking.create(
-        { data: params }
+        {
+            data: { ...params, userId: (user.user as any).id },
+        }
     );
 
     revalidatePath(createBookingRevalidatePath.barbershopsId);

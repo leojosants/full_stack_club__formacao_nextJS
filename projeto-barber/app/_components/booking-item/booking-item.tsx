@@ -9,10 +9,14 @@ import { format, isFuture } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 import Image from "next/image";
+import { formatCurrency } from "@/app/helpers/currency";
+import { PhoneItem } from "../phone-item/phone-item";
 
 
 export const BookingItem = (props: BookingItemProps): JSX.Element => {
     const { booking } = props;
+    const { service: { barbershop } } = booking;
+
     const isConfirmed = isFuture(booking.date);
 
     return (
@@ -78,13 +82,104 @@ export const BookingItem = (props: BookingItemProps): JSX.Element => {
                     </SheetTitle>
                 </SheetHeader>
 
-                <div className="relative h-[180px] w-full">
+                <div className="relative mt-6 flex h-[180px] w-full items-end">
                     <Image
-                        alt={`Mapa da barbearia ${booking.service.barbershop.name}`}
-                        className={"object-cover"}
+                        alt={`Mapa da barbearia ${barbershop.name}`}
+                        className={"object-cover rounded-xl"}
                         src={"/map.png"}
                         fill
                     />
+
+                    <Card className={"z-50 mx-5 mb-3 w-full rounded-xl"}>
+                        <CardContent className={"px-5 py-3 flex items-center gap-3"}>
+                            <Avatar>
+                                <AvatarImage
+                                    src={barbershop.imageUrl}
+                                />
+                            </Avatar>
+
+                            <div>
+                                <h3 className="font-bold">
+                                    {barbershop.name}
+                                </h3>
+
+                                <p className="text-xs">
+                                    {barbershop.address}
+                                </p>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+
+                <div className="mt-6">
+                    <Badge className={"w-fit"} variant={isConfirmed ? "default" : "secondary"}>
+                        {isConfirmed ? "Confirmado" : "Finalizado"}
+                    </Badge>
+
+                    <Card className={"mt-3 mb-6"}>
+                        <CardContent className={"p-3 space-y-3"}>
+                            <div className="flex justify-between items-center">
+                                <h2 className="font-bold">
+                                    {booking.service.name}
+                                </h2>
+
+                                <p className="text-sm font-bold">
+                                    {formatCurrency(Number(booking.service.price))}
+                                </p>
+                            </div>
+
+                            <div className="flex justify-between items-center">
+                                <h2 className="text-sm text-gray-400">
+                                    {"Data"}
+                                </h2>
+
+                                <p className="text-sm">
+                                    {
+                                        format(
+                                            booking.date, "d 'de' MMMM", { locale: ptBR }
+                                        )
+                                    }
+                                </p>
+                            </div>
+
+                            <div className="flex justify-between items-center">
+                                <h2 className="text-sm text-gray-400">
+                                    {"Horário"}
+                                </h2>
+
+                                <p className="text-sm">
+                                    {
+                                        format(
+                                            booking.date, "HH:mm", { locale: ptBR }
+                                        )
+                                    }
+                                </p>
+                            </div>
+
+                            <div className="flex justify-between items-center">
+                                <h2 className="text-sm text-gray-400">
+                                    {"Barbearia"}
+                                </h2>
+
+                                <p className="text-sm">
+                                    {barbershop.name}
+                                </p>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <div className="space-y-3">
+                        {
+                            barbershop.phones.map(
+                                (phone) => (
+                                    <PhoneItem
+                                        key={phone}
+                                        phone={phone}
+                                    />
+                                )
+                            )
+                        }
+                    </div>
                 </div>
             </SheetContent>
         </Sheet>

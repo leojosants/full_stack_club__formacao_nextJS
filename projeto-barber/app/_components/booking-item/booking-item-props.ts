@@ -1,4 +1,4 @@
-import { Booking, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 
 export interface BookingItemProps {

@@ -24,8 +24,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import { Booking } from "@prisma/client";
-import { format, set } from "date-fns";
 
+import { format, set } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 

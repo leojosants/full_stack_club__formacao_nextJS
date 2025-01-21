@@ -1,26 +1,54 @@
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
+"use client";
+
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Card, CardContent } from "../ui/card";
+import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 
+import { deteleBooking } from "@/app/_server-actions/delete-booking/delete-booking";
+
+import { toastNotification } from "@/app/helpers/toast-notification";
+import { formatCurrency } from "@/app/helpers/currency";
+
 import { BookingItemProps } from "./booking-item-props";
+import { PhoneItem } from "../phone-item/phone-item";
 
 import { format, isFuture } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
+import { useState } from "react";
+
 import Image from "next/image";
-import { formatCurrency } from "@/app/helpers/currency";
-import { PhoneItem } from "../phone-item/phone-item";
 
 
 export const BookingItem = (props: BookingItemProps): JSX.Element => {
+    const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
+
     const { booking } = props;
     const { service: { barbershop } } = booking;
 
     const isConfirmed = isFuture(booking.date);
 
+    const handleCancelBooking = async (): Promise<void> => {
+        try {
+            await deteleBooking(booking.id);
+            setIsSheetOpen(false);
+            toastNotification("success", "Reserva cancelada com sucesso!");
+        }
+        catch (error) {
+            console.error(error);
+            toastNotification("success", "Erro ao cancelar reserva!");
+        }
+    };
+
+    const handleSheetOpenChange = (isOpen: boolean): void => {
+        setIsSheetOpen(isOpen);
+    };
+
     return (
-        <Sheet>
+        <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
             <SheetTrigger className={"w-full"}>
                 <Card className={"min-w-[90%] hover:text-gray-400 transition-all duration-300 ease-in-out"}>
                     <CardContent className={"flex justify-between p-0"}>
@@ -181,7 +209,55 @@ export const BookingItem = (props: BookingItemProps): JSX.Element => {
                         }
                     </div>
                 </div>
+
+                <SheetFooter>
+                    <div className="flex items-center gap-3 mt-6">
+                        <SheetClose asChild>
+                            <Button variant={"outline"} className={"w-full"}>
+                                {"Voltar"}
+                            </Button>
+                        </SheetClose>
+
+                        {
+                            isConfirmed && (
+                                <Dialog>
+                                    <DialogTrigger>
+                                        <Button variant={"destructive"} className={"w-full"}>
+                                            {"Cancelar reserva"}
+                                        </Button>
+                                    </DialogTrigger>
+
+                                    <DialogContent className={"w-[90%]"}>
+                                        <DialogHeader>
+                                            <DialogTitle>
+                                                {"Realmente deseja cancelar sua reserva?"}
+                                            </DialogTitle>
+
+                                            <DialogDescription>
+                                                {"Esta ação é irreversível!"}
+                                            </DialogDescription>
+                                        </DialogHeader>
+
+                                        <DialogFooter className={"flex flex-row gap-3"}>
+                                            <DialogClose asChild>
+                                                <Button variant={"secondary"} className={"w-full"}>
+                                                    {"Voltar"}
+                                                </Button>
+                                            </DialogClose>
+
+                                            <DialogClose className={"w-full"}>
+                                                <Button variant={"destructive"} onClick={handleCancelBooking} className={"w-full"}>
+                                                    {"Confirmar"}
+                                                </Button>
+                                            </DialogClose>
+                                        </DialogFooter>
+                                    </DialogContent>
+                                </Dialog>
+                            )
+                        }
+                    </div>
+                </SheetFooter>
             </SheetContent>
-        </Sheet>
+        </Sheet >
     );
 };

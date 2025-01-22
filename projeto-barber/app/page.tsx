@@ -16,10 +16,14 @@ import Link from "next/link";
 import { authOptions } from "./_lib/auth";
 import { db } from "./_lib/prisma";
 
+import { ptBR } from "date-fns/locale";
+import { format } from "date-fns";
+
 
 const Home = async () => {
     const session = await getServerSession(authOptions);
     const barbershops = await db.barbershop.findMany({});
+    const currentDate = new Date();
 
     const popularBarbershops = await db.barbershop.findMany(
         {
@@ -36,7 +40,7 @@ const Home = async () => {
                     where: {
                         userId: (session.user as any).id,
                         date: {
-                            gte: new Date(),
+                            gte: currentDate,
                         },
                     },
                     include: {
@@ -60,12 +64,34 @@ const Home = async () => {
 
             <div className="p-5">
                 {/* texto */}
-                <h2 className="text-xl font-bold">
-                    {"Olá, Léo!"}
+                <h2 className="text-xl font-bold text-primary">
+                    {
+                        `Olá, ${session?.user
+                            ? `${session?.user?.name}!`
+                            : "Bem-vindo(a)!"}`
+                    }
                 </h2>
 
                 <p>
-                    {"Quinta-feira, 09 de janeiro."}
+                    <span className="capitalize text-sm">
+                        {
+                            format(
+                                currentDate, "EEEE, dd", { locale: ptBR }
+                            )
+                        }
+                    </span>
+
+                    <span className="text-sm">
+                        {" de "}
+                    </span>
+
+                    <span className="capitalize text-sm">
+                        {
+                            format(
+                                currentDate, "MMMM", { locale: ptBR }
+                            )
+                        }
+                    </span>
                 </p>
 
                 {/* busca */}

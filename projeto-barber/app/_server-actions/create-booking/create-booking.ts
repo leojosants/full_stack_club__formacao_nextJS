@@ -24,4 +24,5 @@ export const createBooking = async (params: CreateBookingParams): Promise<void> 
     );
 
     revalidatePath(createBookingRevalidatePath.barbershopsId);
+    revalidatePath(createBookingRevalidatePath.barbershopsId);
 };

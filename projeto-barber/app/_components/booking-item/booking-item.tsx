@@ -103,7 +103,7 @@ export const BookingItem = (props: BookingItemProps): JSX.Element => {
                 </Card>
             </SheetTrigger>
 
-            <SheetContent className={"w-[90%]"}>
+            <SheetContent className={"w-[80%]"}>
                 <SheetHeader>
                     <SheetTitle className={"text-left"}>
                         {"Informações da Reserva"}
@@ -221,7 +221,7 @@ export const BookingItem = (props: BookingItemProps): JSX.Element => {
                         {
                             isConfirmed && (
                                 <Dialog>
-                                    <DialogTrigger>
+                                    <DialogTrigger className={"w-full"}>
                                         <Button variant={"destructive"} className={"w-full"}>
                                             {"Cancelar reserva"}
                                         </Button>

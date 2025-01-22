@@ -1,12 +1,12 @@
 "use client";
 
-import { toastNotification } from "../../helpers/toast-notification";
-
 import { PhoneItemProps } from "./phone-item-props";
 
 import { SmartphoneIcon } from "lucide-react";
 
 import { Button } from "../ui/button";
+
+import { toast } from "sonner";
 
 
 export const PhoneItem = (props: PhoneItemProps) => {
@@ -14,7 +14,7 @@ export const PhoneItem = (props: PhoneItemProps) => {
 
     const handleCpyPhoneClick = (id: string) => {
         navigator.clipboard.writeText(id);
-        toastNotification("success", "Telefone copiado para a área de transferência!");
+        toast.success("Telefone copiado para a área de transferência!",);
     };
 
     return (

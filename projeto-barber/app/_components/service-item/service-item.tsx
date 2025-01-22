@@ -1,5 +1,7 @@
 "use client";
 
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle } from "../ui/sheet";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { Card, CardContent } from "../ui/card";
@@ -9,24 +11,27 @@ import { Button } from "../ui/button";
 import { createBooking } from "@/app/_server-actions/create-booking/create-booking";
 import { getBookings } from "@/app/_server-actions/get-bookings/get-bookings";
 
-import { toastNotification } from "@/app/helpers/toast-notification";
-
 import { BookingSummary } from "../booking-summary/booking-summary";
 import { SignInDialog } from "../sign-in-dialog/sign-in-dialog";
 import { getTimeList } from "./service-item-get-time-list";
 import { ServiceItemProps } from "./service-item-props";
+
+import { serviceItemEndpoints } from "./service-item-endpoints";
 
 import { formatCurrency } from "../../helpers/currency";
 
 import { useEffect, useMemo, useState } from "react";
 
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import { Booking } from "@prisma/client";
 
 import { ptBR } from "date-fns/locale";
 import { set } from "date-fns";
+
+import { toast } from "sonner";
 
 
 export const ServiceItem = (props: ServiceItemProps): JSX.Element => {
@@ -38,6 +43,8 @@ export const ServiceItem = (props: ServiceItemProps): JSX.Element => {
 
     const { service, barbershop } = props;
     const { data } = useSession();
+
+    const router: AppRouterInstance = useRouter();
 
     const serviceId: string = service.id;
 
@@ -118,11 +125,19 @@ export const ServiceItem = (props: ServiceItemProps): JSX.Element => {
 
             handleBookingSheetOpenChange();
 
-            toastNotification("success", "Reserva realizada com sucesso!");
+            toast.success(
+                "Reserva realizada com sucesso!",
+                {
+                    action: {
+                        label: "Ver agendamentos",
+                        onClick: () => router.push(serviceItemEndpoints.bookings)
+                    },
+                }
+            );
         }
         catch (error) {
             console.error(error);
-            toastNotification("error", "Erro ao realizar reserva!");
+            toast.error("Erro ao realizar reserva!");
         }
     };
 

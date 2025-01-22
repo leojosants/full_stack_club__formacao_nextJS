@@ -9,8 +9,6 @@ import { Badge } from "../ui/badge";
 
 import { deteleBooking } from "@/app/_server-actions/delete-booking/delete-booking";
 
-import { toastNotification } from "@/app/helpers/toast-notification";
-
 import { BookingSummary } from "../booking-summary/booking-summary";
 import { BookingItemProps } from "./booking-item-props";
 import { PhoneItem } from "../phone-item/phone-item";
@@ -21,6 +19,7 @@ import { ptBR } from "date-fns/locale";
 import { useState } from "react";
 
 import Image from "next/image";
+import { toast } from "sonner";
 
 
 export const BookingItem = (props: BookingItemProps): JSX.Element => {
@@ -35,11 +34,11 @@ export const BookingItem = (props: BookingItemProps): JSX.Element => {
         try {
             await deteleBooking(booking.id);
             setIsSheetOpen(false);
-            toastNotification("success", "Reserva cancelada com sucesso!");
+            toast.success("Reserva cancelada com sucesso!");
         }
         catch (error) {
             console.error(error);
-            toastNotification("success", "Erro ao cancelar reserva!");
+            toast.error("Erro ao cancelar reserva!");
         }
     };
 

@@ -10,8 +10,8 @@ import { Badge } from "../ui/badge";
 import { deteleBooking } from "@/app/_server-actions/delete-booking/delete-booking";
 
 import { toastNotification } from "@/app/helpers/toast-notification";
-import { formatCurrency } from "@/app/helpers/currency";
 
+import { BookingSummary } from "../booking-summary/booking-summary";
 import { BookingItemProps } from "./booking-item-props";
 import { PhoneItem } from "../phone-item/phone-item";
 
@@ -144,57 +144,13 @@ export const BookingItem = (props: BookingItemProps): JSX.Element => {
                         {isConfirmed ? "Confirmado" : "Finalizado"}
                     </Badge>
 
-                    <Card className={"mt-3 mb-6"}>
-                        <CardContent className={"p-3 space-y-3"}>
-                            <div className="flex justify-between items-center">
-                                <h2 className="font-bold">
-                                    {booking.service.name}
-                                </h2>
-
-                                <p className="text-sm font-bold">
-                                    {formatCurrency(Number(booking.service.price))}
-                                </p>
-                            </div>
-
-                            <div className="flex justify-between items-center">
-                                <h2 className="text-sm text-gray-400">
-                                    {"Data"}
-                                </h2>
-
-                                <p className="text-sm">
-                                    {
-                                        format(
-                                            booking.date, "d 'de' MMMM", { locale: ptBR }
-                                        )
-                                    }
-                                </p>
-                            </div>
-
-                            <div className="flex justify-between items-center">
-                                <h2 className="text-sm text-gray-400">
-                                    {"Horário"}
-                                </h2>
-
-                                <p className="text-sm">
-                                    {
-                                        format(
-                                            booking.date, "HH:mm", { locale: ptBR }
-                                        )
-                                    }
-                                </p>
-                            </div>
-
-                            <div className="flex justify-between items-center">
-                                <h2 className="text-sm text-gray-400">
-                                    {"Barbearia"}
-                                </h2>
-
-                                <p className="text-sm">
-                                    {barbershop.name}
-                                </p>
-                            </div>
-                        </CardContent>
-                    </Card>
+                    <div className="mb-3 mt-6">
+                        <BookingSummary
+                            selectedDate={booking.date}
+                            service={booking.service}
+                            barbershop={barbershop}
+                        />
+                    </div>
 
                     <div className="space-y-3">
                         {

@@ -68,6 +68,14 @@ const Bookings = async (): Promise<JSX.Element> => {
                 </h1>
 
                 {
+                    confirmedBookings.length === 0 && concludedBookings.length === 0 && (
+                        <p>
+                            {"Você não tem agendamentos."}
+                        </p>
+                    )
+                }
+
+                {
                     confirmedBookings.length > 0 && (
                         <>
                             <h2 className="m-3 mt-6 text-xs font-bold uppercase text-gray-400">

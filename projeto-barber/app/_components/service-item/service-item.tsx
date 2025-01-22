@@ -11,12 +11,12 @@ import { getBookings } from "@/app/_server-actions/get-bookings/get-bookings";
 
 import { toastNotification } from "@/app/helpers/toast-notification";
 
+import { BookingSummary } from "../booking-summary/booking-summary";
 import { SignInDialog } from "../sign-in-dialog/sign-in-dialog";
 import { getTimeList } from "./service-item-get-time-list";
 import { ServiceItemProps } from "./service-item-props";
 
 import { formatCurrency } from "../../helpers/currency";
-
 
 import { useEffect, useMemo, useState } from "react";
 
@@ -25,8 +25,8 @@ import Image from "next/image";
 
 import { Booking } from "@prisma/client";
 
-import { format, set } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { set } from "date-fns";
 
 
 export const ServiceItem = (props: ServiceItemProps): JSX.Element => {
@@ -51,6 +51,24 @@ export const ServiceItem = (props: ServiceItemProps): JSX.Element => {
                 { bookings: dayBookings, selectedDay }
             );
         }, [dayBookings, selectedDay]
+    );
+
+    const selectedDate: Date | undefined = useMemo(
+        () => {
+
+            if (!selectedDay || !selectedTime) {
+                return;
+            }
+
+            return set(
+                selectedDay,
+                {
+                    hours: Number(selectedTime?.split(":")[0]),
+                    minutes: Number(selectedTime?.split(":")[1]),
+                }
+            )
+
+        }, [selectedDay, selectedTime]
     );
 
     useEffect(
@@ -89,19 +107,12 @@ export const ServiceItem = (props: ServiceItemProps): JSX.Element => {
 
     const handleCreateBooking = async (): Promise<void> => {
         try {
-            if (!selectedDay || !selectedTime) return;
-
-            const hour = Number(selectedTime.split(":")[0]);
-            const minute = Number(selectedTime.split(":")[1]);
-
-            const newDate = set(
-                selectedDay, { minutes: minute, hours: hour }
-            );
+            if (!selectedDate) return;
 
             await createBooking(
                 {
                     serviceId: service.id,
-                    date: newDate,
+                    date: selectedDate,
                 }
             );
 
@@ -115,7 +126,7 @@ export const ServiceItem = (props: ServiceItemProps): JSX.Element => {
         }
     };
 
-    const handleBookingClick = () => {
+    const handleBookingClick = (): void => {
         if (data?.user) {
             return setBookingSheetIsOpen(true);
         }
@@ -235,56 +246,14 @@ export const ServiceItem = (props: ServiceItemProps): JSX.Element => {
                                     }
 
                                     {
-                                        selectedTime && selectedDay && (
+                                        selectedDate && (
                                             <>
                                                 <div className="p-5">
-                                                    <Card>
-                                                        <CardContent className={"p-3 space-y-3"}>
-                                                            <div className="flex justify-between items-center">
-                                                                <h2 className="font-bold">
-                                                                    {service.name}
-                                                                </h2>
-
-                                                                <p className="text-sm font-bold">
-                                                                    {formatCurrency(Number(service.price))}
-                                                                </p>
-                                                            </div>
-
-                                                            <div className="flex justify-between items-center">
-                                                                <h2 className="text-sm text-gray-400">
-                                                                    {"Data"}
-                                                                </h2>
-
-                                                                <p className="text-sm">
-                                                                    {
-                                                                        format(
-                                                                            selectedDay, "d 'de' MMMM", { locale: ptBR }
-                                                                        )
-                                                                    }
-                                                                </p>
-                                                            </div>
-
-                                                            <div className="flex justify-between items-center">
-                                                                <h2 className="text-sm text-gray-400">
-                                                                    {"Horário"}
-                                                                </h2>
-
-                                                                <p className="text-sm">
-                                                                    {selectedTime}
-                                                                </p>
-                                                            </div>
-
-                                                            <div className="flex justify-between items-center">
-                                                                <h2 className="text-sm text-gray-400">
-                                                                    {"Barbearia"}
-                                                                </h2>
-
-                                                                <p className="text-sm">
-                                                                    {barbershop.name}
-                                                                </p>
-                                                            </div>
-                                                        </CardContent>
-                                                    </Card>
+                                                    <BookingSummary
+                                                        selectedDate={selectedDate}
+                                                        barbershop={barbershop}
+                                                        service={service}
+                                                    />
                                                 </div>
 
                                                 <SheetFooter className={"px-5 mt-10"}>

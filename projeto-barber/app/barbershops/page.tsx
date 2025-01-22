@@ -4,48 +4,20 @@ import { Search } from "../_components/search/search";
 
 import { BarbershopsPageProps } from "./barbershops-page-props";
 
-import { db } from "../_lib/prisma";
+import { getBarbershops } from "../data-access/get-barbershops";
 
 
-const BarbershopsPage = async (props: BarbershopsPageProps) => {
+const BarbershopsPage = async (props: BarbershopsPageProps): Promise<JSX.Element> => {
     const { searchParams } = props;
 
-    const barbershops = await db.barbershop.findMany(
-        {
-            where: {
-                OR: [
-                    searchParams?.title
-                        ? {
-                            name: {
-                                contains: searchParams?.title,
-                                mode: "insensitive",
-                            },
-                        }
-                        : {},
-
-                    searchParams.service
-                        ? {
-                            services: {
-                                some: {
-                                    name: {
-                                        contains: searchParams.service,
-                                        mode: "insensitive",
-                                    },
-                                },
-                            },
-                        }
-                        : {},
-                ],
-            },
-        }
-    );
+    const barbershops = await getBarbershops(searchParams);
 
     return (
         <div>
             <Header />
 
             <div className="my-6 px-5">
-                <Search placeholder={"Faça sua busca"} />
+                <Search placeholder={"Faça sua busca..."} />
             </div>
 
             <div className="px-5">

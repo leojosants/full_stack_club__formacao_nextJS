@@ -29,7 +29,7 @@ export const BookingItem = (props: BookingItemProps): JSX.Element => {
     const { booking } = props;
     const { service: { barbershop } } = booking;
 
-    const isConfirmed = isFuture(booking.date);
+    const isConfirmed: boolean = isFuture(booking.date);
 
     const handleCancelBooking = async (): Promise<void> => {
         try {
@@ -49,7 +49,7 @@ export const BookingItem = (props: BookingItemProps): JSX.Element => {
 
     return (
         <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
-            <SheetTrigger className={"w-full"}>
+            <SheetTrigger className={"w-full min-w-[90%]"}>
                 <Card className={"min-w-[90%] hover:text-gray-400 transition-all duration-300 ease-in-out"}>
                     <CardContent className={"flex justify-between p-0"}>
                         <div className="flex flex-col gap-2 py-5 pl-5">

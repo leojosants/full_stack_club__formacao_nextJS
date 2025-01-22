@@ -9,6 +9,7 @@ import { db } from "./prisma";
 
 export const authOptions: AuthOptions = {
     adapter: PrismaAdapter(db) as Adapter,
+
     providers: [
         GoogleProvider(
             {
@@ -17,6 +18,7 @@ export const authOptions: AuthOptions = {
             }
         ),
     ],
+
     callbacks: {
         async session({ session, user }) {
             session.user = {
@@ -27,4 +29,6 @@ export const authOptions: AuthOptions = {
             return session;
         },
     },
+
+    secret: process.env.NEXT_AUTH_SECRET,
 }

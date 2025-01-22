@@ -78,7 +78,8 @@ const Bookings = async (): Promise<JSX.Element> => {
                                 confirmedBookings.map(
                                     (booking) => (
                                         <BookingItem
-                                            key={booking.id} booking={booking}
+                                            booking={JSON.parse(JSON.stringify(booking))}
+                                            key={booking.id}
                                         />
                                     )
                                 )
@@ -99,7 +100,8 @@ const Bookings = async (): Promise<JSX.Element> => {
                                 concludedBookings.map(
                                     (booking) => (
                                         <BookingItem
-                                            key={booking.id} booking={booking}
+                                            booking={JSON.parse(JSON.stringify(booking))}
+                                            key={booking.id}
                                         />
                                     )
                                 )

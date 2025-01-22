@@ -18,10 +18,10 @@ import { ServiceItemProps } from "./service-item-props";
 import { formatCurrency } from "../../helpers/currency";
 
 
+import { useEffect, useMemo, useState } from "react";
+
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-
-import { useEffect, useState } from "react";
 
 import { Booking } from "@prisma/client";
 
@@ -39,7 +39,19 @@ export const ServiceItem = (props: ServiceItemProps): JSX.Element => {
     const { service, barbershop } = props;
     const { data } = useSession();
 
-    const serviceId = service.id;
+    const serviceId: string = service.id;
+
+    const timeList: string[] = useMemo(
+        () => {
+            if (!selectedDay) {
+                return [];
+            }
+
+            return getTimeList(
+                { bookings: dayBookings, selectedDay }
+            );
+        }, [dayBookings, selectedDay]
+    );
 
     useEffect(
         () => {
@@ -51,10 +63,12 @@ export const ServiceItem = (props: ServiceItemProps): JSX.Element => {
                 const bookings = await getBookings(
                     { date: selectedDay, serviceId }
                 );
+
                 setDayBookings(bookings);
             };
 
             fetch();
+
         }, [selectedDay, serviceId]
     );
 
@@ -190,18 +204,26 @@ export const ServiceItem = (props: ServiceItemProps): JSX.Element => {
                                             ? (
                                                 <div className="flex gap-3 overflow-x-auto p-5 [&::-webkit-scrollbar]:hidden border-b border-solid">
                                                     {
-                                                        getTimeList(dayBookings).map(
-                                                            (time) => (
-                                                                <Button
-                                                                    className={"rounded-full hover:border-purple-300 transition-all duration-300 ease-in-out"}
-                                                                    variant={selectedTime === time ? "default" : "outline"}
-                                                                    onClick={() => handleTimeSelect(time)}
-                                                                    key={time}
-                                                                >
-                                                                    {time}
-                                                                </Button>
+                                                        timeList.length > 0
+                                                            ? (
+                                                                timeList.map(
+                                                                    (time) => (
+                                                                        <Button
+                                                                            className={"rounded-full hover:border-purple-300 transition-all duration-300 ease-in-out"}
+                                                                            variant={selectedTime === time ? "default" : "outline"}
+                                                                            onClick={() => handleTimeSelect(time)}
+                                                                            key={time}
+                                                                        >
+                                                                            {time}
+                                                                        </Button>
+                                                                    )
+                                                                )
                                                             )
-                                                        )
+                                                            : (
+                                                                <p className="text-center p-5 text-sm text-purple-300 transition-all duration-300 ease-in-out">
+                                                                    {"Não há horários disponíveis para este dia."}
+                                                                </p>
+                                                            )
                                                     }
                                                 </div>
                                             )

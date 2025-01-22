@@ -3,6 +3,8 @@ import { BookingItem } from "./_components/booking-item/booking-item";
 import { Header } from "./_components/header/header";
 import { Search } from "./_components/search/search";
 
+import { getConfirmedBookings } from "./data-access/get-confirmed-bookings";
+
 import { quickSearchOptions } from "./_constants/search";
 
 import { Button } from "./_components/ui/button";
@@ -33,30 +35,7 @@ const Home = async () => {
         }
     );
 
-    const confirmedBookings = session?.user
-        ? (
-            await db.booking.findMany(
-                {
-                    where: {
-                        userId: (session.user as any).id,
-                        date: {
-                            gte: currentDate,
-                        },
-                    },
-                    include: {
-                        service: {
-                            include: {
-                                barbershop: true,
-                            },
-                        },
-                    },
-                    orderBy: {
-                        date: "asc",
-                    },
-                }
-            )
-        )
-        : [];
+    const confirmedBookings = await getConfirmedBookings();
 
     return (
         <div>

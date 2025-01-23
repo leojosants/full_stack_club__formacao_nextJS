@@ -1,9 +1,12 @@
+"use client";
+
 import { ProductPageProps } from "./product-page-props";
-import { JSX } from "react";
+
+import { JSX, use } from "react";
 
 
-const ProductPage = async ({ params }: ProductPageProps): Promise<JSX.Element> => {
-    const { id } = await params;
+const ProductPage = ({ params }: ProductPageProps): JSX.Element => {
+    const { id } = use(params);
 
     return (
         <div>

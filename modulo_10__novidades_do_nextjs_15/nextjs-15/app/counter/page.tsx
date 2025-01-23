@@ -1,36 +1,14 @@
-import Link from "next/link";
+"use client";
 
 import { JSX } from "react";
 
 
-export const dynamic = "force-dynamic";
+const isClient: boolean = typeof window !== "undefined";
 
-const Counter = async (): Promise<JSX.Element> => {
-    const url = "http://localhost:3000/api/counter";
-
-    const response: Response = await fetch(
-        url, { method: "GET" }
-    );
-
-    const data = await response.json();
-
+const Counter = (): JSX.Element => {
     return (
-        <div className="p-6 space-y-2">
-            <ul>
-                <li>
-                    <Link href={"/"}>
-                        Home page
-                    </Link>
-                </li>
-            </ul>
-
-            <h1>
-                {"Counter"}
-            </h1>
-
-            <p>
-                {data.count}
-            </p>
+        <div>
+            {isClient ? "Client" : "Server"}
         </div>
     );
 };
